@@ -1,0 +1,235 @@
+<div class="animated fadeIn">
+    <div class="row">
+      
+      <div bsModal #primaryModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-primary" role="document">
+          <div class="modal-content">
+            <div class="modal-header" style="width:100%;">
+              <h4 style="width:100%;float:left;" class="modal-title">{{testDetails.testname}}</h4>
+              <button type="button" class="close" (click)="primaryModal.hide()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div style="width:100%;float:left;">
+                  <p style="float:left;width:30%;">Standard</p>
+                  <p style="float:left;width:70%;font-weight: bold;">{{testDetails.standard}}</p>
+              </div>
+              <div style="width:100%;float:left;">
+                <p style="float:left;width:30%;">NABL</p>
+                <p style="float:left;width:70%;font-weight: bold;">{{testDetails.nabl}}</p>
+              </div>
+              <div style="width:100%;float:left;">
+                <p style="float:left;width:30%;">Sample Size</p>
+                <p style="float:left;width:70%;font-weight: bold;">{{testDetails.samplesize}}</p>
+              </div>
+              <div style="width:100%;float:left;">
+                <p style="float:left;width:30%;">Member Rate</p>
+                <p style="float:left;width:70%;font-weight: bold;">{{testDetails.memrate}}</p>
+              </div>
+              <div style="width:100%;float:left;">
+                <p style="float:left;width:30%;">Non Member Rate</p>
+                <p style="float:left;width:70%;font-weight: bold;">{{testDetails.nonmemrate}}</p>
+              </div>
+              
+              <!-- <p>NABL : </p>
+              <p>Standard : </p>
+              <p>Sample Size : </p>
+              <p>Member Rate : </p>
+              <p>Non-Member Rate : </p> -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="primaryModal.hide()">Close</button>
+              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <label for="name">Add / Update Request Analysis</label>            
+            <div style="float:right">
+                <button  type="button" style="font-size:1.2em;"  class="btn btn-sm btn-primary">               
+                    <i class="fa fa-plus"></i> Add / Update
+                  </button>
+                  <!-- <button type="button" class="btn btn-primary mr-1" data-toggle="modal" (click)="getTestDetails();primaryModal.show()">
+                    Primary modal
+                  </button> -->
+            </div>
+          </div>
+          <div class="card-body" >
+            <!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+              {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+            </button> -->
+            
+            <div class="col-sm-6" style="float:left;">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="name">Department</label>
+                            <select class="form-control" [(ngModel)] = "formData.deptid" (change)="loadLabList();" >
+                                <option value="">-SELECT-</option>
+                                <option *ngFor="let dept of departmentList; index as a;" value="{{departmentList[a].deptid}}">{{departmentList[a].deptname}}</option>
+                            </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label for="name">Lab</label>
+                          <select class="form-control"   [(ngModel)] = "formData.labid" (change)="loadTestList()"    >
+                              <option value="">-SELECT-</option>
+                              <option *ngFor="let lab of labList; index as b;" value="{{labList[b].labid}}">{{labList[b].labname}}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                      <div class="form-group">
+                        <label for="name">Sample Retun</label>
+                        <select class="form-control"    >
+                            <option value="">-SELECT-</option>
+                            <option value="Y">Yes</option>
+                            <option value="N">No</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="name">Mode of Payment</label>
+                      <select class="form-control"    >
+                          <option value="">-SELECT-</option>
+                          <option value="1">Cheque</option>
+                          <option value="2">DD</option>
+                          <option value="3">Cash</option>
+                      </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label for="name">Despatch Date</label>
+                        <input type="text" class="form-control"  >
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                          <label for="ccmonth">Mill Reference no</label>
+                          <input type="text" class="form-control"  >
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group ">
+                          <label for="ccmonth">Comments</label>
+                          <input type="text" class="form-control"  >
+                      </div>
+                    </div>
+                </div><!--/.row-->
+            </div><!--End Left panel-->
+            <div class="col-sm-6" style="float:left;">
+              <div style="width:100%;float:left;">
+                <div style="width:60%;float:left;">Test Name</div>
+                <div style="width:15%;float:left;">Mem. Rate</div>
+                <div style="width:15%;float:left;">Non. Mem.Rate</div>
+                <div style="width:10%;float:left;">Size</div>
+              </div>
+              <div style="width:100%;height:35vh;overflow: scroll;">
+                <div *ngFor="let test of testList; index as a;" style="font-size:0.9em;width:100%;float:left;line-height: 20px;padding:5px;border-bottom:0.1px solid gray;">
+                  <div style="width:60%;float:left;">
+                    <span style="text-decoration: underline;color:#00A5DE;cursor: pointer;"  data-toggle="modal" (click)="getTestDetails(test.testid);primaryModal.show()" >{{test.testname}}</span>
+                    <!-- <button type="button" class="btn btn-primary mr-1" >
+                      Primary modal
+                    </button> -->
+                  </div>
+                  <div style="width:15%;float:left;">{{test.memrate}}</div>
+                  <div style="width:15%;float:left;">{{test.nonmemrate}}</div>
+                  <div style="width:10%;float:left;">{{test.samplesize}}</div>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <!-- End Header -->
+            <div class="col-sm-12" style="float:left;">
+                <div style="width:100%;height:20px;">
+                  <div style="font-weight:bold;font-size:1.2em;text-align: center; width:100%;height:30px;background-color: #127B6E;color:white;">
+                    <span>Sample Details</span>
+                  </div>
+                  <div style="width:100%;height:40vh;">
+                    <div class="col-sm-12" style="float:left;margin-top:10px;">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <div class="form-group">
+                              <label for="name">Sample Type</label>
+                              <select class="form-control"    >
+                                  <option value="">-SELECT-</option>
+                              </select>
+                          </div>
+                        </div>
+                          
+                          <div class="col-sm-3">
+                              <div class="form-group">
+                                  <label for="name">Count</label>
+                                  <input type="text" class="form-control"  >
+                              </div>
+                            </div>
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                  <label for="name">Desc 1</label>
+                                  <input type="text" class="form-control"  >
+                              </div>
+                            </div>
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                  <label for="name">Desc 2</label>
+                                  <input type="text" class="form-control"  >
+                              </div>
+                            </div>
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                  <label for="name">Desc 3</label>
+                                  <input type="text" class="form-control"  >
+                              </div>
+                            </div>
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                  <label for="name">remarks</label>
+                                  <input type="text" class="form-control"  >
+                              </div>
+                            </div>
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                <button type="button" style="font-size:1.2em;"  class="btn btn-sm btn-success">               
+                                  <i class="fa fa-plus"></i> Add
+                                </button>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                      <!-- End Samples Heade-->
+                      <div class="col-sm-12" style="float:left;margin-top:10px;">
+                        <div class="row">
+                            <table style="width:100%;" class="table table-responsive-sm table-hover table-outline mb-0">
+                              <thead class="thead-light">
+                                <tr>                  
+                                  <th style="width:5%;">S.No</th>
+                                  <th style="width:15%;" >Sample Type</th>
+                                  <th style="width:15%;" >Count</th>                  
+                                  <th style="width:15%;" >Desc 1</th>
+                                  <th style="width:15%;" >Desc 2</th>
+                                  <th style="width:15%;" >Desc 3</th>
+                                  <th style="width:15%;" >Remarks</th>
+                                  <th style="width:5%;" >Action</th>
+                                </tr>
+                              </thead>
+                              <tbody></tbody>
+                            </table>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+            <!-- End Samples block-->
+          </div>
+        </div>
+      </div><!--/.col-->
+      
+    </div><!--/.row-->
+</div>

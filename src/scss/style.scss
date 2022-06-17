@@ -1,0 +1,133 @@
+// If you want to override variables do it here
+@import "variables";
+
+// Import styles
+@import "~@coreui/coreui/scss/coreui";
+
+// If you want to add something do it here
+@import "custom";
+.card-header{
+    background-color: #127b6e;
+    color:white;
+}
+.card-footer{
+    background-color: #127b6e;
+    color:white;
+}
+.card{
+    border:1px solid #127b6e;
+}
+.page-link-active{
+    background-color: #127b6e;
+}
+.page-link{
+    color:#127b6e;
+}
+.marq { 
+    padding-top:0px; 
+    padding-bottom:5px; 
+    height:67vh;
+} 
+.geek1 { 
+    font-weight:bold; 
+    color:black; 
+    text-align:left; 
+} 
+.geek2 { 
+    text-align:left; 
+}
+.div-marq {
+    width:95%;    
+    border-radius: 5px 3px 3px 5px;
+    float:left;
+    margin-top:15px;
+    padding:10px;
+    font-size:14px;
+    text-decoration: underline;
+}
+
+.div-marq-green {
+    border-left:4px solid #127b6e;
+    border-top:1px solid #127b6e;
+    border-right:1px solid #127b6e;
+    border-bottom:1px solid #127b6e;
+}
+.div-marq-orange {
+    border-left:4px solid #b9910b;
+    border-top:1px solid #b9910b;
+    border-right:1px solid #b9910b;
+    border-bottom:1px solid #b9910b;
+}
+.div-marq-blue {
+    border-left:4px solid #0681BC;
+    border-top:1px solid #0681BC;
+    border-right:1px solid #0681BC;
+    border-bottom:1px solid #0681BC;
+}
+.div-marq-lavendar {
+    border-left:4px solid #983E75;
+    border-top:1px solid #983E75;
+    border-right:1px solid #983E75;
+    border-bottom:1px solid #983E75;
+}
+.spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height:60px;
+    width:60px;
+    margin:0px auto;
+    -webkit-animation: rotation .6s infinite linear;
+    -moz-animation: rotation .6s infinite linear;
+    -o-animation: rotation .6s infinite linear;
+    animation: rotation .6s infinite linear;
+    border-left:6px solid rgba(0,174,239,.15);
+    border-right:6px solid rgba(0,174,239,.15);
+    border-bottom:6px solid rgba(0,174,239,.15);
+    border-top:6px solid #00796C;
+    border-radius:100%;
+ }
+ 
+ @-webkit-keyframes rotation {
+    from {-webkit-transform: rotate(0deg);}
+    to {-webkit-transform: rotate(359deg);}
+ }
+ @-moz-keyframes rotation {
+    from {-moz-transform: rotate(0deg);}
+    to {-moz-transform: rotate(359deg);}
+ }
+ @-o-keyframes rotation {
+    from {-o-transform: rotate(0deg);}
+    to {-o-transform: rotate(359deg);}
+ }
+ @keyframes rotation {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(359deg);}
+ }
+ .loader {
+    height: 4px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-color: #ddd;
+    /*margin-top: -6px;*/
+  }
+  .loader:before{
+    display: block;
+    position: absolute;
+    content: "";
+    left: -200px;
+    width: 200px;
+    height: 4px;
+    background-color: #127B6E;
+    animation: loading 2s linear infinite;
+  }
+  
+  @keyframes loading {
+      from {left: -200px; width: 30%;}
+      50% {width: 30%;}
+      70% {width: 70%;}
+      80% { left: 50%;}
+      95% {left: 120%;}
+      to {left: 100%;}
+  }

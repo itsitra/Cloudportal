@@ -1,0 +1,6 @@
+{
+    "/api": {
+        "target": "http:///sitraonline.org.in/onlineserviceapi/index.php/api/",
+        "secure": false
+    }
+}

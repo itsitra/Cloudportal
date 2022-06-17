@@ -1,0 +1,360 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="card" style="border: 0px solid red; background-color: #e4e5e6">
+      <div class="card-body" style="border: 0px solid red">
+        <div class="row">
+          <div class="border1 col-sm-4" style="border: 1px solid green">
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold">Inward No</label>
+              <label class="fullwidth">{{ inwardPageDetails.inwardno }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Inward Date</label
+              >
+              <label class="fullwidth">{{
+                inwardPageDetails.inward_date
+              }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Sample rerturn</label
+              >
+              <label
+                *ngIf="inwardPageDetails.samplesreturn === 'Y'"
+                class="fullwidth"
+                >Yes</label
+              >
+              <label
+                *ngIf="inwardPageDetails.samplesreturn !== 'Y'"
+                class="fullwidth"
+                >No</label
+              >
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Express Testing</label
+              >
+              <label class="fullwidth">{{
+                inwardPageDetails.exp_testing
+              }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold">Comments</label>
+              <label class="fullwidth">{{
+                inwardPageDetails.nablcomment
+              }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Customer Type</label
+              >
+              <label class="fullwidth">{{ inwardPageDetails.custtype }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold">Customer</label>
+              <label class="fullwidth fontbold">{{
+                inwardPageDetails.name
+              }}</label>
+              <label class="fullwidth">{{ inwardPageDetails.address1 }}</label>
+              <label class="fullwidth">{{ inwardPageDetails.address2 }}</label>
+              <label class="fullwidth">{{ inwardPageDetails.city }}</label>
+              <label class="fullwidth">{{ inwardPageDetails.state }}</label>
+              <label class="fullwidth">{{ inwardPageDetails.pincode }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Contact details</label
+              >
+              <label class="fullwidth">{{ inwardPageDetails.phoneno }}</label>
+              <label class="fullwidth">{{ inwardPageDetails.mobile }}</label>
+              <label class="fullwidth">{{ inwardPageDetails.emailid }}</label>
+              <label class="fullwidth"></label>
+              <label class="fullwidth"></label>
+
+              <!-- <label class="fullwidth fontbold fontunderline">Sample Statistics</label>
+                        <div class="chart-wrapper">
+                            <canvas baseChart class="chart"
+                            [data]="pieChartData"
+                            [labels]="pieChartLabels"
+                            [chartType]="pieChartType"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"></canvas>
+                          </div> -->
+            </div>
+          </div>
+          <div class="border2 col-sm-4" style="border: 1px solid green">
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Request. No</label
+              >
+              <label class="fullwidth">{{ inwardPageDetails.reqno }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Request. Date</label
+              >
+              <label class="fullwidth">{{ inwardPageDetails.reqdate }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Amount Received</label
+              >
+              <label class="fullwidth">{{ inwardPageDetails.receiptno }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Receipt Date</label
+              >
+              <label class="fullwidth">{{
+                inwardPageDetails.receiptdate
+              }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Inward Comments</label
+              >
+              <label class="fullwidth">{{ inwardPageDetails.comments }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Invoice Comments</label
+              >
+              <label class="fullwidth">{{
+                inwardPageDetails.invoicecomment
+              }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >No of Sample(s)</label
+              >
+              <label class="fullwidth">{{
+                inwardPageDetails.noofsamples
+              }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Sample Received on</label
+              >
+              <label class="fullwidth">{{
+                inwardPageDetails.sample_received_date
+              }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Combo Selection
+              </label>
+              <label class="fullwidth">{{ inwardPageDetails.is_combo }}</label>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Test Condition</label
+              >
+              <label class="fullwidth">{{
+                inwardPageDetails.test_condition_based
+              }}</label>
+            </div>
+
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Sample Received Condition</label
+              >
+              <label class="fullwidth">{{
+                inwardPageDetails.sample_received_condition
+              }}</label>
+            </div>
+            <!-- <div class="col-sm-12">
+                        <label class="fullwidth fontbold fontunderline">Sample Statistics</label>
+                        <div class="chart-wrapper">
+                            <canvas baseChart class="chart"
+                            [data]="pieChartData"
+                            [labels]="pieChartLabels"
+                            [chartType]="pieChartType"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            [colors]="colors"></canvas>
+                          </div>
+                    </div> -->
+          </div>
+          <div class="border3 col-sm-3" style="border: 1px solid green">
+            <div class="col-sm-12">
+              <div style="float: left; width: 100%">
+                <label class="fontbold" style="width: 45%">Invoice No</label>
+                <!-- <label style="width:10%;">:</label> -->
+                <label class="fontbold" style="width: 30%; text-align: right">{{
+                  inwardPageDetails.invoiceno
+                }}</label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold"
+                >Charge Details</label
+              >
+              <div style="float: left; width: 100%">
+                <label style="width: 45%">Testing Charge</label>
+                <label style="width: 10%">:</label>
+                <label style="width: 20%; text-align: right">{{
+                  inwardPageDetails.testcharges
+                }}</label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+
+              <div style="float: left; width: 100%">
+                <label style="width: 45%">Discount (-)</label>
+                <label style="width: 10%">:</label>
+                <label style="width: 20%; text-align: right">{{
+                  inwardPageDetails.discount
+                }}</label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label style="width: 45%"></label>
+                <label style="width: 10%"></label>
+                <label
+                  style="
+                    width: 20%;
+                    text-align: right;
+                    border-bottom: 1px solid #1dab72;
+                  "
+                ></label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label style="width: 45%">Sub total (A)</label>
+                <label style="width: 10%"></label>
+                <label style="width: 20%; text-align: right">{{
+                  inwardPageDetails.subtotal_a
+                }}</label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label style="width: 45%">Other Charges (+)</label>
+                <label style="width: 10%">:</label>
+                <label style="width: 20%; text-align: right">{{
+                  inwardPageDetails.other_charge
+                }}</label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label style="width: 45%">Additional Charges (+)</label>
+                <label style="width: 10%">:</label>
+                <label style="width: 20%; text-align: right">{{
+                  inwardPageDetails.additional_charge
+                }}</label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label style="width: 45%"></label>
+                <label style="width: 10%"></label>
+                <label
+                  style="
+                    width: 20%;
+                    text-align: right;
+                    border-bottom: 1px solid #1dab72;
+                  "
+                ></label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label style="width: 45%">Taxable Value (B)</label>
+                <label style="width: 10%"></label>
+                <label style="width: 20%; text-align: right">{{
+                  inwardPageDetails.taxable_charge
+                }}</label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label style="width: 45%">CGST (+)</label>
+                <label style="width: 10%">:</label>
+                <label style="width: 20%; text-align: right">{{
+                  inwardPageDetails.cgst
+                }}</label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label style="width: 45%">SGST (+)</label>
+                <label style="width: 10%">:</label>
+                <label style="width: 20%; text-align: right">{{
+                  inwardPageDetails.sgst
+                }}</label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label style="width: 45%">IGST (+)</label>
+                <label style="width: 10%">:</label>
+                <label style="width: 20%; text-align: right">{{
+                  inwardPageDetails.igst
+                }}</label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label style="width: 45%"></label>
+                <label style="width: 10%"></label>
+                <label
+                  style="
+                    width: 20%;
+                    text-align: right;
+                    border-bottom: 1px solid #1dab72;
+                  "
+                ></label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label style="width: 45%">Sub Total (B)</label>
+                <label style="width: 10%"></label>
+                <label style="width: 20%; text-align: right">{{
+                  inwardPageDetails.subtotal_b
+                }}</label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label style="width: 45%">Rounded Off (+ / -)</label>
+                <label style="width: 10%">:</label>
+                <label style="width: 20%; text-align: right">{{
+                  inwardPageDetails.rounded_off
+                }}</label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label style="width: 45%"></label>
+                <label style="width: 10%"></label>
+                <label
+                  style="
+                    width: 20%;
+                    text-align: right;
+                    border-bottom: 1px solid #1dab72;
+                  "
+                ></label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label class="fontbold" style="width: 45%"
+                  >Net Bill value</label
+                >
+                <label style="width: 10%"></label>
+                <label style="width: 20%; text-align: right">{{
+                  inwardPageDetails.netamt
+                }}</label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+              <div style="float: left; width: 100%">
+                <label style="width: 45%"></label>
+                <label style="width: 10%"></label>
+                <label
+                  style="
+                    width: 20%;
+                    text-align: right;
+                    border-bottom: 1px solid #1dab72;
+                  "
+                ></label>
+                <label style="width: 20%; text-align: left"></label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/.row-->
+</div>

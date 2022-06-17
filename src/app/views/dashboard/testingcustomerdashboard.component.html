@@ -1,0 +1,144 @@
+<span>Testing Customer Dashboard </span>
+<hr />
+<div class="row">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white" style="background-color: #449284;">
+        <div class="card-body pb-0">
+          <div class="text-value">
+            18250.00
+        </div>
+        </div>
+        <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+          <div style="margin-top:30px;">
+            <span style="font-size:16px;float:left;">Advanced Amount</span>
+          </div>
+        </div>
+      </div>
+    </div><!--/.col--> 
+    <div class="col-sm-6 col-lg-3">
+        <div class="card text-white" style="background-color: #F86C6B;">
+          <div class="card-body pb-0">
+            <div class="text-value">
+              8250.00
+          </div>
+          </div>
+          <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+            <div style="margin-top:20px;float:left;">
+                <span style="font-size:16px;float:left;">Pending Invoice Amount</span>
+                <span style="font-size:10px;float:left;">Payment pendings</span>
+            </div>
+          </div>
+        </div>
+      </div><!--/.col--> 
+      <div class="col-sm-6 col-lg-3">
+        <div class="card text-white" style="background-color: #20A8D8;">
+          <div class="card-body pb-0">
+            <div class="text-value">
+              1250.00
+          </div>
+          </div>
+          <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+            <div style="margin-top:20px;float:left;">
+               <span style="font-size:16px;float:left;">In-Progress Amount</span>
+               <span style="font-size:10px;float:left;">Not yet to invoiced</span>
+            </div>
+          </div>
+        </div>
+      </div><!--/.col-->    
+  </div><!--/.row-->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header" style="color:#212529;font-weight:bold;">
+          {{ tableHeading }}
+          <div *ngIf="loaderFlag == true" class="spinner-border text-primary" role="status">                
+              <span class="sr-only">Loading...</span>                
+          </div>
+          
+        </div>
+        <div class="card-body">            
+          <div *ngIf="searchText == ''" style="width:10%;float:left;">
+            <select (change)="changeDisplayCount()" class="form-control" [(ngModel)] = "apiParams.tablerowlimit">                
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="form-group" style="float:right;width:30%;">                                
+             <input (keyup)="getData()" [(ngModel)]="searchText" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Search Test name or Standard">
+          </div>
+          <br>
+          <table style="width:100%;" class="table table-responsive-sm table-hover table-outline mb-0">
+            <thead class="thead-light">
+              <tr>                  
+                <th style="width:10%;">Inwardno</th>
+                <th style="width:10%;">Date</th>
+                <th style="width:15%;">Lab Name</th>                
+                <th style="width:15%;">No of Samples</th>
+                <th style="width:15%;">Sample Status</th>
+                <th style="width:10%;">Testing Charge</th>                  
+                <th style="width:5%;">GST</th>                  
+                <th style="width:10%;">Net amount</th>
+                <th style="width:10%;">Action</th>
+              </tr>
+            </thead>
+            <tbody>                
+              <tr  *ngFor="let testrate of testRates; index as j;">
+              <!--<option *ngFor="let varieties of varietyNameList; index as i;" value={{varietyNameList[i].id}}></option>-->
+                <td >
+                  <div>{{testrate.labname}}</div>                    
+                </td>
+                <td>
+                  <div>{{testrate.testname}}</div>                    
+                </td>
+                <td>
+                  <div>{{testrate.alias}}</div>
+                </td>
+                <td>
+                  <div>{{testrate.standard}}</div>
+                </td>
+                <td>
+                  <div>{{testrate.samplesize}}</div>
+                </td>
+                <td>
+                  <div>{{testrate.memrate}}</div>
+                </td>
+                <td>
+                  <div>{{testrate.nonmemrate}}</div>
+                </td>
+              </tr>
+            </tbody>              
+          </table>
+          <hr/>
+          <nav *ngIf="searchText == ''" aria-label="Page navigation example">
+              <div  style="float:left;">
+                <span style="color:#212529;font-weight:bold;">Page {{ pagenationConfiguration.currentPageNo }} of {{ pageCount }}</span>
+              </div>
+              <ul class="pagination justify-content-center">
+                <li *ngIf="this.pagenationConfiguration.currentPageNo != 1;" style="cursor: pointer;" class="page-item">
+                    <span class="page-link" (click)="pagenationEvent(3, 0)">Previous</span>
+                </li>
+                <li *ngIf="this.pagenationConfiguration.currentPageNo == 1;" style="cursor: pointer;" class="page-item disabled">
+                  <span class="page-link" (click)="pagenationEvent(3, 0)">Previous</span>
+              </li>
+                <li style="cursor: pointer;" *ngFor='let pageno of pagenationConfiguration.pageNos;let i = index' class="page-item" (click)="pagenationEvent(1, pageno)">
+                    <span *ngIf="pageno == pagenationConfiguration.currentPageNo" style="background-color: #20A8D8;color:white;"  class="page-link" (click)="pagenationEvent('1', pageno)" >
+                      {{ pageno }}
+                    </span>
+                    <span *ngIf="pageno != pagenationConfiguration.currentPageNo &&  pageno != undefined"  class="page-link" (click)="pagenationEvent('1', pageno)">
+                      {{ pageno }}
+                    </span>
+                </li>
+                <li *ngIf="pageCount != pagenationConfiguration.currentPageNo" class="page-item" style="cursor: pointer;">
+                  <span class="page-link"  (click)="pagenationEvent(2, 0)">Next</span>
+                </li>
+                <li *ngIf="pageCount == pagenationConfiguration.currentPageNo" class="page-item disabled" style="cursor: pointer;">
+                  <span class="page-link"  (click)="pagenationEvent(2, 0)">Next</span>
+                </li>
+              </ul>
+            </nav>
+        </div>
+      </div>
+    </div><!--/.col-->
+  </div><!--/ End Table-->

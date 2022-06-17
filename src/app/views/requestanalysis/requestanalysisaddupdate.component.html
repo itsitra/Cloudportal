@@ -1,0 +1,1084 @@
+<!-- <button mat-raised-button (click)="subscribe()">SUBSCRIBE TO FOOBAR TOPIC</button>
+<button mat-raised-button (click)="sendMsg()">SEND FOOBAR MESSAGE</button>
+<button mat-raised-button (click)="unsubscribe()">UNSUBSCRIBE FROM FOOBAR TOPIC</button>
+
+<div fxLayout>
+    <div fxFlex="20">
+        <h1>Messages:</h1>
+        <p *ngFor="let message of messages">
+            {{message | json}}
+        </p>
+    </div>
+    <div>
+        <h1>Status info:</h1>
+        <p *ngFor="let statusMessage of status">
+            {{statusMessage}}
+        </p>
+    </div>
+</div> -->
+
+<div class="animated fadeIn">
+  <!--Start Test selection model popup -->
+  <div
+    bsModal
+    #testSelectionModel="bs-modal"
+    class="modal modal-lg"
+    style="margin-left: 10%"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModalLabel"
+    aria-hidden="true"
+  >
+    <div
+      class="modal-dialog modal-success modal-lg"
+      style="width: 100%"
+      role="document"
+    >
+      <div class="modal-content modal-lg" style="width: 100%">
+        <div class="modal-header" style="width: 100%">
+          <h5 style="width: 30%; float: left" class="modal-title">
+            Sample No : {{ SamplePopupProperty.sampleno }}
+          </h5>
+          <h5 style="width: 50%; float: left" class="modal-title">
+            No of Test(s) Selected : {{ SamplePopupProperty.nooftests }}
+          </h5>
+          <!-- <h5 style="width:50%;float:left;" class="modal-title">Copy to All Sample(s)
+                <input type="checkbox" />
+              </h5> -->
+
+          <button
+            type="button"
+            id="btnPopupClose();"
+            class="close"
+            (click)="testSelectionModel.hide()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div style="float: left; width: 100%">
+            <div class="input-group mb-3" style="width: 80%">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa fa-search" style="color: green"></i
+                ></span>
+              </div>
+              <input
+                [(ngModel)]="txtTestSearch"
+                (keyup)="loadTestList()"
+                type="text"
+                class="form-control"
+                placeholder="Search Test"
+              />
+              <svg
+                *ngIf="testPopupLoader === true"
+                xmlns:svg="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                version="1.0"
+                width="158px"
+                height="24px"
+                viewBox="0 0 158 24"
+                xml:space="preserve"
+              >
+                <rect x="0" y="0" width="100%" height="100%" fill="#FFFFFF" />
+                <path
+                  fill="#e3e3e3"
+                  d="M64 4h10v10H64V4zm20 0h10v10H84V4zm20 0h10v10h-10V4zm20 0h10v10h-10V4zm20 0h10v10h-10V4zM4 4h10v10H4V4zm20 0h10v10H24V4zm20 0h10v10H44V4z"
+                />
+                <path
+                  fill="#bdbdbd"
+                  d="M144 14V4h10v10h-10zm9-9h-8v8h8V5zm-29 9V4h10v10h-10zm9-9h-8v8h8V5zm-29 9V4h10v10h-10zm9-9h-8v8h8V5zm-29 9V4h10v10H84zm9-9h-8v8h8V5zm-29 9V4h10v10H64zm9-9h-8v8h8V5zm-29 9V4h10v10H44zm9-9h-8v8h8V5zm-29 9V4h10v10H24zm9-9h-8v8h8V5zM4 14V4h10v10H4zm9-9H5v8h8V5z"
+                />
+                <g>
+                  <path
+                    fill="#d9d9d9"
+                    d="M-58 16V2h14v14h-14zm13-13h-12v12h12V3z"
+                  />
+                  <path
+                    fill="#9c9c9c"
+                    fill-opacity="0.3"
+                    d="M-40 0h18v18h-18z"
+                  />
+                  <path
+                    fill="#b2b2b2"
+                    d="M-40 18V0h18v18h-18zm17-17h-16v16h16V1z"
+                  />
+                  <path
+                    fill="#9c9c9c"
+                    fill-opacity="0.7"
+                    d="M-20 0h18v18h-18z"
+                  />
+                  <path
+                    fill="#4c4c4c"
+                    d="M-20 18V0h18v18h-18zM-3 1h-16v16h16V1z"
+                  />
+                  <animateTransform
+                    attributeName="transform"
+                    type="translate"
+                    values="20 0;40 0;60 0;80 0;100 0;120 0;140 0;160 0;180 0;200 0"
+                    calcMode="discrete"
+                    dur="1800ms"
+                    repeatCount="indefinite"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+          <div class="col-sm-12" style="float: left">
+            <div
+              style="
+                width: 100%;
+                float: left;
+                background-color: #e4e7ea;
+                border: 1px solid #e4e7ea;
+              "
+            >
+              <div style="width: 10%; float: left">Test Id</div>
+              <div style="width: 55%; float: left">Test Name</div>
+              <div style="width: 15%; float: left">Member Test Rate</div>
+              <div style="width: 20%; float: left">Non-Member Test Rate</div>
+            </div>
+            <div style="width: 100%; height: 35vh; overflow: scroll">
+              <div
+                *ngFor="let test of testList; index as a"
+                style="
+                  font-size: 0.9em;
+                  width: 100%;
+                  float: left;
+                  line-height: 20px;
+                  padding: 5px;
+                  border-bottom: 0.1px solid gray;
+                "
+              >
+                <!-- <div style="width:60%;float:left;">
+                      <span style="text-decoration: underline;color:#00A5DE;cursor: pointer;"  data-toggle="modal">{{test.testname}}</span>
+                    </div> -->
+                <div style="width: 10%; float: left">
+                  <input
+                    *ngIf="test.selected === 'true'"
+                    checked="true"
+                    type="checkbox"
+                    style="padding: 2px"
+                    (change)="
+                      setTestId(
+                        test.testid,
+                        $event,
+                        test.nonmemrate,
+                        SamplePopupProperty.sampleno
+                      )
+                    "
+                  />
+                  <input
+                    *ngIf="test.selected !== 'true'"
+                    type="checkbox"
+                    style="padding: 2px"
+                    (change)="
+                      setTestId(
+                        test.testid,
+                        $event,
+                        test.nonmemrate,
+                        SamplePopupProperty.sampleno
+                      )
+                    "
+                  />
+                  {{ test.testid }}
+                </div>
+                <div style="width: 60%; float: left">{{ test.testname }}</div>
+                <div style="width: 15%; float: left">{{ test.mrate }}</div>
+                <div style="width: 15%; float: left">{{ test.nmrate }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="testSelectionModel.hide()"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="updateSampleArray()"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <!-- End Test selection model popup -->
+
+  <!--Start Validation model popup -->
+  <div
+    bsModal
+    #validationModel="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModalLabel"
+    aria-hidden="true"
+  >
+    <div
+      *ngIf="pageValidationLoaderState.overall === 0"
+      class="modal-dialog modal-primary"
+      role="document"
+    >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{ validationPopupHeaderMessage }}</h4>
+          <button
+            type="button"
+            class="close"
+            (click)="validationModel.hide()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div style="width: 100%; float: left">
+            <div class="row">
+              <div style="width: 60%; float: left; padding: 15px">
+                Header Data
+              </div>
+              <div style="width: 20%; float: left; padding: 15px">
+                <!-- {{pageValidationLoaderState.header}} -->
+                <!-- <img src="assets/img/others/check-green.gif" style="width:40px;height:40px;" /> -->
+                <img
+                  *ngIf="pageValidationLoaderState.header === 1"
+                  src="assets/img/others/line-loader.svg"
+                  style="width: 100%; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.header === 2"
+                  src="assets/img/others/tick.png"
+                  style="width: 50px; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.header === 3"
+                  src="assets/img/others/remove.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div style="width: 60%; float: left; padding: 15px">
+                Sample Gird Data
+              </div>
+              <div style="width: 20%; float: left; padding: 15px">
+                <img
+                  *ngIf="pageValidationLoaderState.samplegrid === 1"
+                  src="assets/img/others/line-loader.svg"
+                  style="width: 100%; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.samplegrid === 2"
+                  src="assets/img/others/tick.png"
+                  style="width: 50px; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.samplegrid === 3"
+                  src="assets/img/others/remove.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div style="width: 60%; float: left; padding: 15px">
+                Tests Data
+              </div>
+              <div style="width: 20%; float: left; padding: 15px">
+                <img
+                  *ngIf="pageValidationLoaderState.tests === 1"
+                  src="assets/img/others/line-loader.svg"
+                  style="width: 100%; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.tests === 2"
+                  src="assets/img/others/tick.png"
+                  style="width: 50px; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.tests === 3"
+                  src="assets/img/others/remove.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+            </div>
+            <div *ngIf="pageValidationLoaderState.overall === 1" class="row">
+              <div style="width: 60%; float: left; padding: 15px">
+                Database Transcation
+              </div>
+              <div style="width: 20%; float: left; padding: 15px">
+                <img
+                  *ngIf="pageValidationLoaderState.database === 1"
+                  src="assets/img/others/line-loader.svg"
+                  style="width: 100%; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.database === 2"
+                  src="assets/img/others/tick.png"
+                  style="width: 50px; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.database === 3"
+                  src="assets/img/others/remove.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="validationModel.hide()"
+          >
+            Close
+          </button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+    <!-- End Processing Block -->
+
+    <div
+      *ngIf="pageValidationLoaderState.overall === 1"
+      class="modal-dialog modal-success"
+      role="document"
+    >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{ validationPopupHeaderMessage }}</h4>
+          <button
+            type="button"
+            class="close"
+            (click)="validationModel.hide()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div style="width: 100%; float: left">
+            <div class="row">
+              <div style="width: 60%; float: left; padding: 15px">
+                Header Data
+              </div>
+              <div style="width: 20%; float: left; padding: 15px">
+                <!-- {{pageValidationLoaderState.header}} -->
+                <!-- <img src="assets/img/others/check-green.gif" style="width:40px;height:40px;" /> -->
+                <img
+                  *ngIf="pageValidationLoaderState.header === 1"
+                  src="assets/img/others/line-loader.svg"
+                  style="width: 100%; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.header === 2"
+                  src="assets/img/others/tick.png"
+                  style="width: 50px; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.header === 3"
+                  src="assets/img/others/remove.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div style="width: 60%; float: left; padding: 15px">
+                Sample Gird Data
+              </div>
+              <div style="width: 20%; float: left; padding: 15px">
+                <img
+                  *ngIf="pageValidationLoaderState.samplegrid === 1"
+                  src="assets/img/others/line-loader.svg"
+                  style="width: 100%; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.samplegrid === 2"
+                  src="assets/img/others/tick.png"
+                  style="width: 50px; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.samplegrid === 3"
+                  src="assets/img/others/remove.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div style="width: 60%; float: left; padding: 15px">
+                Tests Data
+              </div>
+              <div style="width: 20%; float: left; padding: 15px">
+                <img
+                  *ngIf="pageValidationLoaderState.tests === 1"
+                  src="assets/img/others/line-loader.svg"
+                  style="width: 100%; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.tests === 2"
+                  src="assets/img/others/tick.png"
+                  style="width: 50px; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.tests === 3"
+                  src="assets/img/others/remove.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+            </div>
+            <div *ngIf="pageValidationLoaderState.overall === 1" class="row">
+              <div style="width: 60%; float: left; padding: 15px">
+                Database Transcation
+              </div>
+              <div style="width: 20%; float: left; padding: 15px">
+                <img
+                  *ngIf="pageValidationLoaderState.database === 1"
+                  src="assets/img/others/line-loader.svg"
+                  style="width: 100%; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.database === 2"
+                  src="assets/img/others/tick.png"
+                  style="width: 50px; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.database === 3"
+                  src="assets/img/others/remove.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="validationModel.hide()"
+          >
+            Close
+          </button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+    <!-- End Success block -->
+
+    <div
+      *ngIf="pageValidationLoaderState.overall === 2"
+      class="modal-dialog modal-danger"
+      role="document"
+    >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{ validationPopupHeaderMessage }}</h4>
+          <button
+            type="button"
+            class="close"
+            (click)="validationModel.hide()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div style="width: 100%; float: left">
+            <div class="row">
+              <div style="width: 60%; float: left; padding: 15px">
+                Header Data
+              </div>
+              <div style="width: 20%; float: left; padding: 15px">
+                <!-- {{pageValidationLoaderState.header}} -->
+                <!-- <img src="assets/img/others/check-green.gif" style="width:40px;height:40px;" /> -->
+                <img
+                  *ngIf="pageValidationLoaderState.header === 1"
+                  src="assets/img/others/line-loader.svg"
+                  style="width: 100%; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.header === 2"
+                  src="assets/img/others/tick.png"
+                  style="width: 50px; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.header === 3"
+                  src="assets/img/others/remove.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div style="width: 60%; float: left; padding: 15px">
+                Sample Gird Data
+              </div>
+              <div style="width: 20%; float: left; padding: 15px">
+                <img
+                  *ngIf="pageValidationLoaderState.samplegrid === 1"
+                  src="assets/img/others/line-loader.svg"
+                  style="width: 100%; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.samplegrid === 2"
+                  src="assets/img/others/tick.png"
+                  style="width: 50px; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.samplegrid === 3"
+                  src="assets/img/others/remove.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div style="width: 60%; float: left; padding: 15px">
+                Tests Data
+              </div>
+              <div style="width: 20%; float: left; padding: 15px">
+                <img
+                  *ngIf="pageValidationLoaderState.tests === 1"
+                  src="assets/img/others/line-loader.svg"
+                  style="width: 100%; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.tests === 2"
+                  src="assets/img/others/tick.png"
+                  style="width: 50px; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.tests === 3"
+                  src="assets/img/others/remove.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+            </div>
+            <div *ngIf="pageValidationLoaderState.overall === 1" class="row">
+              <div style="width: 60%; float: left; padding: 15px">
+                Database Transcation
+              </div>
+              <div style="width: 20%; float: left; padding: 15px">
+                <img
+                  *ngIf="pageValidationLoaderState.database === 1"
+                  src="assets/img/others/line-loader.svg"
+                  style="width: 100%; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.database === 2"
+                  src="assets/img/others/tick.png"
+                  style="width: 50px; height: 50px"
+                />
+                <img
+                  *ngIf="pageValidationLoaderState.database === 3"
+                  src="assets/img/others/remove.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div style="width: 100%; float: left">
+            <span
+              *ngFor="let error of validationErrors; index as errorIndex"
+              style="width: 100%; color: red"
+            >
+              {{ validationErrors[errorIndex].message }} <br />
+            </span>
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            id="btnClose"
+            (click)="validationModel.hide()"
+          >
+            Close
+          </button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+    <!-- End Failure block -->
+  </div>
+  <!-- /.modal -->
+  <!-- End Validataion model popup -->
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <label for="name">Add / Update Request Analysis</label>
+          <div style="float: right">
+            <button
+              (click)="saveUpdateRequestAnalysis(); validationModel.show()"
+              type="button"
+              style="font-size: 1.2em"
+              class="btn btn-sm btn-success"
+            >
+              <i class="fa fa-plus"></i> Save / Update
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+              {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+            </button> -->
+
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="name">Department</label>
+                  <select
+                    [disabled]="disableInput.deptid === 1"
+                    class="form-control"
+                    [(ngModel)]="formData.deptid"
+                    (change)="loadLabList(); loadTestList()"
+                  >
+                    <option value="">-SELECT-</option>
+                    <option
+                      *ngFor="let dept of departmentList; index as a"
+                      value="{{ departmentList[a].deptid }}"
+                    >
+                      {{ departmentList[a].deptname }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="name">Lab</label>
+                  <select
+                    [disabled]="disableInput.labid === 1"
+                    class="form-control"
+                    [(ngModel)]="formData.labid"
+                    (change)="loadTestList(); loadSampleType()"
+                  >
+                    <option value="">-SELECT-</option>
+                    <option
+                      *ngFor="let lab of labList; index as b"
+                      value="{{ labList[b].labid }}"
+                    >
+                      {{ labList[b].labname }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="name">Sample Return</label>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="formData.sample_return"
+                  >
+                    <option value="">-SELECT-</option>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="name">Mode of Payment</label>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="formData.mode_of_payment"
+                  >
+                    <option value="">-SELECT-</option>
+                    <option value="1">Cheque</option>
+                    <option value="2">DD</option>
+                    <option value="3">Cash</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="name">Despatch Date</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="formData.despatch_date"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="ccmonth">Mill Reference no</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="formData.mill_reference_no"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="ccmonth">Comments</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="formData.comments"
+                  />
+                </div>
+              </div>
+              <div
+                *ngIf="
+                  formData.mode_of_payment === '1' ||
+                  formData.mode_of_payment === '2'
+                "
+                class="col-sm-3"
+              >
+                <div class="form-group">
+                  <label for="ccmonth">DD / Cheque Reference</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="formData.dd_cheque_reference"
+                  />
+                </div>
+              </div>
+            </div>
+            <!--/.row-->
+          </div>
+          <!--End Left panel-->
+
+          <!-- End Header -->
+          <div class="col-sm-12" style="float: left">
+            <div class="card">
+              <div class="card-header" style="width: 100%; float: left">
+                <span style="width: 25%; float: left">Sample Details</span>
+                <!-- <span style="width:15%;float:left;font-weight: bold;" >Test Charges : {{totalTestingCharge}}</span>
+                  <span style="width:25%;float:left;" > Tax : </span> -->
+                <span style="width: 15%; float: right; font-weight: bold"
+                  >Test Charges : {{ totalTestingCharge }}</span
+                >
+                <!-- <div style="float:right;width:85%;">                    
+                    <input style="width:6%;float:right;" maxlength="2" type="text" class="form-control" placeholder="" (keyup)="counter()" [(ngModel)] = "formData.noofsamples"  >  
+                    <label for="name" style="float:right;padding:5px;">No of Sample(s)</label>
+                  </div> -->
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <input
+                    disabled
+                    type="hidden"
+                    class="form-control"
+                    [(ngModel)]="sampleEntryFormData.index"
+                  />
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="name"
+                        ><font color="red">*</font>Sample Type</label
+                      >
+                      <select
+                        class="form-control"
+                        [(ngModel)]="sampleEntryFormData.sampletype"
+                      >
+                        <option value="">-SELECT-</option>
+                        <option
+                          *ngFor="let sampletype of sampleTypeLists; index as z"
+                          value="{{ sampleTypeLists[z].sampleid }}"
+                        >
+                          {{ sampleTypeLists[z].samplename }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-2" *ngIf="formData.labid == '1'">
+                    <div class="form-group">
+                      <label for="ccmonth">Count (Ne)</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="sampleEntryFormData.count"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="ccmonth"
+                        ><font color="red">*</font>Desc 1</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="sampleEntryFormData.desc1"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="ccmonth">Desc 2</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="sampleEntryFormData.desc2"
+                      />
+                    </div>
+                  </div>
+                  <!-- <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="ccmonth">Desc 3</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="sampleEntryFormData.desc3"
+                      />
+                    </div>
+                  </div> -->
+                  <div class="col-sm-2" *ngIf="formData.labid == '1'">
+                    <div class="form-group">
+                      <label for="ccmonth">Ply</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="sampleEntryFormData.ply"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2" *ngIf="formData.labid == '1'">
+                    <div class="form-group">
+                      <label for="ccmonth">Blend</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="sampleEntryFormData.blend"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="ccmonth">Remarks</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="sampleEntryFormData.remarks"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <button
+                      type="button"
+                      (click)="addUpdateSampleGrid()"
+                      style="float: right; font-size: 0.8em"
+                      class="btn btn-sm btn-success"
+                    >
+                      <i class="fa fa-plus"></i> Add / Update Sample
+                    </button>
+                    <!-- <button  type="button" (click)="prePayloadTestSelectionPopup(0);loadTestList();testSelectionModel.show();" style="float:right;font-size:0.8em;"  class="btn btn-sm btn-success">               
+                          <i class="fa fa-plus"></i> Add / Update Tests
+                        </button> -->
+                  </div>
+
+                  <div class="col-sm-12">
+                    <table
+                      style="width: 100%"
+                      class="table table-responsive-sm table-hover table-outline mb-0"
+                    >
+                      <thead class="thead-light">
+                        <tr>
+                          <th style="width: 8%">Sample No</th>
+                          <th style="width: 15%">Sample Type</th>
+                          <th style="width: 15%" *ngIf="formData.labid == '1'">
+                            Count (Ne)
+                          </th>
+                          <th style="width: 15%">Desc 1</th>
+                          <th style="width: 15%">Desc 2</th>
+                          <th style="width: 15%" *ngIf="formData.labid == '1'">
+                            Ply
+                          </th>
+                          <th style="width: 15%" *ngIf="formData.labid == '1'">
+                            Blend
+                          </th>
+                          <th style="width: 15%">Remarks</th>
+                          <th style="width: 3%" colspan="3">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let gridData of sampleGridData; index as j">
+                          <td>
+                            <p>{{ j + 1 }}</p>
+                          </td>
+                          <td>
+                            <p>
+                              {{
+                                sampleTypeListForDisplay[gridData.sampletype]
+                              }}
+                            </p>
+                          </td>
+                          <td *ngIf="formData.labid == '1'">
+                            <p>{{ gridData.count }}</p>
+                          </td>
+                          <td>
+                            <p>{{ gridData.desc1 }}</p>
+                          </td>
+                          <td>
+                            <p>{{ gridData.desc2 }}</p>
+                          </td>
+                          <td *ngIf="formData.labid == '1'">
+                            <p>{{ gridData.ply }}</p>
+                          </td>
+                          <td *ngIf="formData.labid == '1'">
+                            <p>{{ gridData.blend }}</p>
+                          </td>
+                          <td>
+                            <p>{{ gridData.remarks }}</p>
+                          </td>
+                          <td>
+                            <div style="float: left">
+                              <i
+                                class="icon-pencil"
+                                style="
+                                  color: green;
+                                  font-size: 1.3em;
+                                  cursor: pointer;
+                                "
+                                (click)="editSampleGridDataRow(j, gridData)"
+                                title="Edit"
+                              ></i>
+                            </div>
+                          </td>
+                          <td>
+                            <div style="float: left">
+                              <i
+                                class="icon-trash"
+                                style="
+                                  color: red;
+                                  font-size: 1.3em;
+                                  cursor: pointer;
+                                "
+                                (click)="removeSampleGridDataRow(j)"
+                                title="Delete"
+                              ></i>
+                            </div>
+                          </td>
+                          <td>
+                            <div style="float: left">
+                              <i
+                                class="icon-layers"
+                                style="
+                                  color: green;
+                                  font-size: 1.3em;
+                                  cursor: pointer;
+                                "
+                                (click)="
+                                  prePayloadTestSelectionPopup(j);
+                                  testSelectionModel.show()
+                                "
+                                title="Add / Update Tests"
+                              ></i>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!--Row end -->
+                <!-- <div class="row">
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                         <label style="font-weight: bold;text-decoration: underline;">Sample Type</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-1">
+                      <div class="form-group">                            
+                        <label style="font-weight: bold;text-decoration: underline;">Count</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">                            
+                        <label style="font-weight: bold;text-decoration: underline;">Desc 1</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label style="font-weight: bold;text-decoration: underline;">Desc 2</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">                            
+                        <label style="font-weight: bold;text-decoration: underline;">Desc 3</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">                            
+                        <label style="font-weight: bold;text-decoration: underline;">Remarks</label>
+                      </div>
+                    </div>
+
+
+                  </div>
+                 <div class="row"  *ngFor='let sampleno of sampleNoArray;let i = index' >
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                            <div style="width:5%;float: left;">
+                              <label style="font-weight: bold;text-align: left;">{{i+1}}.&nbsp;</label>
+                            </div>
+                          
+                            <div style="width:94%;float: left;">
+                              <select class="form-control"    >
+                                  <option value="">-SELECT-</option>
+                              </select>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-1">
+                        <div class="form-group">                            
+                            <input type="text" class="form-control"  >
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">                            
+                            <input type="text" class="form-control"  >
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control"  >
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">                            
+                            <input type="text" class="form-control"  >
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">                            
+                            <input type="text" class="form-control"  >
+                        </div>
+                      </div>
+
+
+                    </div> -->
+              </div>
+            </div>
+          </div>
+          <!-- End Samples block-->
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>

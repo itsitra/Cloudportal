@@ -1,0 +1,189 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-header">
+            <strong>Mill's Actual Process Parameters</strong>
+            <small style="float:right;"><span style="color:red;">*</span> indicates its mandatory</small>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="name"><span style="color:red;">*</span>Actual Count</label>
+                  <!--<input type="text" class="form-control" id="name" placeholder="Enter Count" [(ngModel)]="ukgmillFormData.count">-->
+                  <select class="form-control" id="ccmonth" [(ngModel)]="ukgmillFormData.count" (change)="loadUkgmillSpeedsAndTms()">
+                    <option value="">-SELECT-</option>
+                    <option *ngFor="let paidCount of paidCountLists; index as i;" value={{paidCountLists[i].ukgcount}}>
+                      {{paidCountLists[i].ukgcount}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div><!--/.row-->
+            <div class="row">
+                <div class="form-group col-sm-12">
+                  <label for="ccmonth"><span style="color:red;">*</span>Yarn Type</label>
+                  <select class="form-control" id="ccmonth" [(ngModel)]="ukgmillFormData.variety" (change)="loadUkgmillSpeedsAndTms()">
+                    <option value="">-SELECT-</option>
+                    <option *ngFor="let varieties of varietyNameList; index as i;" value={{varietyNameList[i].id}}>
+                        {{varietyNameList[i].varietyname}}
+                    </option>
+                  </select>
+                </div>                
+              </div><!--/.row-->
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="name"><span style="color:red;">*</span>Spindle Speed (RPM)</label>                    
+                    <!--<input type="range" class="form-range" min="5000" max="20000" step="10" [(ngModel)]="ukgmillFormData.speed">
+                    <label for="name"><span style="color:red;">(Min: 5000 - Max 20000)</span></label>                    
+                    <input type="text" class="form-control" id="name" placeholder="Enter Speed" disabled [(ngModel)]="ukgmillFormData.speed"> -->
+                    <select class="form-control" id="ccmonth" [(ngModel)]="ukgmillFormData.speed">
+                      <option value="">-SELECT-</option>
+                      <option *ngFor="let paidSpeed of paidSpeeds; index as i;" value={{paidSpeeds[i].speed}}>
+                        {{paidSpeeds[i].speed}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div><!--End Speed-->
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="name"><span style="color:red;">*</span>TM</label>
+                    <!--<input type="range" class="form-range" min="2.0" max="10.0" step="0.1" [(ngModel)]="ukgmillFormData.tm">
+                    <input type="text" class="form-control" id="name" placeholder="Enter TM" [(ngModel)]="ukgmillFormData.tm"> -->
+                    <select class="form-control" id="ccmonth" [(ngModel)]="ukgmillFormData.tm">
+                      <option value="">-SELECT-</option>
+                      <option *ngFor="let paidTm of paidTms; index as i;" value={{paidTms[i].tm}}>
+                        {{paidTms[i].tm}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div><!--End TPI-->
+          </div>
+          <div class="card-footer">
+            <button type="button" (click)="getMillStandardUkgData()" class="btn btn-sm btn-primary">               
+              <i class="fa fa-dot-circle-o"></i> Search
+            </button>
+            <button type="button" (click)="resetFormData()" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+            <div *ngIf="spinnerSitraStd == true" class="spinner-border text-success" role="status" style="float:right;">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <span *ngIf="errorFlag === true" style="color:red;float:right;">{{ errorMessage }}</span>  
+          </div>
+        </div>
+      </div><!--/.col-->
+      <div class="col-sm-8">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header" style="text-align: center;">
+              <strong>Mill's Actual 40s UKG CF - Results</strong>
+              <small></small>
+            </div>
+            <div class="card-body col-sm-12" style="float:left;">              
+                <!-- Start Speed data -->
+                <div class="col-sm-6" style="float:left;">
+                  <div class="card text-white bg-primary" style="text-align: center;">
+                    <div style="font-weight: bold;font-size:1.5em;">Spindle Speed (RPM)</div>
+                    <i class="icon-cursor"></i>                   
+                    <div class="card-body" style="text-align: center;">
+                      <div class="text-value" style="font-weight: bold;font-size:1.5em;">{{ukgmillFormData.speed}}</div>                      
+                    </div> 
+                  </div>
+                </div><!--/.col-->
+                <!-- End Speed data -->
+
+                <!-- Start TM data -->
+                <div class="col-sm-6" style="float:left;">
+                  <div class="card text-white bg-success" style="text-align: center;">
+                    <div style="font-weight: bold;font-size:1.5em;">TM</div>
+                    <i class="icon-layers"></i>                   
+                    <div class="card-body" style="text-align: center;">
+                      <div class="text-value" style="font-weight: bold;font-size:1.5em;">{{ukgmillFormData.tm}}</div>                      
+                    </div> 
+                  </div>
+                </div><!--/.col-->
+                <!-- End TM data -->
+                <!-- Start TPI data -->
+                <div class="col-sm-6" style="float:left;">
+                  <div class="card text-white bg-danger" style="text-align: center;">
+                    <div style="font-weight: bold;font-size:1.5em;">TPI</div>
+                    <i class="icon-graph"></i>                   
+                    <div class="card-body" style="text-align: center;">
+                      <div class="text-value" style="font-weight: bold;font-size:1.5em;">{{sitraUkgFactors.tpi}}</div>                      
+                    </div> 
+                  </div>
+                </div><!--/.col-->
+                <!-- End TPI data --> 
+                <!-- Start TPI data -->
+                <div class="col-sm-6" style="float:left;">
+                  <div class="card text-white bg-pink" style="text-align: center;">
+                    <div style="font-weight: bold;font-size:1.5em;">40s UKG CF</div>
+                    <i class="icon-calculator"></i>                   
+                    <div class="card-body" style="text-align: center;">
+                      <div class="text-value" style="font-weight: bold;font-size:1.5em;">{{sitraUkgFactors.ukgfactor}}</div>                      
+                    </div> 
+                  </div>
+                </div><!--/.col-->
+                <!-- End TPI data -->              
+            </div>
+          </div>
+        </div><!--/.col-->        
+      </div><!--/.col-->
+    </div><!--/.row-->
+    <hr />
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            Previous Transaction(s)
+          </div>
+          <div class="card-body">            
+            <br>
+            <table style="width:100%;" class="table table-responsive-sm table-hover table-outline mb-0">
+              <thead class="thead-light">
+                <tr>
+                  <th style="width:5%;" class="text-center">S.No</th>
+                  <th style="width:15%;">Yarn Count(Ne)</th>
+                  <th style="width:20%;">Yarn Type</th>
+                  <th style="width:15%;">Spindle Speed (RPM)</th>                
+                  <th style="width:15%;">TM</th>
+                  <th style="width:15%;">TPI</th>
+                  <th style="width:15%;">Mill's actual 40's UKG CF</th>                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let transcation of transcationHistory; index as j;">
+                <!--<option *ngFor="let varieties of varietyNameList; index as i;" value={{varietyNameList[i].id}}></option>-->
+                  <td class="text-center">
+                    <div>{{ (j+1) }}</div>
+                  </td>               
+                  <td >
+                    <div>{{transcation.count}}</div>                    
+                  </td>
+                  <td>
+                    <div>{{varietyNames[transcation.variety]}}</div>                    
+                  </td>
+                  <td>
+                    <div>{{transcation.speed}}</div>
+                  </td>
+                  <td>
+                    <div>{{transcation.tm}}</div>
+                  </td>
+                  <td>
+                    <div>{{transcation.tpi}}</div>
+                  </td>
+                  <td>
+                    <div>{{transcation.ukgfactor}}</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div><!--/.col-->
+    </div><!--/ End Table-->
+  </div>

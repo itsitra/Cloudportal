@@ -1,0 +1,743 @@
+<div class="animated fadeIn">
+  <ng-template #addParticipants class="modal modal-xl">
+    <div class="model-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Add Participants</h4>
+        <button
+          style="outline: none; border: none"
+          type="button"
+          class="close pull-right text-white"
+          aria-label="Close"
+          (click)="modalRef.hide()"
+        >
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-2">
+          <div class="col-md">
+            <button
+              class="btn btn-danger pull-right ml-1"
+              (click)="removeRow()"
+            >
+              Remove
+            </button>
+            <button class="btn btn-primary pull-right" (click)="addrow()">
+              Add
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <table class="table table-bordered mx-2">
+            <thead>
+              <tr>
+                <th scope="col">Full Name</th>
+                <!-- <th scope="col">Sample Type</th> -->
+                <th scope="col">Designation</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone No.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of ParticipantsList">
+                <td>
+                  <input
+                    type="text"
+                    [(ngModel)]="item.Participant_Name"
+                    class="form-control"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="item.Participant_Desig"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="item.Participant_Email"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="item.Participant_Mobile"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="modalRef.hide()"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="AddParticipants()"
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #paymentType class="modal">
+    <div class="model-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Select payment Type</h4>
+        <button
+          style="outline: none; border: none"
+          type="button"
+          class="close pull-right text-white"
+          aria-label="Close"
+          (click)="modalRef.hide()"
+        >
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row px-5">
+          <div class="form-group">
+            <label for="totalAmount">Total Amount: </label>
+            <span style="font-weight: bold">&nbsp;{{ Amount }}</span>
+          </div>
+        </div>
+        <div class="row px-5 py-3">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="paymentMode"
+              [value]="1"
+              id="rdoCCcard"
+              [(ngModel)]="paymentMode"
+            />
+            <label class="form-check-label" for="rdoCCcard">
+              Credit Card
+            </label>
+            <div *ngIf="bankCharges.credit_card !== '0'">
+              <small class="text-danger"
+                >({{ bankCharges.credit_card }}% of tax will be charaged on
+                total amount)</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row px-5 py-3">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="paymentMode"
+              [value]="2"
+              id="rdoDRcard"
+              [(ngModel)]="paymentMode"
+            />
+            <label class="form-check-label" for="rdoDRcard">
+              Debit Rupay
+            </label>
+            <div *ngIf="bankCharges.debit_rupay !== '0'">
+              <small class="text-danger"
+                >({{ bankCharges.debit_rupay }}% of tax will be charaged on
+                total amount)</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row px-5 py-3">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="paymentMode"
+              [value]="3"
+              id="rdoDLTcard"
+              [(ngModel)]="paymentMode"
+            />
+            <label class="form-check-label" for="rdoDLTcard">
+              Debit lt 2000
+            </label>
+            <div *ngIf="bankCharges.debit_lt_2000 !== '0'">
+              <small class="text-danger"
+                >({{ bankCharges.debit_lt_2000 }}% of tax will be charaged on
+                total amount)</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row px-5 py-3">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="paymentMode"
+              [value]="4"
+              id="rdoDGTcard"
+              [(ngModel)]="paymentMode"
+            />
+            <label class="form-check-label" for="rdoDGTcard">
+              Debit gt 2000
+            </label>
+            <div *ngIf="bankCharges.debit_gt_2000 !== '0'">
+              <small class="text-danger"
+                >({{ bankCharges.debit_gt_2000 }}% of tax will be charaged on
+                total amount)</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row px-5 py-3">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="paymentMode"
+              [value]="5"
+              id="rdoUPI"
+              [(ngModel)]="paymentMode"
+            />
+            <label class="form-check-label" for="rdoUPI"> UPI </label>
+            <div *ngIf="bankCharges.upi !== '0'">
+              <small class="text-danger"
+                >({{ bankCharges.upi }}% of tax will be charaged on total
+                amount)</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row px-5 py-3">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="paymentMode"
+              [value]="6"
+              id="rdoNetBanking"
+              [(ngModel)]="paymentMode"
+            />
+            <label class="form-check-label" for="rdoNetBanking">
+              NetBanking
+            </label>
+            <div *ngIf="bankCharges.nb !== '0'">
+              <small class="text-danger"
+                >({{ bankCharges.nb }}% of tax will be charaged on total
+                amount)</small
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="modalRef.hide()"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="paymentTypeSelection(Amount)"
+        >
+          Proceed To Pay
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  <div class="row">
+    <a
+      href="http://sitraonline.org.in/onlineserviceapi/download/Webinarmenu.pdf"
+      target="_blank"
+      style="width: 100%; text-align: right; margin-right: 10px"
+      title="Help Link Pdf"
+      download
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        style="width: 30px; height: 30px"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+          clip-rule="evenodd"
+        /></svg
+    ></a>
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <label for="ccmonth"
+            ><span style="color: red">*</span>Select Webinar</label
+          >
+          <select
+            class="form-control"
+            id="ccmonth"
+            [(ngModel)]="formData.id"
+            (change)="loadWebinarDetails()"
+          >
+            <option value="">-SELECT-</option>
+            <option
+              *ngFor="let varieties of webinarList; index as i"
+              value="{{ webinarList[i].id }}"
+            >
+              {{ webinarList[i].title }}
+            </option>
+          </select>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label
+                for="ccmonth"
+                style="
+                  width: 100%;
+                  font-weight: bold;
+                  text-decoration: underline;
+                "
+              >
+                Webinar Title
+              </label>
+              <label for="ccmonth" style="width: 100%">
+                <img
+                  *ngIf="fieldLoader === true"
+                  src="assets/img/others/loader-1.gif"
+                />
+                {{ formData.title }}
+              </label>
+            </div>
+            <div class="form-group col-sm-2">
+              <label
+                for="ccmonth"
+                style="
+                  width: 100%;
+                  font-weight: bold;
+                  text-decoration: underline;
+                "
+              >
+                Date
+              </label>
+              <label for="ccmonth" style="width: 100%">
+                <img
+                  *ngIf="fieldLoader === true"
+                  src="assets/img/others/loader-1.gif"
+                />
+                {{ formData.webinar_date }}
+              </label>
+            </div>
+            <div class="form-group col-sm-2">
+              <label
+                for="ccmonth"
+                style="
+                  width: 100%;
+                  font-weight: bold;
+                  text-decoration: underline;
+                "
+              >
+                Amount/person
+              </label>
+              <label for="ccmonth" style="width: 100%">
+                <img
+                  *ngIf="fieldLoader === true"
+                  src="assets/img/others/loader-1.gif"
+                />
+                Rs. {{ formData.amount }}
+              </label>
+            </div>
+            <div class="form-group col-sm-2">
+              <label
+                for="ccmonth"
+                style="
+                  width: 100%;
+                  font-weight: bold;
+                  text-decoration: underline;
+                "
+              >
+                Venue
+              </label>
+              <label for="ccmonth" style="width: 100%">
+                <img
+                  *ngIf="fieldLoader === true"
+                  src="assets/img/others/loader-1.gif"
+                />
+                {{ formData.venue }}
+              </label>
+            </div>
+            <div class="form-group col-sm-6">
+              <label
+                for="ccmonth"
+                style="
+                  width: 100%;
+                  font-weight: bold;
+                  text-decoration: underline;
+                "
+              >
+                Description
+              </label>
+              <label for="ccmonth" style="width: 100%">
+                <img
+                  *ngIf="fieldLoader === true"
+                  src="assets/img/others/loader-1.gif"
+                />
+                {{ formData.description }}
+              </label>
+            </div>
+            <div class="form-group col-sm-2">
+              <label
+                for="ccmonth"
+                style="
+                  width: 100%;
+                  font-weight: bold;
+                  text-decoration: underline;
+                "
+              >
+                Reg. Start Date
+              </label>
+              <label for="ccmonth" style="width: 100%">
+                <img
+                  *ngIf="fieldLoader === true"
+                  src="assets/img/others/loader-1.gif"
+                />
+                {{ formData.registration_start }}
+              </label>
+            </div>
+            <div class="form-group col-sm-2">
+              <label
+                for="ccmonth"
+                style="
+                  width: 100%;
+                  font-weight: bold;
+                  text-decoration: underline;
+                "
+              >
+                Reg. Close Date
+              </label>
+              <label for="ccmonth" style="width: 100%">
+                <img
+                  *ngIf="fieldLoader === true"
+                  src="assets/img/others/loader-1.gif"
+                />
+                {{ formData.registration_end }}
+              </label>
+            </div>
+            <div
+              class="form-group col-sm-2"
+              *ngIf="formData.document_url !== ''"
+            >
+              <button
+                type="button"
+                style="font-size: 1em"
+                class="btn btn-sm btn-primary"
+              >
+                <i class="icon-cloud-download"></i> Download Brochure
+              </button>
+            </div>
+            <div class="form-group col-sm-12" style="float: right">
+              <button
+                (click)="paymentOptionOpen(paymentType, formData.amount)"
+                type="button"
+                style="float: right; margin-right: 10px"
+                class="btn btn-success"
+              >
+                <i class="fa fa-credit-card"></i> Pay Now
+              </button>
+              <button
+                *ngIf="formData.id != ''"
+                (click)="getPaeticipants(addParticipants)"
+                class="btn btn-primary"
+                style="float: right; margin-right: 10px"
+              >
+                <i class="fa fa-user-plus"></i>Add Participants
+              </button>
+            </div>
+
+            <div class="form-group col-sm-12">
+              <img
+                *ngIf="paymentLoader === true"
+                src="assets/img/others/loader-1.gif"
+              />
+              <span
+                *ngIf="errorMessage !== ''"
+                style="color: red; float: left"
+                >{{ errorMessage }}</span
+              >
+            </div>
+          </div>
+          <!--/.row-->
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <span class="col-md-3">Previous Transactions</span>
+        </div>
+        <div class="card-body">
+          <div *ngIf="searchText == ''" style="width: 10%; float: left">
+            <select
+              (change)="changeDisplayCount()"
+              class="form-control"
+              [(ngModel)]="apiParams.tablerowlimit"
+            >
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="form-group" style="float: right; width: 30%">
+            <input
+              (keyup)="getData()"
+              [(ngModel)]="searchText"
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Search Order Id / Bank Reference no"
+            />
+          </div>
+          <br />
+          <nav
+            style="width: 100%; float: left"
+            *ngIf="searchText == ''"
+            aria-label="Page navigation example"
+          >
+            <div style="float: left">
+              <span style="color: #212529; font-weight: bold"
+                >Page {{ pagenationConfiguration.currentPageNo }} of
+                {{ pageCount }}</span
+              >
+            </div>
+            <ul class="pagination justify-content-center">
+              <li
+                *ngIf="this.pagenationConfiguration.currentPageNo != 1"
+                style="cursor: pointer"
+                class="page-item"
+              >
+                <span class="page-link" (click)="pagenationEvent(3, 0)"
+                  >Previous</span
+                >
+              </li>
+              <li
+                *ngIf="this.pagenationConfiguration.currentPageNo == 1"
+                style="cursor: pointer"
+                class="page-item disabled"
+              >
+                <span class="page-link" (click)="pagenationEvent(3, 0)"
+                  >Previous</span
+                >
+              </li>
+              <li
+                style="cursor: pointer"
+                *ngFor="
+                  let pageno of pagenationConfiguration.pageNos;
+                  let i = index
+                "
+                class="page-item"
+                (click)="pagenationEvent(1, pageno)"
+              >
+                <span
+                  *ngIf="pageno == pagenationConfiguration.currentPageNo"
+                  style="color: white"
+                  class="page-link page-link-active"
+                  (click)="pagenationEvent('1', pageno)"
+                >
+                  {{ pageno }}
+                </span>
+                <span
+                  *ngIf="
+                    pageno != pagenationConfiguration.currentPageNo &&
+                    pageno != undefined
+                  "
+                  class="page-link"
+                  (click)="pagenationEvent('1', pageno)"
+                >
+                  {{ pageno }}
+                </span>
+              </li>
+              <li
+                *ngIf="pageCount != pagenationConfiguration.currentPageNo"
+                class="page-item"
+                style="cursor: pointer"
+              >
+                <span class="page-link" (click)="pagenationEvent(2, 0)"
+                  >Next</span
+                >
+              </li>
+              <li
+                *ngIf="pageCount == pagenationConfiguration.currentPageNo"
+                class="page-item disabled"
+                style="cursor: pointer"
+              >
+                <span class="page-link" (click)="pagenationEvent(2, 0)"
+                  >Next</span
+                >
+              </li>
+            </ul>
+          </nav>
+          <div *ngIf="spinnerFlag === true" class="spinner"></div>
+          <table
+            style="width: 100%"
+            class="table table-responsive-sm table-hover table-outline mb-0"
+          >
+            <thead class="thead-light">
+              <tr>
+                <th style="width: 5%">S.No</th>
+                <th style="width: 15%">Webinar Date</th>
+                <th style="width: 25%">Title</th>
+                <th style="width: 10%">Amount</th>
+                <th style="width: 15%">Reg. Cl. Date</th>
+                <th style="width: 10%">Reg.Status</th>
+                <th style="width: 15%">Payment. Status</th>
+                <th style="width: 5%" colspan="3">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let webinar of webinars; index as j">
+                <td>
+                  <div>{{ j + 1 }}</div>
+                </td>
+                <td>
+                  <div>{{ webinar.webinar_date }}</div>
+                </td>
+                <td>
+                  <div>{{ webinar.title }}</div>
+                </td>
+                <td>
+                  <div>{{ webinar.amount }}</div>
+                </td>
+                <td>
+                  <div>{{ webinar.registration_end }}</div>
+                </td>
+                <td>
+                  <div
+                    *ngIf="webinar.reg_status === '1'"
+                    style="color: green; font-weight: bold"
+                  >
+                    Open
+                  </div>
+                  <div *ngIf="webinar.reg_status === '0'" style="color: red">
+                    Closed
+                  </div>
+                </td>
+                <td>
+                  <div
+                    *ngIf="webinar.payment_status === 'Success'"
+                    style="color: green; font-weight: bold"
+                  >
+                    Success
+                  </div>
+                  <div
+                    *ngIf="webinar.payment_status !== 'Success'"
+                    style="color: red"
+                  >
+                    Failed
+                  </div>
+                </td>
+                <td>
+                  <div style="float: left">
+                    <i
+                      class="icon-cloud-download"
+                      style="font-size: 1.3em; cursor: pointer"
+                      title="Download Brochure"
+                    ></i>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <hr />
+          <nav *ngIf="searchText == ''" aria-label="Page navigation example">
+            <div style="float: left">
+              <span style="color: #212529; font-weight: bold"
+                >Page {{ pagenationConfiguration.currentPageNo }} of
+                {{ pageCount }}</span
+              >
+            </div>
+            <ul class="pagination justify-content-center">
+              <li
+                *ngIf="this.pagenationConfiguration.currentPageNo != 1"
+                style="cursor: pointer"
+                class="page-item"
+              >
+                <span class="page-link" (click)="pagenationEvent(3, 0)"
+                  >Previous</span
+                >
+              </li>
+              <li
+                *ngIf="this.pagenationConfiguration.currentPageNo == 1"
+                style="cursor: pointer"
+                class="page-item disabled"
+              >
+                <span class="page-link" (click)="pagenationEvent(3, 0)"
+                  >Previous</span
+                >
+              </li>
+              <li
+                style="cursor: pointer"
+                *ngFor="
+                  let pageno of pagenationConfiguration.pageNos;
+                  let i = index
+                "
+                class="page-item"
+                (click)="pagenationEvent(1, pageno)"
+              >
+                <span
+                  *ngIf="pageno == pagenationConfiguration.currentPageNo"
+                  style="color: white"
+                  class="page-link page-link-active"
+                  (click)="pagenationEvent('1', pageno)"
+                >
+                  {{ pageno }}
+                </span>
+                <span
+                  *ngIf="
+                    pageno != pagenationConfiguration.currentPageNo &&
+                    pageno != undefined
+                  "
+                  class="page-link"
+                  (click)="pagenationEvent('1', pageno)"
+                >
+                  {{ pageno }}
+                </span>
+              </li>
+              <li
+                *ngIf="pageCount != pagenationConfiguration.currentPageNo"
+                class="page-item"
+                style="cursor: pointer"
+              >
+                <span class="page-link" (click)="pagenationEvent(2, 0)"
+                  >Next</span
+                >
+              </li>
+              <li
+                *ngIf="pageCount == pagenationConfiguration.currentPageNo"
+                class="page-item disabled"
+                style="cursor: pointer"
+              >
+                <span class="page-link" (click)="pagenationEvent(2, 0)"
+                  >Next</span
+                >
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/ End Table-->
+</div>

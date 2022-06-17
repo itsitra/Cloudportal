@@ -1,0 +1,15 @@
+table#Add-test-table thead,table#Add-test-table tbody { display: block; }
+
+table#Add-test-table tbody {
+    height: 50%;
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
+}
+
+.table.frequentTestList {
+    border: 1px solid rgb(192, 191, 191);
+}
+
+.row.section-list:hover{
+    background-color: #E4E7EA;
+}

@@ -1,0 +1,132 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-sm-12">
+        <div style="float:right;width:100%;">
+          <span style="float: right;font-weight: bold;">For queries contact, engg@sitra.org.in, mmk@sitra.org.in 0422-4215344, 374</span>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <label for="name"><span style="color:red;">*</span>Payment for</label>            
+            <select class="form-control col-sm-4" [(ngModel)]="ukgFormData.paytype" >
+                <option value="1">SITRA'S STANDARD 40s UKG CF</option>
+                <option value="2">40s UKG CF Adjusted to Mill Parameters</option>
+            </select>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="name"><span style="color:red;">*</span>Actual Count (Ne)</label>
+                  <input type="text" class="form-control" id="name" placeholder="Enter Count" (change)="validateCountRate()" [(ngModel)]="ukgFormData.count">
+                  <span style="font-size:11px;color:red;">*valid count Range : 10 - 120</span>
+                </div>
+              </div>
+                <div class="form-group col-sm-4">
+                    <label for="ccmonth"><span style="color:red;">*</span>Yarn Type</label>
+                    <select class="form-control" id="ccmonth" [(ngModel)]="ukgFormData.variety">
+                    <option value="">-SELECT-</option>
+                    <option *ngFor="let varieties of varietyNameList; index as i;" value={{varietyNameList[i].id}}>
+                        {{varietyNameList[i].varietyname}}
+                    </option>
+                    </select>
+                </div>
+                <div *ngIf="ukgFormData.paytype == '2'" class="col-sm-3">
+                    <div class="form-group">
+                      <label for="name"><span style="color:red;">*</span>Avg. Spindle Speed (RPM)</label>                    
+                      <!--<input type="range" class="form-range" min="5000" max="25000" step="10" [(ngModel)]="ukgFormData.speed">-->
+                      <input type="text" class="form-control" id="name" (change)="validateSpindleSpeed()" placeholder="Enter Speed" [(ngModel)]="ukgFormData.speed">
+                      <label for="name"><span style="color:red;">(Min: 5000 - Max 25000)</span></label>                    
+                    </div>
+                </div>                
+                <div *ngIf="ukgFormData.paytype == '2'" class="col-sm-2">
+                    <div class="form-group">
+                      <label for="name"><span style="color:red;">*</span>TM</label>
+                      <!--<input type="range" class="form-range" min="2.0" max="10.0" step="0.1" [(ngModel)]="ukgFormData.tm">-->
+                      <input type="text" appOnlynumber class="form-control" id="name" (change)="validateTm()" placeholder="Enter TM" [(ngModel)]="ukgFormData.tm">
+                      <label for="name"><span style="color:red;">(Min: 2 - Max 10)</span></label>                    
+                    </div>
+                </div>
+                <div class="form-group col-sm-2">
+                    <div style="margin-top:30px;">
+                        <button type="button" style="font-size:1em;" (click)="addNewRecord1()"  class="btn btn-sm btn-primary">               
+                            <i class="fa fa-dot-circle-o"></i> Add
+                        </button>
+                        <button type="button" style="font-size:1em;" (click)="resetFormData()" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                        <div *ngIf="spinnerSitraStd == true" class="spinner-border text-success" role="status" style="float:right;">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <span *ngIf="errorFlag === true" style="color:red;float:right;">No Record found</span> 
+                    </div>
+                </div>
+                <div class="form-group col-sm-12">
+                    <span *ngIf="errorMessage !== '' " style="color:red;float:left;">{{ errorMessage }}</span> 
+                </div>
+              </div><!--/.row-->
+          </div>
+        </div>
+      </div><!--/.col-->
+    </div><!--/.row-->
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+                <span class="col-md-3">Pending Transaction(s)</span>
+                <span class="col-md-3" style="font-weight:bold;">No of Count selected : {{ noofSelectedCount }}</span>
+                <span class="col-md-3" style="font-weight:bold;">Total amount to Pay : {{ totalAmountToPay }}</span>
+                <!--<a  *ngIf="SessionCustomerId > 0 && totalAmountToPay > 0"  style="float:right;font-size:1.2em;" href="httP://192.168.1.7:82/hdfcpg/?customerid={{encryptedCustomerId}}">-->
+                  <button (click)="doPayNow()" type="button" style="font-size:1.2em;"  class="btn btn-sm btn-primary">               
+                    <i class="fa fa-dot-circle-o"></i> Pay Now
+                  </button>
+                  <!--<span>Customer Id : {{ SessionCustomerId }}</span>-->
+                <!--</a>-->
+                <!--<button style="float:right;font-size:1.2em;" type="button" (click)="doPayNow()" class="btn btn-sm btn-success"><i class="fa fa-ban"></i> Paynow</button>-->
+            </div>
+            <div class="card-body">                          
+              <table style="width:100%;" class="table table-responsive-sm table-hover table-outline mb-0">
+                <thead class="thead-light">
+                  <tr>
+                    <th style="width:5%;" class="text-center">S.No</th>
+                    <th style="width:15%;">Type</th>
+                    <th style="width:15%;">Yarn Count(Ne)</th>
+                    <th style="width:25%;">Yarn Type</th>
+                    <th style="width:15%;">Spindle Speed (RPM)</th>                
+                    <th style="width:15%;">TM</th>
+                    <th style="width:5%;">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let transcation of transcationHistory; index as j;">
+                  <!--<option *ngFor="let varieties of varietyNameList; index as i;" value={{varietyNameList[i].id}}></option>-->
+                    <td class="text-center">
+                      <div>{{ (j+1) }}</div>
+                    </td>               
+                    <td *ngIf="transcation.paytype === '1'" >
+                      <div>SITRA's Std. UKG CF</div>                    
+                    </td>
+                    <td *ngIf="transcation.paytype === '2'" >
+                      <div>Mill Adjusted 40s UKG CF</div>                    
+                    </td>
+                    <td >
+                        <div>{{transcation.count}}</div>                    
+                      </td>
+                    <td>
+                      <div>{{varietyNames[transcation.variety]}}</div>                    
+                    </td>
+                    <td>
+                      <div>{{transcation.speed}}</div>
+                    </td>
+                    <td>
+                      <div>{{transcation.tm}}</div>
+                    </td>
+                     
+                    <td>
+                      <div><i (click)="removeDataRow(j)" class="icon-trash" style="font-size:1.3em;color:#F64846;cursor:pointer;"></i>   </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div><!--/.col-->
+      </div><!--/ End Table-->
+</div>

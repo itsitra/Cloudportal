@@ -1,0 +1,21 @@
+ <div style="width:100%;float:left;background-color: #E4E5E6;">
+    <div style="width:80%;float:left;">
+        <ul style="width:40%;float:left;">
+            <li><a (click)="changeTabIndex(1)" [ngClass]="{'active': tabIndex === 1 }" href="#inwardview/{{SessionInwardno}}">Inward Details</a></li>
+            <li><a (click)="changeTabIndex(2)" [ngClass]="{'active': tabIndex === 2 }" href="#inwardview/{{SessionInwardno}}">Sample(s) & Test Result</a></li>
+        </ul>
+        
+    </div>
+    
+    
+</div>
+<div *ngIf="loaderFlag === true" class="spinner"></div>
+<div style="width:100%;float:left;height:89vh;">
+    <app-inwardviewinwarddetails *ngIf="tabIndex === 1"></app-inwardviewinwarddetails>  
+    <app-inwardviewsampletests *ngIf="tabIndex === 2"></app-inwardviewsampletests>  
+    <!-- <app-inwardview-inwarddetails *ngIf="tabIndex === 1"></app-inwardview-inwarddetails>
+    <app-inwardview-sampletests *ngIf="tabIndex === 2"></app-inwardview-sampletests> -->
+</div>
+<!-- <div style="width:100%;float:left;height:3vh;background-color: #0ba360;">
+    Footer
+</div> -->

@@ -1,0 +1,1416 @@
+<style>
+  .sidebar .nav-title {
+    font-size: 100%;
+  }
+</style>
+<div class="animated fadeIn">
+  <div class="row">
+    <!-- <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-info">
+        <div class="card-body pb-0">
+          <button type="button" class="btn btn-transparent p-0 float-right">
+            <i class="fa fa-money" style="font-size: 2.5em;"></i>
+          </button>
+          <div class="text-value">{{dashboardPaymentsData.total_amount}}</div>
+          <div>My Payments</div>
+        </div>
+        <div class="chart-wrapper mt-3 mx-3" style="height:75px;">
+          <canvas baseChart class="chart" [datasets]="lineChart2Data" [labels]="lineChart2Labels"
+            [options]="lineChart2Options" [colors]="lineChart2Colours" [legend]="lineChart2Legend"
+            [chartType]="lineChart2Type"></canvas>
+        </div>
+      </div>
+    </div> -->
+    <!--/.col-->
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-info">
+        <div class="card-body pb-0">
+          <div class="text-value" style="font-size: medium">
+            Account Balance
+          </div>
+        </div>
+        <div
+          class="chart-wrapper mt-3"
+          style="height: 100%; width: 100%; display: flex; flex-wrap: wrap"
+        >
+          <div style="width: 50%">
+            <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.1em;
+              "
+              >In-Progress</span
+            >
+            <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.2em;
+                font-weight: bold;
+              "
+            >
+              {{
+                this.PaymentDetails.length > 0
+                  ? roundValue(AdvanceAmount[0].amount)
+                  : 0
+              }}
+            </span>
+          </div>
+          <div style="width: 50%">
+            <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.1em;
+              "
+              >Pending</span
+            >
+            <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.2em;
+                font-weight: bold;
+              "
+            >
+              {{
+                this.PaymentDetails.length > 0
+                  ? roundValue(PendingAmount[0].amount)
+                  : 0
+              }}
+            </span>
+          </div>
+          <div style="width: 50%">
+            <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.1em;
+              "
+              >Advance</span
+            >
+            <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.2em;
+                font-weight: bold;
+              "
+            >
+              {{
+                this.PaymentDetails.length > 0
+                  ? roundValue(AdvanceAmount[0].amount)
+                  : 0
+              }}
+            </span>
+          </div>
+          <div style="width: 50%">
+            <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.1em;
+              "
+              >Credit Limit</span
+            >
+            <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.1em;
+                font-weight: bold;
+              "
+            >
+              {{ roundValue(credLimit) }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+    <!-- <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-warning">
+        <div class="card-body pb-0">
+          <div class="btn-group float-right" dropdown>
+            <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+              <i class="icon-settings"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+              <a class="dropdown-item" href="#/ukgpayment">Select Count</a>
+              <a class="dropdown-item" href="#/mypayments/1">Download UKG</a>
+            </div>
+          </div>
+          <div class="text-value">{{dashboardCountData.total_count}} <span style="font-size: 0.8em;">count(s)
+              selected</span></div>
+          <div>UKG Convertion Factor(s)</div>
+        </div>
+        <div class="chart-wrapper mt-3" style="height:75px;">
+          <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
+            [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
+            [chartType]="barChart1Type"></canvas>
+        </div>
+      </div>
+    </div> -->
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-danger">
+        <div class="card-body pb-0">
+          <div class="yext-value">
+            <h4 style="font-size: medium">SITRA Publications:</h4>
+          </div>
+          <!-- <div class="m-4" style="height: 70px">
+            <span style="font-size: 1.1em">Publications By Sitra:</span>
+            <span style="font-size: 1.1em; font-weight: bold">{{
+              credLimit
+            }}</span>
+          </div> -->
+        </div>
+        <div
+          class="chart-wrapper p-2 ml-2"
+          style="
+            height: 120px;
+            float: left;
+            width: 100%;
+            display: flex;
+            gap: 20px;
+          "
+        >
+          <div style="border: #1095c5 1px solid; width: 25%">
+            <!-- <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.1em;
+              "
+              >Advance</span
+            >
+            <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.7em;
+                font-weight: bold;
+              "
+            >
+              {{ this.PaymentDetails.length > 0 ? AdvanceAmount[0].amount : 0 }}
+            </span> -->
+            <img
+              style="height: 100%"
+              src="{{ newUpdate.imgaUrl }}"
+              alt="Sitra publications"
+              srcset=""
+            />
+          </div>
+          <div style="width: 50%">
+            <span
+              style="
+                width: 100%;
+                text-align: center;
+                font-size: 1.1em;
+                font-size: small;
+              "
+            >
+              <a
+                href="{{ newUpdate.link }}"
+                target="_blank"
+                style="text-decoration: none; color: white"
+              >
+                {{ newUpdate.title }}</a
+              >
+            </span>
+            <br />
+            <!-- <span
+              style="
+                width: 20%;
+                text-align: center;
+
+                font-size: smaller;
+              "
+            >
+              SITRA is pleased to release this long awaited eighth edition of a
+              substantially revised ‘Norms for Spinning Mills’. Since its
+              publication in 1975, this publication has been in continuous
+              demand. It has been a leading textile publication in India with
+              over 50,000 copies being sold, and this speaks eloquently of the
+              immense popularity of the publication.
+            </span> -->
+            <!-- <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.1em;
+              "
+              >Available Limit</span
+            >
+            <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.7em;
+                font-weight: bold;
+              "
+            >
+              {{ credLimit }}
+            </span> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-warning">
+        <div class="card-body pb-0">
+          <div
+            class="input-group mb-3"
+            style="margin-top: -10px; width: 70%; float: left"
+          >
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="background-color: #74c5e0"
+                ><i class="fa fa-search" style="color: white"></i
+              ></span>
+            </div>
+            <input
+              [(ngModel)]="dashboardInwardDetails.inwardno"
+              style="background-color: white; color: black"
+              type="text"
+              class="form-control"
+              placeholder="Inwardno"
+              (keyup.enter)="getInwardDetail()"
+            />
+            <span style="width: 100%; font-size: 0.8em"
+              >Your latest Inwardno
+            </span>
+          </div>
+          <div
+            style="margin-top: -10px; width: 20%; float: left"
+            class="btn-group float-right"
+            dropdown
+          >
+            <div
+              *ngIf="loaderFlag == true"
+              class="spinner-border text-info"
+              role="status"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+            <!-- <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+              <i class="icon-settings"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+              <span class="dropdown-item" style="cursor: pointer;" (click)="gotoInwardViewPage()">View Result</span>
+              <span class="dropdown-item" style="cursor: pointer;">View Invoice</span>
+            </div> -->
+          </div>
+          <!-- <div class="text-value">
+            <div class="input-group mb-3" >
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-pencil"></i></span>
+              </div>
+              <input  type="text" name="inwardno" class="form-control" placeholder="Inwardno" autocomplete="username" required>
+            </div>
+          </div> -->
+          <!-- <div style="width:100%;float: left;">Latest Inward Status</div> -->
+        </div>
+        <div class="chart-wrapper mt-3 mx-3" style="height: 70px">
+          <diV style="width: 100%; float: left">
+            <span style="font-weight: bold; color: white">
+              Status : {{ dashboardInwardDetails.inwardstatus_string }}
+            </span>
+          </diV>
+          <diV style="width: 100%; float: left"> &nbsp; </diV>
+          <!-- <diV style="width: 100%;float:left;;">
+            <div style="width:25%;float:left;font-size: 0.8em;">Pending</div>
+            <div style="width:25%;float:left;font-size: 0.8em;">In-Progress</div>
+            <div style="width:25%;float:left;font-size: 0.8em;">Test Completed</div>
+            <div style="width:25%;float:left;font-size: 0.8em;">Invoiced</div>
+          </diV> -->
+
+          <!-- Start  Received / Pending State -->
+          <div
+            *ngIf="
+              dashboardInwardDetails.inwardstatus === 'R' ||
+              dashboardInwardDetails.inwardstatus === 'P'
+            "
+            style="width: 100%; float: left"
+          >
+            <div
+              style="width: 25%; float: left"
+              title="Received / Pending / Inwarded"
+            >
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: #ffc107;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                >
+                  <i class="icon-briefcase"></i>
+                </div>
+                <div style="width: 65%; float: left">
+                  <img
+                    src="assets/img/others/white-line.jpg"
+                    style="width: 100%; margin-top: -5px"
+                  />
+                </div>
+              </div>
+            </div>
+            <div style="width: 25%; float: left" title="In-Progress">
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: #bbbbbb;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                ></div>
+                <div style="width: 65%; float: left">
+                  <img
+                    src="assets/img/others/white-line.jpg"
+                    style="width: 100%; margin-top: -5px"
+                  />
+                </div>
+              </div>
+            </div>
+            <div style="width: 25%; float: left" title="Test Completed">
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: #bbbbbb;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                ></div>
+                <div style="width: 65%; float: left">
+                  <img
+                    src="assets/img/others/white-line.jpg"
+                    style="width: 100%; margin-top: -5px"
+                  />
+                </div>
+              </div>
+            </div>
+            <div style="width: 25%; float: left" title="Invoice Completed">
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: #bbbbbb;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                ></div>
+                <div style="width: 65%; float: left">
+                  <!-- <img src="assets/img/others/gray-line.jpg" style="width:100%;margin-top:-5px;" /> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End  Received / Pending State -->
+
+          <!-- Start  In progress State -->
+          <div
+            *ngIf="dashboardInwardDetails.inwardstatus === 'I'"
+            style="width: 100%; float: left"
+          >
+            <div
+              style="width: 25%; float: left"
+              title="Received / Pending / Inwarded"
+            >
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: green;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                >
+                  <i class="icon-check"></i>
+                </div>
+                <div style="width: 65%; float: left">
+                  <img
+                    src="assets/img/others/white-line.jpg"
+                    style="width: 100%; margin-top: -5px"
+                  />
+                </div>
+              </div>
+            </div>
+            <div style="width: 25%; float: left" title="In-Progress">
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: #ffc107;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                >
+                  <i class="icon-briefcase"></i>
+                </div>
+                <div style="width: 65%; float: left">
+                  <img
+                    src="assets/img/others/white-line.jpg"
+                    style="width: 100%; margin-top: -5px"
+                  />
+                </div>
+              </div>
+            </div>
+            <div style="width: 25%; float: left" title="Test Completed">
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: #bbbbbb;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                ></div>
+                <div style="width: 65%; float: left">
+                  <img
+                    src="assets/img/others/white-line.jpg"
+                    style="width: 100%; margin-top: -5px"
+                  />
+                </div>
+              </div>
+            </div>
+            <div style="width: 25%; float: left" title="Invoice Completed">
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: #bbbbbb;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                ></div>
+                <div style="width: 65%; float: left">
+                  <!-- <img src="assets/img/others/gray-line.jpg" style="width:100%;margin-top:-5px;" /> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End  In progress State -->
+          <!-- Start  Completed State -->
+          <div
+            *ngIf="
+              dashboardInwardDetails.inwardstatus === 'C' &&
+              dashboardInwardDetails.invoiceno === ''
+            "
+            style="width: 100%; float: left"
+          >
+            <div
+              style="width: 25%; float: left"
+              title="Received / Pending / Inwarded"
+            >
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: green;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                >
+                  <i class="icon-check"></i>
+                </div>
+                <div style="width: 65%; float: left">
+                  <img
+                    src="assets/img/others/white-line.jpg"
+                    style="width: 100%; margin-top: -5px"
+                  />
+                </div>
+              </div>
+            </div>
+            <div style="width: 25%; float: left" title="In-Progress">
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: green;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                >
+                  <i class="icon-check"></i>
+                </div>
+                <div style="width: 65%; float: left">
+                  <img
+                    src="assets/img/others/white-line.jpg"
+                    style="width: 100%; margin-top: -5px"
+                  />
+                </div>
+              </div>
+            </div>
+            <div style="width: 25%; float: left" title="Test Completed">
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: #ffc107;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                >
+                  <i class="icon-briefcase"></i>
+                </div>
+                <div style="width: 65%; float: left">
+                  <img
+                    src="assets/img/others/white-line.jpg"
+                    style="width: 100%; margin-top: -5px"
+                  />
+                </div>
+              </div>
+            </div>
+            <div style="width: 25%; float: left" title="Invoice Completed">
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: #bbbbbb;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                ></div>
+                <div style="width: 65%; float: left">
+                  <!-- <img src="assets/img/others/gray-line.jpg" style="width:100%;margin-top:-5px;" /> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End   Completed State -->
+
+          <!-- Start  Invoiced State -->
+          <div
+            *ngIf="
+              dashboardInwardDetails.inwardstatus === 'C' &&
+              dashboardInwardDetails.invoiceno !== ''
+            "
+            style="width: 100%; float: left"
+          >
+            <div
+              style="width: 25%; float: left"
+              title="Received / Pending / Inwarded"
+            >
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: green;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                >
+                  <i class="icon-check"></i>
+                </div>
+                <div style="width: 65%; float: left">
+                  <img
+                    src="assets/img/others/white-line.jpg"
+                    style="width: 100%; margin-top: -5px"
+                  />
+                </div>
+              </div>
+            </div>
+            <div style="width: 25%; float: left" title="In-Progress">
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: green;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                >
+                  <i class="icon-check"></i>
+                </div>
+                <div style="width: 65%; float: left">
+                  <img
+                    src="assets/img/others/white-line.jpg"
+                    style="width: 100%; margin-top: -5px"
+                  />
+                </div>
+              </div>
+            </div>
+            <div style="width: 25%; float: left" title="Test Completed">
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: green;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                >
+                  <i class="icon-check"></i>
+                </div>
+                <div style="width: 65%; float: left">
+                  <img
+                    src="assets/img/others/white-line.jpg"
+                    style="width: 100%; margin-top: -5px"
+                  />
+                </div>
+              </div>
+            </div>
+            <div style="width: 25%; float: left" title="Invoice Completed">
+              <div style="width: 100%; float: left">
+                <div
+                  style="
+                    float: left;
+                    border-radius: 50%;
+                    background-color: green;
+                    height: 20px;
+                    width: 35%;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                  "
+                >
+                  <i class="icon-check"></i>
+                </div>
+                <div style="width: 65%; float: left">
+                  <!-- <img src="assets/img/others/gray-line.jpg" style="width:100%;margin-top:-5px;" /> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End   Invoiced State -->
+
+          <!-- <canvas baseChart class="chart"
+                  [datasets]="lineChart1Data"
+                  [labels]="lineChart1Labels"
+                  [options]="lineChart1Options"
+                  [colors]="lineChart1Colours"
+                  [legend]="lineChart1Legend"
+                  [chartType]="lineChart1Type"></canvas> -->
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-success">
+        <div class="card-body pb-0">
+          <!-- <div class="btn-group float-right" dropdown>
+            <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+              <i class="icon-settings"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </div> -->
+          <div class="text-value" style="font-size: medium">
+            Major Tests and Services at Sitra
+          </div>
+        </div>
+        <div class="chart-wrapper" style="height: 100px; width: 100%">
+          <div
+            style="
+              height: 95px;
+              overflow-y: scroll;
+              padding: 5px;
+              scrollbar-color: white green;
+            "
+          >
+            <ol>
+              <li>HVI Test</li>
+              <li>Yarn Unevenness Test</li>
+              <li>Fabric Tensile Test</li>
+              <li>Techno-economic viability study</li>
+              <li>Scientific work assignment study</li>
+              <li>Cost reduction study</li>
+              <li>Raw material Analysis</li>
+              <li>Purity of Chemical</li>
+              <li>Water Test</li>
+              <li>Healthcare, Hygiene and Non-Implantable Products Tests</li>
+              <li>Fabric Defect Analysis</li>
+            </ol>
+
+            <!-- <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.1em;
+              "
+              >No of Tests</span
+            >
+            <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.7em;
+                font-weight: bold;
+              "
+              >{{ dashboardSitraTestingFacilities.testcount }}</span
+            > -->
+          </div>
+          <!-- <div style="width: 50%; float: left">
+            <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.1em;
+              "
+              >Standards</span
+            >
+            <span
+              style="
+                width: 100%;
+                text-align: center;
+                float: left;
+                font-size: 1.7em;
+                font-weight: bold;
+              "
+              >{{ dashboardSitraTestingFacilities.standards }}</span
+            >
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+  <!-- <div class="row">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-success">
+        <div class="card-body">
+          <div class="text-value">
+            Payments Details
+          </div>
+          <div class="row pt-4">
+            <div class="col" style="border-right: 2px solid white;">
+              <span style="width: 100%;text-align: center;float: left;font-size: 1.1em;">Advance</span>
+              <span
+                style="width: 100%;text-align: center;float: left;font-size: 1.7em;font-weight: bold;">
+                {{this.PaymentDetails.length > 0 ? AdvanceAmount[0].amount:0}}
+              </span>
+            </div>
+            <div class="col">
+              <span style="width: 100%;text-align: center;float: left;font-size: 1.1em;">Pending</span>
+              <span
+                style="width: 100%;text-align: center;float: left;font-size: 1.7em;font-weight: bold;">
+                {{this.PaymentDetails.length > 0? PendingAmount[0].amount:0}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card" style="border: 1px solid #c8c8c9">
+        <div
+          class="card-header"
+          style="background-color: #c8c8c9; color: black"
+        >
+          Payments (From Last 4 Transactions)
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="callout callout-info">
+                    <small class="text-muted">Testing</small>
+                    <br />
+                    <strong class="h4">{{
+                      roundValue(dashboardPaymentsData.testing_amount)
+                    }}</strong>
+                  </div>
+                </div>
+                <!--/.col-->
+                <div class="col-sm-6">
+                  <div class="callout callout-danger">
+                    <small class="text-muted">UKG</small>
+                    <br />
+                    <strong class="h4">{{
+                      roundValue(dashboardPaymentsData.ukg_amount)
+                    }}</strong>
+                  </div>
+                </div>
+                <!--/.col-->
+              </div>
+              <!--/.row-->
+              <hr class="mt-0" />
+            </div>
+            <!--/.col-->
+            <div class="col-sm-6">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="callout callout-warning">
+                    <small class="text-muted">Publications</small>
+                    <br />
+                    <strong class="h4">{{
+                      roundValue(dashboardPaymentsData.publications)
+                    }}</strong>
+                  </div>
+                </div>
+                <!--/.col-->
+                <div class="col-sm-6">
+                  <div class="callout callout-success">
+                    <small class="text-muted">Others</small>
+                    <br />
+                    <strong class="h4">{{
+                      roundValue(dashboardPaymentsData.other_amount)
+                    }}</strong>
+                  </div>
+                </div>
+                <!--/.col-->
+              </div>
+              <!--/.row-->
+              <hr class="mt-0" />
+            </div>
+            <!--/.col-->
+          </div>
+          <!--/.row-->
+          <br />
+          <div style="width: 100%; padding: 10px; font-weight: bold">
+            Transaction
+          </div>
+          <table
+            class="table table-responsive-sm table-hover table-outline mb-0"
+          >
+            <thead class="thead-light">
+              <tr>
+                <th class="text-center">
+                  <i
+                    style="color: green; font-size: 1.2em"
+                    class="icon-calendar"
+                  ></i>
+                </th>
+                <th>Particulars</th>
+                <th class="text-center">Reference No</th>
+                <th>Amount</th>
+                <th class="text-center">Payment Method</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let paymentGridData of dashboardPaymentsData.payment_data_grid;
+                  index as a
+                "
+              >
+                <td class="text-center">
+                  <div
+                    *ngIf="paymentGridData.razorpay_order_status === 'created'"
+                    style="
+                      line-height: 40px;
+                      vertical-align: middle;
+                      text-align: center;
+                      height: 40px;
+                      width: 40px;
+                      border-radius: 50%;
+                      background-color: #1095c5;
+                      color: white;
+                      font-weight: bold;
+                    "
+                  >
+                    {{ paymentGridData.payment_type_short }}
+                  </div>
+                  <div
+                    *ngIf="
+                      paymentGridData.razorpay_order_status === 'authorized'
+                    "
+                    style="
+                      line-height: 40px;
+                      vertical-align: middle;
+                      text-align: center;
+                      height: 40px;
+                      width: 40px;
+                      border-radius: 50%;
+                      background-color: #f363f3;
+                      color: white;
+                      font-weight: bold;
+                    "
+                  >
+                    {{ paymentGridData.payment_type_short }}
+                  </div>
+                  <div
+                    *ngIf="paymentGridData.razorpay_order_status === 'failed'"
+                    style="
+                      line-height: 40px;
+                      vertical-align: middle;
+                      text-align: center;
+                      height: 40px;
+                      width: 40px;
+                      border-radius: 50%;
+                      background-color: #f7674d;
+                      color: white;
+                      font-weight: bold;
+                    "
+                  >
+                    {{ paymentGridData.payment_type_short }}
+                  </div>
+                  <div
+                    *ngIf="paymentGridData.razorpay_order_status === 'refunded'"
+                    style="
+                      line-height: 40px;
+                      vertical-align: middle;
+                      text-align: center;
+                      height: 40px;
+                      width: 40px;
+                      border-radius: 50%;
+                      background-color: #e0a930;
+                      color: white;
+                      font-weight: bold;
+                    "
+                  >
+                    {{ paymentGridData.payment_type_short }}
+                  </div>
+
+                  <div
+                    *ngIf="paymentGridData.razorpay_order_status === 'captured'"
+                    style="
+                      line-height: 40px;
+                      vertical-align: middle;
+                      text-align: center;
+                      height: 40px;
+                      width: 40px;
+                      border-radius: 50%;
+                      background-color: #127b6e;
+                      color: white;
+                      font-weight: bold;
+                    "
+                  >
+                    {{ paymentGridData.payment_type_short }}
+                  </div>
+                  <!-- <div *ngIf="paymentGridData.payment_type_short === 'OTH'"  style="line-height: 40px;vertical-align:middle; text-align: center; height: 40px;width: 40px;border-radius: 50%;background-color : #1095c5;color:white;font-weight: bold;">
+                      {{paymentGridData.payment_type_short}}
+                    </div> -->
+
+                  <!-- <img src="assets/img/avatars/1.jpg" class="img-avatar" alt="admin@bootstrapmaster.com"> -->
+                </td>
+                <td>
+                  <div>{{ paymentGridData.payment_type_full_string }}</div>
+                  <div class="small text-muted">
+                    <span>{{ paymentGridData.order_id }}</span> |
+                    {{ paymentGridData.order_date }}
+                  </div>
+                </td>
+                <td class="text-center">
+                  {{ paymentGridData.razorpay_order_id }}
+                </td>
+                <td>
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <strong>{{ roundValue(paymentGridData.amount) }}</strong>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-center" title="{{ paymentGridData.method }}">
+                  <img
+                    *ngIf="
+                      paymentGridData.method === 'netbanking' ||
+                      paymentGridData.method === 'bank_transfer'
+                    "
+                    src="assets/img/others/net-banking.svg"
+                    style="height: 30px"
+                  />
+                  <img
+                    *ngIf="
+                      paymentGridData.method === 'debit' ||
+                      paymentGridData.method === 'credit' ||
+                      paymentGridData.method === 'emi'
+                    "
+                    src="assets/img/others/card-cvv.svg"
+                    style="height: 30px"
+                  />
+                  <img
+                    *ngIf="paymentGridData.method === 'upi'"
+                    src="assets/img/others/upi-payment.svg"
+                    style="width: 50px; height: 40px"
+                  />
+                  <span *ngIf="paymentGridData.method_string === 'NA'">NA</span>
+                  <!-- <i class="fa fa-cc-mastercard" style="font-size:2em;color:#127B6E;"></i> -->
+                </td>
+                <td>
+                  <div
+                    *ngIf="paymentGridData.razorpay_order_status === 'captured'"
+                    style="
+                      text-align: center;
+                      font-size: 0.9em;
+                      width: 70%;
+                      background-color: #127b6e;
+                      border-radius: 10px;
+                      padding: 5px;
+                      color: white;
+                    "
+                    title="The payment is verified as completed"
+                  >
+                    Success
+                  </div>
+                  <div
+                    *ngIf="paymentGridData.razorpay_order_status === 'created'"
+                    style="
+                      text-align: center;
+                      font-size: 0.9em;
+                      width: 70%;
+                      background-color: #1095c5;
+                      border-radius: 10px;
+                      padding: 5px;
+                      color: white;
+                    "
+                    title="The customer has provided the payment details, which are sent to Razorpay. The payment has not been processed yet."
+                  >
+                    {{ paymentGridData.razorpay_order_status }}
+                  </div>
+                  <div
+                    *ngIf="
+                      paymentGridData.razorpay_order_status === 'authorized'
+                    "
+                    style="
+                      text-align: center;
+                      font-size: 0.9em;
+                      width: 70%;
+                      background-color: #f363f3;
+                      border-radius: 10px;
+                      padding: 5px;
+                      color: white;
+                    "
+                    title="Bank successfully authenticates the customer's payment details. The money is deducted from the customer’s account by Razorpay.Payment in this state is auto-refunded to the customer if it is not captured within 5 days of creation."
+                  >
+                    {{ paymentGridData.razorpay_order_status }}
+                  </div>
+                  <div
+                    *ngIf="paymentGridData.razorpay_order_status === 'refunded'"
+                    style="
+                      text-align: center;
+                      font-size: 0.9em;
+                      width: 70%;
+                      background-color: #e0a930;
+                      border-radius: 10px;
+                      padding: 5px;
+                      color: white;
+                    "
+                  >
+                    {{ paymentGridData.razorpay_order_status }}
+                  </div>
+                  <div
+                    *ngIf="paymentGridData.razorpay_order_status === 'failed'"
+                    style="
+                      text-align: center;
+                      font-size: 0.9em;
+                      width: 70%;
+                      background-color: #f7674d;
+                      border-radius: 10px;
+                      padding: 5px;
+                      color: white;
+                    "
+                  >
+                    {{ paymentGridData.razorpay_order_status }}
+                  </div>
+                </td>
+              </tr>
+
+              <!-- <tr>
+                <td class="text-center">
+                  <div style="line-height: 40px;vertical-align:middle; text-align: center; height: 40px;width: 40px;border-radius: 50%;background-color : #e27f1b;color:white;font-weight: bold;">
+                    TST
+                  </div>
+                </td>
+                <td>
+                  <div>Testing Payment</div>
+                  <div class="small text-muted">
+                    <span>Recurring</span> | Registered: Jan 1, 2015
+                  </div>
+                </td>
+                <td class="text-center">
+                  order_HyPaiviEi3e0Aq
+                </td>
+                <td>
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <strong>100.00</strong>
+                    </div> 
+                  </div> 
+                </td>
+                <td class="text-center">
+                  <i class="fa fa-cc-visa" style="font-size:2em;color:#e27f1b;"></i>
+                </td>
+                <td>
+                  <div style="width:70%;background-color: rgb(207, 49, 49);border-radius: 10px;padding:5px;color: white;">
+                    Failure
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">
+                  <div style="line-height: 40px;vertical-align:middle; text-align: center; height: 40px;width: 40px;border-radius: 50%;background-color : #1095c5;color:white;font-weight: bold;">
+                    OTH
+                  </div>
+                </td>
+                <td>
+                  <div>Others</div>
+                  <div class="small text-muted">
+                    <span>New</span> | Registered: Jan 1, 2015
+                  </div>
+                </td>
+                <td class="text-center">
+                  order_HyPaiviEi3e0Aq
+                </td>
+                <td>
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <strong>150.00</strong>
+                    </div>
+                     
+                  </div>
+                  
+                </td>
+                <td class="text-center">
+                  <i class="fa fa-cc-stripe" style="font-size:2em;color:#1095c5;"></i>
+                </td>
+                <td>
+                  <div style="width:70%;background-color: #1095c5;border-radius: 10px;padding:5px;color: white;">
+                    Refund
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">
+                  <div style="line-height: 40px;vertical-align:middle; text-align: center; height: 40px;width: 40px;border-radius: 50%;background-color : #cc9a05;color:white;font-weight: bold;">
+                    PUB
+                  </div>
+                </td>
+                <td>
+                  <div>Enéas Kwadwo</div>
+                  <div class="small text-muted">
+                    <span>New</span> | Registered: Jan 1, 2015
+                  </div>
+                </td>
+                <td class="text-center">
+                  order_HyPaiviEi3e0Aq
+                </td>
+                <td>
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <strong>250.00</strong>
+                    </div> 
+                  </div> 
+                </td>
+                <td class="text-center">
+                  <i class="fa fa-paypal" style="font-size:2em; color:#cc9a05;"></i>
+                </td>
+                <td>
+                  <div style=" width:70%;background-color: green;border-radius: 10px;padding:5px;color: white;">
+                    Success
+                  </div>
+                </td>
+              </tr> -->
+              <!-- <tr>
+                <td class="text-center">
+                  <div class="avatar">
+                    <img src="assets/img/avatars/5.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
+                    <span class="avatar-status badge-success"></span>
+                  </div>
+                </td>
+                <td>
+                  <div>Agapetus Tadeáš</div>
+                  <div class="small text-muted">
+                    <span>New</span> | Registered: Jan 1, 2015
+                  </div>
+                </td>
+                <td class="text-center">
+                  <i class="flag-icon flag-icon-es h4 mb-0" title="es" id="es"></i>
+                </td>
+                <td>
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <strong>22%</strong>
+                    </div>
+                    <div class="float-right">
+                      <small class="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
+                    </div>
+                  </div>
+                  <div class="progress progress-xs">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 22%" aria-valuenow="22" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <i class="fa fa-google-wallet" style="font-size:24px"></i>
+                </td>
+                <td>
+                  <div class="small text-muted">Last login</div>
+                  <strong>Last week</strong>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">
+                  <div class="avatar">
+                    <img src="assets/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
+                    <span class="avatar-status badge-danger"></span>
+                  </div>
+                </td>
+                <td>
+                  <div>Friderik Dávid</div>
+                  <div class="small text-muted">
+                    <span>New</span> | Registered: Jan 1, 2015
+                  </div>
+                </td>
+                <td class="text-center">
+                  <i class="flag-icon flag-icon-pl h4 mb-0" title="pl" id="pl"></i>
+                </td>
+                <td>
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <strong>43%</strong>
+                    </div>
+                    <div class="float-right">
+                      <small class="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
+                    </div>
+                  </div>
+                  <div class="progress progress-xs">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 43%" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <i class="fa fa-cc-amex" style="font-size:24px"></i>
+                </td>
+                <td>
+                  <div class="small text-muted">Last login</div>
+                  <strong>Yesterday</strong>
+                </td>
+              </tr> -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+  <!-- <div class="row">
+    <div class="col-sm-8">
+    </div>
+    <div class="col-sm-4">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header">SITRA News</div>
+            <div class="card-body" >
+              <marquee class="marq" direction = "up" behavior="scroll"  scrollamount="4" onmouseover="this. stop();"  onmouseout="this. start();" >
+                
+                <a href="#/dashboard" target="_self">
+                  <div class="div-marq div-marq-orange">
+                    Testing charges & Sample size (revised charges effect from 27.08.2020
+                  </div> 
+                </a>
+                <a href="#/dashboard" target="_self">
+                  <div class="div-marq div-marq-green">
+                    How to register and send your samples
+                  </div> 
+                </a>
+                <a href="#/dashboard" target="_self">
+                  <div class="div-marq div-marq-blue">
+                    FAQ's for PPE Testing
+                  </div>
+                </a>
+                <a href="#/dashboard" target="_self">
+                  <div class="div-marq div-marq-lavendar">
+                    Download payment acknowledgment (which is sent to your mail during registration)
+                  </div>
+                </a>
+                <a href="#/dashboard" target="_self">
+                  <div class="div-marq div-marq-blue">
+                    SITRA's disclaimer on N95 face masks
+                  </div>
+                </a>
+                <a href="#/dashboard" target="_self">
+                  <div class="div-marq div-marq-blue">
+                    Textile Industry from survuvung to thriving: Interview of Dr.K.V.Srinivasan published in Industry 4.0
+                  </div> 
+                </a>
+                <a href="#/dashboard" target="_self">
+                  <div class="div-marq div-marq-blue">
+                    New job openings at SITRA
+                  </div> 
+                </a>
+              </marquee> 
+            </div>
+            <div class="card-footer"></div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div> -->
+</div>

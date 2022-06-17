@@ -1,0 +1,199 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+	
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="card mx-4">
+            <div class="card-body">
+                <h1>SITRA Online Registeration</h1>
+                <p class="text-muted">Create one account and use it our multiple services. (Testing, Consultancy, Traning, Webinar, UKG, Auditorium booking, etc.,)</p>                          
+                <p style="color:red; width:100%;float:right;">* fields are required</p>
+                  <div class="col-sm-6" style="float:left;">
+                    <div class="input-group mb-3">
+                      <label style="width:100%;"><span style="color:red">*</span>Registration Type</label>
+                      <select class="form-control"  [(ngModel)] = "RegFormData.regtype" required id="regtype" name="regtype" >
+                        <option value="">-SELECT-</option>
+                        <option value="1">Mill</option>
+                        <option value="2">Organization</option>
+                        <option value="3">Individual</option>
+                        <option value="4">Other</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-6" style="float:left;">
+                    <div class="input-group mb-3">
+                      <label style="width:100%;"><span style="color:red">*</span>Mill / Organization Name</label>
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-home"></i></span>
+                      </div>
+                      <input [(ngModel)] = "RegFormData.mill_organization_name" type="text" class="form-control" placeholder="Mill / Organization name" autocomplete="millname" required>
+                  </div>
+                  </div>
+                <!-- End First Row-->
+                          
+                  <div class="col-sm-6" style="float:left;">
+                    <div class="input-group mb-3">
+                      <label style="width:100%;"><span style="color:red">*</span>Cotntact person name</label>
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-user"></i></span>
+                      </div>
+                      <input [(ngModel)] = "RegFormData.contact_person_name" type="text" class="form-control" placeholder="Cotntact person name" autocomplete="contact_person_name" id="contact_person_name" name="contact_person_name" required>
+                    </div>
+                  </div>
+                  <div class="col-sm-6" style="float:left;">                    
+                    <div class="input-group mb-3">
+                      <label style="width:100%;"><span style="color:red">*</span>Mobile no</label>
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-screen-smartphone"></i></span>
+                      </div>
+                      <input [(ngModel)] = "RegFormData.contact_person_mobileno" maxLength="10" type="text" class="form-control" placeholder="Mobileno" autocomplete="username" required>
+                    </div>
+                 </div>
+                 
+                <!-- End Second Row -->
+                <div class="col-sm-6" style="float:left;">
+                  <div class="input-group mb-3">
+                    <label style="width:100%;">Alternative contact no(s)</label>                    
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-phone"></i></span>
+                    </div>
+                    <input [(ngModel)] = "RegFormData.alternative_contactnos" type="text" class="form-control" placeholder="Alternative contact no(s)" autocomplete="email" required>
+                  </div>
+                </div>
+                <div class="col-sm-6" style="float:left;">
+                  <div class="input-group mb-3">
+                    <label style="width:100%;"><span style="color:red">*</span>Email</label>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">@</span>
+                    </div>
+                    <input [(ngModel)] = "RegFormData.email" type="text" class="form-control" placeholder="Email" autocomplete="email" required>
+                  </div>
+                </div>
+                <!-- End Third Row -->
+                <div class="col-sm-12" style="float:left;">
+                  <div class="input-group mb-3">
+                    <label style="width:100%;"><span style="color:red">*</span>Address 1</label>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="icon-envelope-letter"></i>
+                      </span>
+                    </div>
+                    <input [(ngModel)] = "RegFormData.address1" type="text" class="form-control" placeholder="Address 1" autocomplete="email" required>
+                  </div>
+                </div>
+                <!-- End Fourth Row-->
+                <div class="col-sm-12" style="float:left;">
+                  <div class="input-group mb-3">
+                    <label style="width:100%;">Address 2</label>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-envelope-letter"></i></span>
+                    </div>
+                    <input [(ngModel)] = "RegFormData.address2" type="text" class="form-control" placeholder="Address 2" autocomplete="email" required>
+                  </div>
+                </div>
+                <!-- End Fifth Row -->
+                <div class="col-sm-12" style="float:left;">
+                  <div class="input-group mb-3">
+                    <label style="width:100%;"><span style="color:red">*</span>City</label>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-location-pin"></i></span>
+                    </div>
+                    <input [(ngModel)] = "RegFormData.city" type="text" class="form-control" placeholder="City" autocomplete="email" required>
+                  </div>
+                </div>
+                <!-- End Sixth Row -->
+                <div class="col-sm-6" style="float:left;">
+                  <div class="input-group mb-3">
+                    <label style="width:100%;"><span style="color:red">*</span>State</label>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-speech"></i></span>
+                    </div>
+                    <select class="form-control"  [(ngModel)] = "RegFormData.state" >
+                      <option selected="selected" value="">-SELECT-</option>
+                      <option *ngFor="let state of stateNameLists; index as k;" value={{stateNameLists[k].statename}}>
+                        {{state.statename}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6" style="float:left;">
+                  <div class="input-group mb-3">
+                    <label style="width:100%;"><span style="color:red">*</span>Pincode</label>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-pin"></i></span>
+                    </div>
+                    <input [(ngModel)] = "RegFormData.pincode" type="text" class="form-control" placeholder="Pincode" autocomplete="email" required>
+                  </div> 
+                </div>
+                <!-- End Seventh Row-->
+                <div class="col-sm-6" style="float:left;">
+                  <div class="input-group mb-3">
+                    <label style="width:100%;"><span style="color:red">*</span>GST Registration Type</label>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-speech"></i></span>
+                    </div>
+                    <select class="form-control"  [(ngModel)] = "RegFormData.gstregtype" >
+                      <option    value="">-SELECT-</option>
+                      <option  value="Y">Registered</option>
+                      <option   value="N">Un-Registered</option>
+                    </select>
+                  </div>
+                </div>
+                <div *ngIf="RegFormData.gstregtype === 'Y'" class="col-sm-6" style="float:left;">
+                  <div class="input-group mb-3">
+                    <label style="width:100%;"><span style="color:red">*</span>GST No</label>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-pin"></i></span>
+                    </div>
+                    <input [(ngModel)] = "RegFormData.gstno" type="text" class="form-control" placeholder="GST No" autocomplete="email" required>
+                  </div> 
+                </div>
+                <!-- End Eighth Row -->
+                
+                <div *ngIf="RegFormData.cloud_customer_id !== ''" class="col-sm-8" style="float:left;">
+                  <div class="col-sm-6" style="float:left;">
+                    <div class="form-group">
+                      <label>Enter OTP</label>
+                      <input [(ngModel)] = "RegFormData.mobile_otp" type="text" class="form-control" placeholder="Enter OTP" autocomplete="email" required>
+                    </div>
+                  </div> 
+                  <!-- <div class="col-sm-6" style="float:left;">
+                    <div class="form-group">
+                      <label>Enter E-Mail OTP</label>
+                      <input [(ngModel)] = "RegFormData.email_otp" type="text" class="form-control" placeholder="E-Mail OTP" autocomplete="email" required>
+                    </div>
+                  </div>  -->
+                </div>
+                <div *ngIf="errorMessages !== '' " class="col-sm-8" style="float:left;padding-bottom: 10px;">
+                  <span style="font-size:14px;color:red;padding:10px;font-weight: bold;">{{errorMessages}}</span>
+                </div>
+                <div class="input-group mb-3">                                                    
+                  <button class="btn btn-secondary" type="button" (click)="backToLoginPage()">                   
+                    Back to Login
+                  </button>
+                  
+                  <button *ngIf="RegFormData.cloud_customer_id === ''" style="margin-left:10px;" class="btn btn-primary" type="button" (click)="validateFormData()">
+                    <span style="font-size:14px;" *ngIf="spinnerFlag==true" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                    Create Account                   
+                  </button>
+                  <button *ngIf="RegFormData.cloud_customer_id !== ''"  style="margin-left:10px;" class="btn btn-success" type="button" (click)="validateOtp()">
+                    <span style="font-size:14px;" *ngIf="spinnerFlag==true" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                    Verify OTP(s)                   
+                  </button>
+                  
+                  <div *ngIf="returnFlag ==true">
+                    <span style="font-size:14px;color:green;padding:10px;font-weight: bold;" >{{returnMessage}}</span>
+                  </div>
+                  <div *ngIf="returnFlag ==false">
+                    <span style="font-size:14px;color:red;padding:10px;font-weight: bold;" >{{returnMessage}}</span>
+                  </div>
+                </div>
+            </div>          
+          </div>
+        </div>
+      </div>      
+    </div>    
+  </main>
+</div>
+

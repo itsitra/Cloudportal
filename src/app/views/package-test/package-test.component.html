@@ -1,0 +1,341 @@
+<div class="animated fadeIn">
+  <ng-template #AddPackages class="modal modal-xl">
+    <div class="model-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Add Package</h4>
+        <button style="outline: none; border: none;" type="button" class="close pull-right text-white"
+          aria-label="Close" (click)="modalRef.hide()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md">
+            <div class="form-group">
+              <label for="packagename">Package Name</label>
+              <select name="packagename" [(ngModel)]="packid" id="packagename" class="form-control">
+                <option value="">--select--</option>
+                <option *ngFor="let pm of packageMaster" [value]="pm.PackId">{{pm.PackageName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-group">
+              <label for="noOfSamples">No. of Sample</label>
+
+              <div class="input-group mb-3">
+                <div class="input-group-prepend" (click)="decreseSample()">
+                  <span class="input-group-text bg-danger">-</span>
+                </div>
+                <input type="text" style="text-align: center;" class="form-control bg-white" disabled
+                  [(ngModel)]="noOfSamples" aria-label="Amount (to the nearest dollar)">
+                <div class="input-group-append" (click)="increseSamples()">
+                  <span class="input-group-text bg-success">+</span>
+                </div>
+              </div>
+
+              <!-- <input type="text" maxlength="2" pattern="[0-9]"  class="form-control" 
+              [(ngModel)]="noofsamples" (ngModelChange)="sampleChange($event)" id="noOfSamples"> -->
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngFor="let sdc of sampleDescCreate; let i = index">
+          <div class="col-md">
+            <div class="form-group">
+              <label for="sampledesc">Sample {{i+1}} Description</label>
+              <textarea class="form-control" name="description" [(ngModel)]="sdc.sampledesc" id="sampleDesc" cols="30"
+                rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+        <button type="button" class="btn btn-success" (click)="insertPackage()">Submit</button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #SampleDescription class="modal modal-xl">
+    <div class="model-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Update Sample Description</h4>
+        <button style="outline: none; border: none;" type="button" class="close pull-right text-white"
+          aria-label="Close" (click)="modalRef.hide()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <table class="table table-bordered mx-2">
+            <thead>
+              <tr>
+                <th scope="col">Sample No.</th>
+                <!-- <th scope="col">Sample Type</th> -->
+                <th scope="col">Count</th>
+                <th scope="col">Description</th>
+                <th scope="col">Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let usd of UpdateSampleDesc">
+                <th scope="row">
+                  <input type="text" [value]="usd.sampleno" readonly class="form-control bg-white"
+                    style="outline: none; border: none; font-weight: bold; color: black;">
+                  <!-- {{sd.sampleno}} -->
+                </th>
+                <!-- <td>
+                  <select class="form-control" [(ngModel)]="usd.sampleid">
+                    <option value="">-SELECT-</option>
+                    <option *ngFor="let std of sampleTypeData" [value]="std.sampleid">{{std.samplename}}</option>
+                  </select>
+                </td> -->
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="usd.countcode">
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="usd.description">
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="usd.remarks">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+        <button type="button" class="btn btn-success" (click)="Updatesampledescription()">Confirm</button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #packageDetailsList class="modal modal-xl">
+    <div class="model-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Package Details</h4>
+        <button style="outline: none; border: none;" type="button" class="close pull-right text-white"
+          aria-label="Close" (click)="modalRef.hide()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md">
+            <table style="width:100%;" class="table table-responsive-sm table-hover table-outline mb-0">
+              <thead class="thead-light">
+                <tr>
+                  <th style="width:15%;">Pack Id</th>
+                  <th style="width:20%;">Test Name</th>
+                  <th style="width:20%;">Lab Name</th>
+                  <th style="width:15%;">Standard</th>
+                  <th style="width:15%;">Material Quantity</th>
+                  <th style="width:15%;">Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pd of packageDetails">
+                  <td>{{pd.PackId}}</td>
+                  <td>{{pd.testname}}</td>
+                  <td>{{pd.labname}}</td>
+                  <td>{{pd.standard}}</td>
+                  <td>{{pd.material_qty}}</td>
+                  <td>{{pd.rate}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #paymentType class="modal">
+    <div class="model-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Select payment Type</h4>
+        <button style="outline: none; border: none;" type="button" class="close pull-right text-white"
+          aria-label="Close" (click)="modalRef.hide()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row px-5">
+          <div class="form-group">
+            <label for="totalAmount">Total Amount: </label>
+            <span style="font-weight: bold;">&nbsp;{{Amount}}</span>
+          </div>
+        </div>
+        <div class="row px-5 py-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMode" [value]="1" id="rdoCCcard"
+              [(ngModel)]="paymentMode">
+            <label class="form-check-label" for="rdoCCcard">
+              Credit Card
+            </label>
+            <div *ngIf="bankCharges.credit_card !== '0'"><small class="text-danger">({{bankCharges.credit_card}}% of tax
+                will be charaged on total amount)</small></div>
+          </div>
+        </div>
+        <div class="row px-5 py-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMode" [value]="2" id="rdoDRcard"
+              [(ngModel)]="paymentMode">
+            <label class="form-check-label" for="rdoDRcard">
+              Debit Rupay
+            </label>
+            <div *ngIf="bankCharges.debit_rupay !== '0'"><small class="text-danger">({{bankCharges.debit_rupay}}% of tax
+                will be charaged on total amount)</small></div>
+          </div>
+        </div>
+        <div class="row px-5 py-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMode" [value]="3" id="rdoDLTcard"
+              [(ngModel)]="paymentMode">
+            <label class="form-check-label" for="rdoDLTcard">
+              Debit lt 2000
+            </label>
+            <div *ngIf="bankCharges.debit_lt_2000 !== '0'"><small class="text-danger">({{bankCharges.debit_lt_2000}}% of
+                tax will be charaged on total amount)</small></div>
+          </div>
+        </div>
+        <div class="row px-5 py-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMode" [value]="4" id="rdoDGTcard"
+              [(ngModel)]="paymentMode">
+            <label class="form-check-label" for="rdoDGTcard">
+              Debit gt 2000
+            </label>
+            <div *ngIf="bankCharges.debit_gt_2000 !== '0'"><small class="text-danger">({{bankCharges.debit_gt_2000}}% of
+                tax will be charaged on total amount)</small></div>
+          </div>
+        </div>
+        <div class="row px-5 py-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMode" [value]="5" id="rdoUPI"
+              [(ngModel)]="paymentMode">
+            <label class="form-check-label" for="rdoUPI">
+              UPI
+            </label>
+            <div *ngIf="bankCharges.upi !== '0'"><small class="text-danger">({{bankCharges.upi}}% of tax will be
+                charaged on total amount)</small></div>
+
+          </div>
+        </div>
+        <div class="row px-5 py-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMode" [value]="6" id="rdoNetBanking"
+              [(ngModel)]="paymentMode">
+            <label class="form-check-label" for="rdoNetBanking">
+              NetBanking
+            </label>
+            <div *ngIf="bankCharges.nb !== '0'"><small class="text-danger">({{bankCharges.nb}}% of tax will be charaged
+                on total amount)</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+        <button type="button" class="btn btn-success" (click)="paymentTypeSelection(Amount,requestNo)">Proceed To Pay</button>
+      </div>
+    </div>
+  </ng-template>
+  <div class="row">
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md">
+              <h4>Package Testing Request</h4>
+            </div>
+            <div class="col-md">
+              <div class="float-right">
+                <button class="btn btn-success" (click)="AddNewPackages(AddPackages)">Add Package</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row d-flex justify-content-end">
+            <div class="col-md-4 ">
+              <div class="input-group">
+                <input type="text" class="form-control" id="frequent-test-search" placeholder="Search..."
+                  [(ngModel)]="searchText">
+                <div class="input-group-prepend">
+                  <button class="btn btn-primary rounded-right" (click)="getPackageList()"><i class="fa fa-search"
+                      aria-hidden="true"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <table style="width:100%;" class="table table-responsive-sm table-hover table-outline mb-0">
+            <thead class="thead-light" style="text-align: center;">
+              <tr>
+                <th style="width:10%;">RNo</th>
+                <th style="width:20%;">Name</th>
+                <th style="width:20%;">Material</th>
+                <th style="width:15%;">Date</th>
+                <th style="width:10%;">No. of Sample</th>
+                <th style="width:10%;">Package Details</th>
+                <th style="width:15%;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let pl of PaginatedList" style="text-align: center;">
+                <td>{{pl.RNO}}</td>
+                <td>{{pl.PackageName}}</td>
+                <td>{{pl.material}}</td>
+                <td>{{this.datepipe.transform(pl.RDate, "yyyy-MM-dd")}}</td>
+                <td>{{pl.noofsamples}}</td>
+                <td>
+                  <button type="button" class="btn btn-info text-white" tooltip="Package details"
+                    (click)="getPackageDetails(packageDetailsList, pl.PackId)">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                  </button>
+                </td>
+                <td style="margin: 0 auto;">
+                  <!-- <button type="button" class="btn btn-primary" tooltip="Pay Now"
+                    (click)="packageTestPayNow(pl.netamt)"> -->
+                  <button type="button" class="btn btn-primary" tooltip="Pay Now"
+                    (click)="openPaymentOption(paymentType,pl.netamt,pl.RNO)">
+                    <i class="fa fa-credit-card" aria-hidden="true"></i>
+                  </button>&nbsp;
+                  <button type="button" class="btn btn-warning" tooltip="Generate Testing Request"
+                    [disabled]="pl.RequestGenerated === 'Y'" (click)="genrateRequest(pl.RNO)">
+                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  </button>
+                  <!-- <button type="button" class="btn btn-danger" tooltip="Update Sample Description"
+                  (click)="getSampleData(SampleDescription, pl.RNO, pl.labid)" >
+                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                  </button> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <hr />
+          <div class="row d-flex justify-content-between">
+            <div class="col-md-1">
+              <select class="form-control" name="itemperpage" id="itemperpage" [(ngModel)]="packageTestitemperpage"
+                (ngModelChange)="itemChange()">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </select>
+            </div>
+            <div class="col-md-5">
+              <pagination style="float: right;" [itemsPerPage]="itemperpage" [totalItems]="packageList.length"
+                (pageChanged)="PackageTestPageChanged($event)"></pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/ End Table-->
+</div>

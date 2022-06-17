@@ -1,0 +1,319 @@
+
+<div class="animated fadeIn"> 
+    <div bsModal #primaryModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="width:100%;">
+            <h4 style="width:100%;float:left;" class="modal-title">New payment</h4>
+            <button type="button" class="close" (click)="primaryModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div *ngIf="popupLoaderState === true" class="popup_loader"></div>
+          <div class="modal-body">
+            <div class="col-sm-6">
+              <div class="form-group">
+                  <label for="name">Amount to Pay</label>
+                  <input class="form-control" [(ngModel)] = "newPaymentFormData.amountToPay" />
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-group">
+                  <label for="name">Payment Against</label>
+                  <select class="form-control" [(ngModel)] = "newPaymentFormData.paymentAgainst">
+                      <option value="">-SELECT-</option>
+                      <option value="1">Advance</option>
+                      <option value="2">Bill</option>
+                  </select>
+              </div>
+            </div> 
+            
+            <div class="col-sm-12">
+              <div class="form-group">
+                  <label for="name">Payment Type</label>
+                  <select class="form-control" [(ngModel)] = "newPaymentFormData.paymentType">
+                      <option value="">-SELECT-</option>
+                      <option *ngFor="let paymenttype of paymentTypeList; index as a;" value="{{paymentTypeList[a].id}}">{{paymentTypeList[a].type}}</option>
+                  </select>
+              </div>
+            </div> 
+
+            <div class="col-sm-12">
+              <div class="form-group">
+                  <label for="name">Comments</label>
+                  <textarea class="form-control" [(ngModel)] = "newPaymentFormData.paymentComments">
+
+                  </textarea>
+              </div>
+            </div> 
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="primaryModal.hide()">Cancel</button>
+            <button type="button" class="btn btn-success" (click)="paymentOptionOpen(paymentType,newPaymentFormData.amountToPay)">Proceed</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->    
+    <ng-template #paymentType class="modal">
+      <div class="model-content">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Select payment Type</h4>
+          <button style="outline: none; border: none;" type="button" class="close pull-right text-white"
+            aria-label="Close" (click)="modalRef.hide()">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row px-5">
+            <div class="form-group">
+              <label for="totalAmount">Total Amount: </label>
+              <span style="font-weight: bold;">&nbsp;{{Amount}}</span>
+            </div>
+          </div>
+          <div class="row px-5 py-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentMode" [value]="1" id="rdoCCcard"
+                [(ngModel)]="paymentMode">
+              <label class="form-check-label" for="rdoCCcard">
+                Credit Card
+              </label>
+              <div *ngIf="bankCharges.credit_card !== '0'"><small class="text-danger">({{bankCharges.credit_card}}% of tax
+                  will be charaged on total amount)</small></div>
+            </div>
+          </div>
+          <div class="row px-5 py-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentMode" [value]="2" id="rdoDRcard"
+                [(ngModel)]="paymentMode">
+              <label class="form-check-label" for="rdoDRcard">
+                Debit Rupay
+              </label>
+              <div *ngIf="bankCharges.debit_rupay !== '0'"><small class="text-danger">({{bankCharges.debit_rupay}}% of tax
+                  will be charaged on total amount)</small></div>
+            </div>
+          </div>
+          <div class="row px-5 py-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentMode" [value]="3" id="rdoDLTcard"
+                [(ngModel)]="paymentMode">
+              <label class="form-check-label" for="rdoDLTcard">
+                Debit lt 2000
+              </label>
+              <div *ngIf="bankCharges.debit_lt_2000 !== '0'"><small class="text-danger">({{bankCharges.debit_lt_2000}}% of
+                  tax will be charaged on total amount)</small></div>
+            </div>
+          </div>
+          <div class="row px-5 py-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentMode" [value]="4" id="rdoDGTcard"
+                [(ngModel)]="paymentMode">
+              <label class="form-check-label" for="rdoDGTcard">
+                Debit gt 2000
+              </label>
+              <div *ngIf="bankCharges.debit_gt_2000 !== '0'"><small class="text-danger">({{bankCharges.debit_gt_2000}}% of
+                  tax will be charaged on total amount)</small></div>
+            </div>
+          </div>
+          <div class="row px-5 py-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentMode" [value]="5" id="rdoUPI"
+                [(ngModel)]="paymentMode">
+              <label class="form-check-label" for="rdoUPI">
+                UPI
+              </label>
+              <div *ngIf="bankCharges.upi !== '0'"><small class="text-danger">({{bankCharges.upi}}% of tax will be
+                  charaged on total amount)</small></div>
+  
+            </div>
+          </div>
+          <div class="row px-5 py-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="paymentMode" [value]="6" id="rdoNetBanking"
+                [(ngModel)]="paymentMode">
+              <label class="form-check-label" for="rdoNetBanking">
+                NetBanking
+              </label>
+              <div *ngIf="bankCharges.nb !== '0'"><small class="text-danger">({{bankCharges.nb}}% of tax will be charaged
+                  on total amount)</small></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+          <button type="button" class="btn btn-success" (click)="paymentTypeSelection(Amount,quatatioNO)">Proceed To Pay</button>
+        </div>
+      </div>
+    </ng-template>   
+    <div class="row">
+      <!-- <div class="col-xs-3">
+        <input
+          type="text"
+          placeholder="Choose date"
+          class="form-control"
+          bsDatepicker
+          bsDaterangepicker
+          [bsConfig]="{ isAnimated: true }">
+      </div> -->
+      <div class="col-md-12">
+        
+        <div class="card">
+          <div class="card-header" style="font-weight:bold;">
+            My Payment History
+            <div *ngIf="loaderFlag == true" class="spinner-border text-primary" role="status">                
+                <span class="sr-only">Loading...</span>                
+            </div>
+            <div style="float:right;">
+              <button (click)="primaryModal.show()" type="button" style="font-size:1.2em;"  class="btn btn-sm btn-success">               
+                <i class="fa fa-plus"></i> New Payment
+              </button>
+            </div>
+            <!-- <form   (ngSubmit)="consoleLogUploadFiles()">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="file-input">File input</label>
+                <div class="col-md-9">
+                   <input type="file" id="file-input"  name="file-input" (change)="handleFileInput($event.target.files)" > 
+                  <input type="file" id="file-input"  name="file-input" (change)="handleFileInput($event)" >
+                   
+                </div>
+                <button (click)="consoleLogUploadFiles()" type="button" style="font-size:1.2em;"  class="btn btn-sm btn-primary">               
+                  <i class="fa fa-dot-circle-o"></i> Check
+                </button>
+              </div>
+            </form> -->
+            <!-- <div style="float:right;">
+              <button (click)="checkPaymentStatus()" type="button" style="font-size:1.2em;"  class="btn btn-sm btn-primary">               
+                <i class="fa fa-dot-circle-o"></i> Pay Now
+              </button>
+            </div> -->
+            <!-- <div style="float:right;">
+              <button (click)="payWithRazor()" type="button" style="font-size:1.2em;"  class="btn btn-sm btn-success">               
+                <i class="fa fa-dot-circle-o"></i> Pay with Razorpay
+              </button>
+              
+            </div> -->
+            
+          </div>
+          <div class="card-body">            
+            <div *ngIf="searchText == ''" style="width:10%;float:left;">
+              <select (change)="changeDisplayCount()" class="form-control" [(ngModel)] = "apiParams.tablerowlimit">                
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <div class="form-group" style="float:right;width:30%;">                                
+               <input (keyup)="getData()" [(ngModel)]="searchText" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Search Order Id / Bank Reference no">
+            </div>
+            <br>
+            <nav style="width:100%;float:left;" *ngIf="searchText == ''" aria-label="Page navigation example">
+              <div  style="float:left;">
+                <span style="color:#212529;font-weight:bold;">Page {{ pagenationConfiguration.currentPageNo }} of {{ pageCount }}</span>
+              </div>
+              <ul class="pagination justify-content-center">
+                <li *ngIf="this.pagenationConfiguration.currentPageNo != 1;" style="cursor: pointer;" class="page-item">
+                    <span class="page-link" (click)="pagenationEvent(3, 0)">Previous</span>
+                </li>
+                <li *ngIf="this.pagenationConfiguration.currentPageNo == 1;" style="cursor: pointer;" class="page-item disabled">
+                  <span class="page-link" (click)="pagenationEvent(3, 0)">Previous</span>
+              </li>
+                <li style="cursor: pointer;" *ngFor='let pageno of pagenationConfiguration.pageNos;let i = index' class="page-item" (click)="pagenationEvent(1, pageno)">
+                    <span *ngIf="pageno == pagenationConfiguration.currentPageNo" style="color:white;"  class="page-link page-link-active" (click)="pagenationEvent('1', pageno)" >
+                      {{ pageno }}
+                    </span>
+                    <span *ngIf="pageno != pagenationConfiguration.currentPageNo &&  pageno != undefined"  class="page-link" (click)="pagenationEvent('1', pageno)">
+                      {{ pageno }}
+                    </span>
+                </li>
+                <li *ngIf="pageCount != pagenationConfiguration.currentPageNo" class="page-item" style="cursor: pointer;">
+                  <span class="page-link"  (click)="pagenationEvent(2, 0)">Next</span>
+                </li>
+                <li *ngIf="pageCount == pagenationConfiguration.currentPageNo" class="page-item disabled" style="cursor: pointer;">
+                  <span class="page-link"  (click)="pagenationEvent(2, 0)">Next</span>
+                </li>
+              </ul>
+            </nav>
+            <div *ngIf="spinnerFlag === true" class="spinner"></div>
+            <table style="width:100%;" class="table table-responsive-sm table-hover table-outline mb-0">
+              <thead class="thead-light">
+                <tr>                  
+                  <th style="width:5%;">S.No</th>
+                  <th style="width:15%;" >Transaction Date</th>
+                  <th style="width:20%;" >Order Id</th>
+                  <th style="width:20%;">Bank Reference no</th>
+                  <th style="width:10%;">Transaction amount</th>
+                  <th style="width:10%;">Status</th>
+                  <th style="width:15%;">Payment Mode</th>
+                  <th style="width:5%;" colspan="3">Action</th>
+                </tr>
+              </thead>
+              <tbody>           
+                <tr  *ngFor="let payment of myPayments; index as j;">
+                  <td >
+                    <div>{{ (j+1) }}</div>                    
+                  </td>
+                  <td >
+                    <div>{{payment.transactiondate}}</div>                    
+                  </td>
+                  <td>
+                    <div>{{payment.orderid}}</div>
+                  </td>
+                  <td>
+                    <div>{{payment.bankrefno}}</div>
+                  </td>
+                  <td>
+                    <div>{{payment.amount}}</div>
+                  </td>
+                  <td>
+                    <div>{{payment.status}}</div>
+                  </td>
+                  <td>
+                    <div>{{payment.paymentmode}}</div>
+                  </td>
+                  <td>
+                    <div style="float:left;"><i class="icon-cloud-download" style="font-size:1.3em;cursor:pointer;" title="Download Receipt" (click)="downloadPaymentTranscation(payment.id, payment.tid)"></i></div>                    
+                  </td>
+                  <td>
+                    <div  *ngIf="payment.status === 'Success' && payment.order_type === '1' " style="float:left;"><i class="icon-layers" style="color:green;font-size:1.3em;cursor:pointer;" (click)="downloadCountDetails(payment.id, payment.tid)" title="Download Convertion Factors"></i></div>
+                  </td>
+                  <td>
+                    <div  *ngIf="payment.status === 'Success' && payment.order_type === '1' " style="float:left;"><i class="icon-layers" style="color:green;font-size:1.3em;cursor:pointer;" (click)="downloadInvoice(payment.id, payment.tid)" title="Download Invoice"></i></div>
+                  </td>
+                </tr>
+              </tbody>              
+            </table>
+            <hr/>
+            <nav *ngIf="searchText == ''" aria-label="Page navigation example">
+                <div  style="float:left;">
+                  <span style="color:#212529;font-weight:bold;">Page {{ pagenationConfiguration.currentPageNo }} of {{ pageCount }}</span>
+                </div>
+                <ul class="pagination justify-content-center">
+                  <li *ngIf="this.pagenationConfiguration.currentPageNo != 1;" style="cursor: pointer;" class="page-item">
+                      <span class="page-link" (click)="pagenationEvent(3, 0)">Previous</span>
+                  </li>
+                  <li *ngIf="this.pagenationConfiguration.currentPageNo == 1;" style="cursor: pointer;" class="page-item disabled">
+                    <span class="page-link" (click)="pagenationEvent(3, 0)">Previous</span>
+                </li>
+                  <li style="cursor: pointer;" *ngFor='let pageno of pagenationConfiguration.pageNos;let i = index' class="page-item" (click)="pagenationEvent(1, pageno)">
+                      <span *ngIf="pageno == pagenationConfiguration.currentPageNo" style="color:white;"  class="page-link page-link-active" (click)="pagenationEvent('1', pageno)" >
+                        {{ pageno }}
+                      </span>
+                      <span *ngIf="pageno != pagenationConfiguration.currentPageNo &&  pageno != undefined"  class="page-link" (click)="pagenationEvent('1', pageno)">
+                        {{ pageno }}
+                      </span>
+                  </li>
+                  <li *ngIf="pageCount != pagenationConfiguration.currentPageNo" class="page-item" style="cursor: pointer;">
+                    <span class="page-link"  (click)="pagenationEvent(2, 0)">Next</span>
+                  </li>
+                  <li *ngIf="pageCount == pagenationConfiguration.currentPageNo" class="page-item disabled" style="cursor: pointer;">
+                    <span class="page-link"  (click)="pagenationEvent(2, 0)">Next</span>
+                  </li>
+                </ul>
+              </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
