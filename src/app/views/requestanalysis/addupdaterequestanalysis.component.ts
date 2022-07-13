@@ -47,6 +47,26 @@ export class AddupdaterequestanalysisComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        let datetime = new Date();
+
+      
+        var dd:any = datetime.getDate();
+        var mm:any = datetime.getMonth() + 1; //January is 0!
+        var yyyy = datetime.getFullYear();
+        var date:String=dd;
+        var month:String=mm;
+
+        
+        if (dd < 10) {
+            
+           date = '0' + dd;
+        }
+        
+        if (mm < 10) {
+            month = '0' + mm;
+        } 
+            
+        let today = yyyy + '-' + month + '-' + date;
         // this.stepper = new Stepper(document.querySelector('#stepper1'), {
         //     linear: false,
         //     animation: true
@@ -60,6 +80,7 @@ export class AddupdaterequestanalysisComponent implements OnInit {
         });
         this.loadDepartmentList();
         this.loadLabList();
+        
          
     }
     async loadDepartmentList(){

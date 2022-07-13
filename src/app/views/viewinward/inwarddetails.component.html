@@ -4,52 +4,108 @@
       <div class="card-body" style="border: 0px solid red">
         <div class="row">
           <div class="border1 col-sm-4" style="border: 1px solid green">
-            <div class=" first col-sm-12">
-              <label class="fullwidth fontunderline fontbold">Inward No</label>
-              <label class="fullwidth">{{ inwardPageDetails.inwardno }}</label>
-            </div>
-            <div class="col-sm-12">
-              <label class="fullwidth fontunderline fontbold"
-                >Inward Date</label
+            <div class="col-sm-12" style="float: left; width: 100%">
+              <label class="fullwidth fontunderline fontbold" style="width: 45%"
+                >Inward No</label
               >
-              <label class="fullwidth">{{
-                inwardPageDetails.inward_date
+              <label style="width: 10%">:</label>
+              <label class="fullwidth" style="width: 20%; text-align: left">{{
+                inwardPageDetails.inwardno
               }}</label>
             </div>
-            <div class="col-sm-12">
-              <label class="fullwidth fontunderline fontbold"
+            <!-- <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold">Inward No</label>
+              <label class="fullwidth">{{ inwardPageDetails.inwardno }}</label>
+            </div> -->
+            <div class="col-sm-12" style="float: left; width: 100%">
+              <label class="fullwidth fontunderline fontbold" style="width: 45%"
+                >Inward Date</label
+              >
+              <label style="width: 10%">:</label>
+              <label class="fullwidth" style="width: 20%; text-align: left">{{
+                inwardPageDetails.inward_date.slice(0, 11)
+              }}</label>
+            </div>
+            <div class="col-sm-12" style="float: left; width: 100%">
+              <label class="fullwidth fontunderline fontbold" style="width: 45%"
                 >Sample rerturn</label
               >
+              <label style="width: 10%">:</label>
               <label
                 *ngIf="inwardPageDetails.samplesreturn === 'Y'"
                 class="fullwidth"
+                style="width: 20%; text-align: left"
                 >Yes</label
               >
               <label
                 *ngIf="inwardPageDetails.samplesreturn !== 'Y'"
                 class="fullwidth"
+                style="width: 20%; text-align: left"
                 >No</label
               >
             </div>
-            <div class="col-sm-12">
-              <label class="fullwidth fontunderline fontbold"
+            <div class="col-sm-12" style="float: left; width: 100%">
+              <label class="fullwidth fontunderline fontbold" style="width: 45%"
                 >Express Testing</label
               >
-              <label class="fullwidth">{{
+              <label style="width: 10%">:</label>
+              <label class="fullwidth" style="width: 20%; text-align: left">{{
                 inwardPageDetails.exp_testing
               }}</label>
             </div>
-            <div class="col-sm-12">
-              <label class="fullwidth fontunderline fontbold">Comments</label>
-              <label class="fullwidth">{{
+            <div class="col-sm-12" style="float: left; width: 100%">
+              <label class="fullwidth fontunderline fontbold" style="width: 45%"
+                >Comments</label
+              >
+              <label style="width: 10%">:</label>
+              <label class="fullwidth" style="width: 20%; text-align: left">{{
                 inwardPageDetails.nablcomment
               }}</label>
             </div>
-            <div class="col-sm-12">
-              <label class="fullwidth fontunderline fontbold"
+            <div class="col-sm-12" style="float: left; width: 100%">
+              <label class="fullwidth fontunderline fontbold" style="width: 45%"
                 >Customer Type</label
               >
-              <label class="fullwidth">{{ inwardPageDetails.custtype }}</label>
+              <label style="width: 10%">:</label>
+              <label class="fullwidth" style="width: 20%; text-align: left">{{
+                inwardPageDetails.custtype
+              }}</label>
+            </div>
+            <div class="col-sm-12" style="float: left; width: 100%">
+              <label class="fullwidth fontunderline fontbold" style="width: 45%"
+                >Sample Received on</label
+              >
+              <label style="width: 10%">:</label>
+              <label class="fullwidth" style="width: 20%; text-align: left">{{
+                inwardPageDetails.sample_received_date
+              }}</label>
+            </div>
+            <div class="col-sm-12" style="float: left; width: 100%">
+              <label class="fullwidth fontunderline fontbold" style="width: 45%"
+                >Combo Selection</label
+              >
+              <label style="width: 10%">:</label>
+              <label class="fullwidth" style="width: 20%; text-align: left">{{
+                inwardPageDetails.is_combo
+              }}</label>
+            </div>
+            <div class="col-sm-12" style="float: left; width: 100%">
+              <label class="fullwidth fontunderline fontbold" style="width: 45%"
+                >Test Condition</label
+              >
+              <label style="width: 10%">:</label>
+              <label class="fullwidth" style="width: 20%; text-align: left">{{
+                inwardPageDetails.test_condition_based
+              }}</label>
+            </div>
+            <div class="col-sm-12" style="float: left; width: 100%">
+              <label class="fullwidth fontunderline fontbold" style="width: 45%"
+                >Sample Received Condition</label
+              >
+              <label style="width: 10%">:</label>
+              <label class="fullwidth" style="width: 20%; text-align: left">{{
+                inwardPageDetails.sample_received_condition
+              }}</label>
             </div>
             <div class="col-sm-12">
               <label class="fullwidth fontunderline fontbold">Customer</label>
@@ -73,28 +129,34 @@
               <label class="fullwidth"></label>
 
               <!-- <label class="fullwidth fontbold fontunderline">Sample Statistics</label>
-                            <div class="chart-wrapper">
-                                <canvas baseChart class="chart"
-                                [data]="pieChartData"
-                                [labels]="pieChartLabels"
-                                [chartType]="pieChartType"
-                                (chartHover)="chartHovered($event)"
-                                (chartClick)="chartClicked($event)"></canvas>
-                              </div> -->
+                        <div class="chart-wrapper">
+                            <canvas baseChart class="chart"
+                            [data]="pieChartData"
+                            [labels]="pieChartLabels"
+                            [chartType]="pieChartType"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"></canvas>
+                          </div> -->
             </div>
           </div>
-          <div class="border2 col-sm-4" style="border: 1px solid green">
+          <div class="border2 col-sm-3" style="border: 1px solid green">
+            <div class="col-sm-12">
+              <label class="fullwidth fontunderline fontbold">Request.No</label>
+              <label class="fullwidth">{{ inwardPageDetails.reqno }}</label>
+            </div>
             <div class="col-sm-12">
               <label class="fullwidth fontunderline fontbold"
-                >Request. No</label
+                >Reference.No</label
               >
-              <label class="fullwidth">{{ inwardPageDetails.reqno }}</label>
+              <label class="fullwidth">{{ inwardPageDetails.refno }}</label>
             </div>
             <div class="col-sm-12">
               <label class="fullwidth fontunderline fontbold"
                 >Request. Date</label
               >
-              <label class="fullwidth">{{ inwardPageDetails.reqdate }}</label>
+              <label class="fullwidth">{{
+                inwardPageDetails.reqdate.slice(0, 11)
+              }}</label>
             </div>
             <div class="col-sm-12">
               <label class="fullwidth fontunderline fontbold"
@@ -107,7 +169,7 @@
                 >Receipt Date</label
               >
               <label class="fullwidth">{{
-                inwardPageDetails.receiptdate
+                inwardPageDetails.receiptdate.slice(0, 11)
               }}</label>
             </div>
             <div class="col-sm-12">
@@ -132,7 +194,7 @@
                 inwardPageDetails.noofsamples
               }}</label>
             </div>
-            <div class="col-sm-12">
+            <!-- <div class="col-sm-12">
               <label class="fullwidth fontunderline fontbold"
                 >Sample Received on</label
               >
@@ -162,21 +224,21 @@
               <label class="fullwidth">{{
                 inwardPageDetails.sample_received_condition
               }}</label>
-            </div>
+            </div> -->
             <!-- <div class="col-sm-12">
-                            <label class="fullwidth fontbold fontunderline">Sample Statistics</label>
-                            <div class="chart-wrapper">
-                                <canvas baseChart class="chart"
-                                [data]="pieChartData"
-                                [labels]="pieChartLabels"
-                                [chartType]="pieChartType"
-                                (chartHover)="chartHovered($event)"
-                                (chartClick)="chartClicked($event)"
-                                [colors]="colors"></canvas>
-                              </div>
-                        </div> -->
+                        <label class="fullwidth fontbold fontunderline">Sample Statistics</label>
+                        <div class="chart-wrapper">
+                            <canvas baseChart class="chart"
+                            [data]="pieChartData"
+                            [labels]="pieChartLabels"
+                            [chartType]="pieChartType"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            [colors]="colors"></canvas>
+                          </div>
+                    </div> -->
           </div>
-          <div class="border3 col-sm-3" style="border: 1px solid green">
+          <div class="border3 col-sm-4" style="border: 1px solid green">
             <div class="col-sm-12">
               <div style="float: left; width: 100%">
                 <label class="fontbold" style="width: 45%">Invoice No</label>

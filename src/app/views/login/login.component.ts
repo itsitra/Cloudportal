@@ -79,6 +79,8 @@ export class LoginComponent {
               localStorage.setItem('customerid', return_values.customerid);
               localStorage.setItem('customername', return_values.mill_organization_name);
               localStorage.setItem('lims_custid', return_values.lims_custid);
+              localStorage.setItem('customer_type', return_values.customer_type);
+
               this.router.navigateByUrl('dashboard');
             }
           }

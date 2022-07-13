@@ -20,6 +20,7 @@
 <div class="animated fadeIn">
   <!--Start Test selection model popup -->
   <div
+    id="btnPopupClose"
     bsModal
     #testSelectionModel="bs-modal"
     class="modal modal-lg"
@@ -42,9 +43,22 @@
           <h5 style="width: 50%; float: left" class="modal-title">
             No of Test(s) Selected : {{ SamplePopupProperty.nooftests }}
           </h5>
-          <!-- <h5 style="width:50%;float:left;" class="modal-title">Copy to All Sample(s)
-                <input type="checkbox" />
-              </h5> -->
+          <h5 style="width: 50%; float: left" class="modal-title">
+            Copy selected Test(s)
+            <input
+              type="checkbox"
+              [checked]="selectAllTest"
+              (change)="selectAll()"
+            />
+          </h5>
+          <!-- <h5 style="width: 50%; float: left" class="modal-title">
+            Copy to All Sample(s)
+            <input
+              type="checkbox"
+              [checked]="selectAllTest"
+              (change)="selectAll()"
+            />
+          </h5>  -->
 
           <button
             type="button"
@@ -165,7 +179,7 @@
                       setTestId(
                         test.testid,
                         $event,
-                        test.nonmemrate,
+                        custtype === 'M' ? test.mrate : test.nmrate,
                         SamplePopupProperty.sampleno
                       )
                     "
@@ -178,7 +192,7 @@
                       setTestId(
                         test.testid,
                         $event,
-                        test.nonmemrate,
+                        custtype === 'M' ? test.mrate : test.nmrate,
                         SamplePopupProperty.sampleno
                       )
                     "
@@ -203,7 +217,7 @@
           <button
             type="button"
             class="btn btn-success"
-            (click)="updateSampleArray()"
+            (click)="updateSampleArray(testSelectionModel.hide())"
           >
             Confirm
           </button>
@@ -715,7 +729,7 @@
                 <div class="form-group">
                   <label for="name">Despatch Date</label>
                   <input
-                    type="text"
+                    type="date"
                     class="form-control"
                     [(ngModel)]="formData.despatch_date"
                   />
@@ -915,7 +929,12 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let gridData of sampleGridData; index as j">
+                        <tr
+                          *ngFor="
+                            let gridData of sampleGridData.data;
+                            index as j
+                          "
+                        >
                           <td>
                             <p>{{ j + 1 }}</p>
                           </td>
@@ -963,7 +982,7 @@
                               <i
                                 class="icon-trash"
                                 style="
-                                  color: red;
+                                  color: red;z
                                   font-size: 1.3em;
                                   cursor: pointer;
                                 "

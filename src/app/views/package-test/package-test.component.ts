@@ -22,14 +22,19 @@ export class PackageTestComponent implements OnInit {
   packageMaster: any;
   packageDetailsParams: packageDetailsParams;
   packageDetails: any;
+  samples: any;
+  sampleid:number;
+
   requestParams: genratePackagetest;
   packid: string = "";
+  packageRate:string="";
   // noofsamples: string
   insertPackagsparams: {
     custid: number,
     PackId: number,
     noofsamples: number,
-    SampDesc: string
+    SampDesc: string,
+    sampleid:number
   };
   newPaymentFormData: { amountToPay: string; paymentAgainst: string; paymentType: string; paymentComments: string; };
 
@@ -77,13 +82,35 @@ export class PackageTestComponent implements OnInit {
     }
     this.packageservice.getList(this.listparams).subscribe((res) => {
       this.packageList = res;
+
       this.PaginatedList = this.packageList.slice(0, 10);
+
+    })
+  }
+
+  getPrice(i:any){
+    this.packageMaster.filter((e,j)=>{
+      if (e.PackId==i) {
+        this.packageRate=e.rate;
+      }
+    })
+    
+   
+  }
+  deletepackage(id:any){
+    let jdata ={"reqid":id}
+    this.packageservice.deletepackage(jdata).subscribe((res)=>{
+      if (res) {
+        this.getPackageList()
+      }
     })
   }
 
   getPackageMaster() {
     this.packageservice.getpackageMaster().subscribe((res) => {
-      this.packageMaster = res;
+      console.log(res['data'])
+      this.packageMaster = res['data'];
+      this.samples = res['sample'];
     })
   }
 
@@ -106,7 +133,8 @@ export class PackageTestComponent implements OnInit {
 
   genrateRequest(rNo) {
     this.requestParams = {
-      RNo: rNo
+      RNo: rNo,
+      custid: Number(localStorage.getItem('lims_custid')),
     };
     this.packageservice.genratePackageTestRequest(this.requestParams).subscribe((res) => {
       let result = res;
@@ -135,24 +163,35 @@ export class PackageTestComponent implements OnInit {
 
   insertPackage() {
     let sampledescription = "";
-    this.sampleDescCreate.map(ele => { sampledescription = ele.sampledesc + ',' + sampledescription })
-    this.insertPackagsparams = {
-      PackId: Number(this.packid),
-      custid: this.customerId,
-      noofsamples: Number(this.noOfSamples),
-      SampDesc: sampledescription
-    }
-    this.packageservice.insertpackage(this.insertPackagsparams).subscribe(res => {
-      let result = res.status;
-      if (result) {
-        Swal.fire("SUCCESS", "Package Inserted Successfully ", 'success');
-        this.modalRef.hide();
-        this.getPackageList();
-      } else {
-        Swal.fire("ERROR", "Something went wrong", 'error');
+    if (this.packid=="") {
+      alert("Select a package")
+    }else if(this.sampleid==0||this.sampleid==null){
+      alert("Please Select Sample")
+    }else if(this.sampleDescCreate[0].sampledesc==''){
+      alert("Please Enter Sample Description")
+    }else{
+      this.sampleDescCreate.map(ele => { sampledescription = ele.sampledesc + ',' + sampledescription })
+      this.insertPackagsparams = {
+        PackId: Number(this.packid),
+        custid: this.customerId,
+        sampleid:this.sampleid,
+        noofsamples: Number(this.noOfSamples),
+        SampDesc: sampledescription
       }
-      // console.log(result);
-    })
+      // console.log(this.insertPackagsparams)
+      this.packageservice.insertpackage(this.insertPackagsparams).subscribe(res => {
+        let result = res.status;
+        if (result) {
+          Swal.fire("SUCCESS", "Package Inserted Successfully ", 'success');
+          this.modalRef.hide();
+          this.getPackageList();
+        } else {
+          Swal.fire("ERROR", "Something went wrong", 'error');
+        }
+        // console.log(result);
+      })
+    }
+    
   }
   packageTestPayNow(totalAmount: string,request) {
     if(Number(totalAmount) == 0){
@@ -248,16 +287,21 @@ export class PackageTestComponent implements OnInit {
   }
 
   decreseSample() {
-    if (this.noOfSamples == 0) {
-      return;
+    if (this.noOfSamples > 1) {
+      this.noOfSamples = this.noOfSamples - 1;
+      this.sampleDescCreate.pop()
+      
     }
-    this.noOfSamples = this.noOfSamples - 1;
-    this.sampleDescCreate.pop()
+    
   }
 
   increseSamples() {
-    this.noOfSamples = this.noOfSamples + 1;
-    this.sampleDescCreate.push({ sampledesc: '' });
+  
+    if (this.noOfSamples <=2) {
+      this.noOfSamples = this.noOfSamples + 1;
+      this.sampleDescCreate.push({ sampledesc: '' });
+    }
+    
   }
   
   PackageTestPageChanged(event: PageChangedEvent): void {

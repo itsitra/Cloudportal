@@ -251,7 +251,8 @@ export class WebinarComponent implements OnInit {
       let paymentType = 2; // for Webinar Payment
       let orderParams = {
         amount: amount
-        , receipt: localStorage.getItem('customername')
+        , receipt: localStorage.getItem('customername'),
+        orderType:'webinar'
       }
       let params = {
         customerid: this.SessionCustomerId
@@ -264,7 +265,7 @@ export class WebinarComponent implements OnInit {
           //console.log(data);
           if (data.temp_payment_reference != '') {
             setTimeout(() => {
-              window.location.href = environment.razorpaymentUrl + 'pay.php?order_id=' + data.payload.order_id.toString();
+              window.location.href = environment.razorpaymentUrl + 'webinarpay.php?order_id=' + data.payload.order_id.toString()+'&type=webinar';
             }, 100);
           }
         },

@@ -65,13 +65,6 @@
                   <input
                     type="text"
                     class="form-control"
-                    [(ngModel)]="usd.countcode"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
                     [(ngModel)]="usd.description"
                   />
                 </td>
@@ -80,6 +73,13 @@
                     type="text"
                     class="form-control"
                     [(ngModel)]="usd.remarks"
+                  />
+                </td>
+                <td *ngIf="type === 'Yarn'">
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="usd.countcode"
                   />
                 </td>
                 <td *ngIf="type === 'Yarn'">
@@ -255,7 +255,7 @@
                 <th style="width: 5%">S.No</th>
                 <th style="width: 10%">Request No</th>
                 <th style="width: 10%">Request Date</th>
-                <th style="width: 15%; text-align: center">Type</th>
+                <th style="width: 15%; text-align: center">Lab</th>
                 <th style="width: 10%">No of Sample(s)</th>
                 <th style="width: 10%">Inward No</th>
                 <th style="width: 10%">Inward Date</th>
@@ -269,10 +269,18 @@
                   <div>{{ j + 1 }}</div>
                 </td>
                 <td>
-                  <div>{{ request.reqno }}</div>
+                  <div
+                    tooltip="{{
+                      request.quotationno != ' '
+                        ? request.quotationno
+                        : 'No Data'
+                    }}"
+                  >
+                    {{ request.reqno }}
+                  </div>
                 </td>
                 <td>
-                  <div>{{ request.request_date }}</div>
+                  <div>{{ request.request_date.slice(0, 11) }}</div>
                 </td>
                 <td style="text-align: center">
                   <div>{{ request.sample_type }}</div>

@@ -458,14 +458,14 @@ export class MypaymentsComponent implements OnInit {
     });
   }
 
-  paymentOptionOpen(template:TemplateRef<any>,netamount){
-    if(netamount > 0){
+  paymentOptionOpen(template:TemplateRef<any>,netamount,paymentAgainst,paymentType){
+    if(netamount > 0 &&paymentAgainst!=''&&paymentType!=''){
     this.Amount = netamount;
     // this.modalService.hide(primaryModal);
     // this.quatatioNO = quotation;
     this.modalRef = this.modalService.show(template,{ class: 'modal-success' });
     }else{
-      Swal.fire("WARNING", "Please enter valid Amount to Pay","warning")
+      Swal.fire("WARNING", "Please enter valid Amount to Pay and Payment Against and Payment Type","warning")
     }
   }
 

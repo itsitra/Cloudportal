@@ -138,11 +138,16 @@
                 <td>
                   <div>{{ testrate.labname }}</div>
                 </td>
-                <td>
+                <!-- <td>
                   <div>{{ testrate.testname }}</div>
+                </td> -->
+                <td>
+                  <div>
+                    <span [innerHTML]="testrate.testname"></span>
+                  </div>
                 </td>
                 <td>
-                  <div>{{ testrate.alias }}</div>
+                  <div><span [innerHTML]="testrate.alias"></span></div>
                 </td>
                 <td>
                   <div>{{ testrate.standard }}</div>

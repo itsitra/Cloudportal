@@ -2,26 +2,51 @@
   <ng-template #template class="modal modal-lg">
     <div class="modal-header">
       <h4 class="modal-title pull-left">Select Frequent Tests</h4>
-      <button style="outline: none; border: none;" type="button" class="close pull-right text-white" aria-label="Close" (click)="modalRef.hide()">
+      <button
+        style="outline: none; border: none"
+        type="button"
+        class="close pull-right text-white"
+        aria-label="Close"
+        (click)="modalRef.hide()"
+      >
         <i class="fa fa-times" aria-hidden="true"></i>
       </button>
     </div>
     <div class="modal-body">
       <div class="row d-flex justify-content-end mb-2">
-        <div class="col-md-4 ">
+        <div class="col-md-4">
           <div class="input-group">
-            <input type="text" class="form-control" [(ngModel)]="searchTestMaster" id="frequent-test-search"
-              placeholder="Search...">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="searchTestMaster"
+              id="frequent-test-search"
+              placeholder="Search..."
+            />
             <div class="input-group-prepend">
-              <button (click)="fetchTestMaster()" class="btn btn-primary rounded-right"><i class="fa fa-search"
-                  aria-hidden="true"></i></button>
+              <button
+                (click)="fetchTestMaster()"
+                class="btn btn-primary rounded-right"
+              >
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="table frequentTestList" style="height: 40vh; overflow-y: scroll; overflow-x: hidden;">
-          <div class="row" style="position: sticky; background-color: #E4E7EA;border:solid #E4E7EA;">
+        <div
+          class="table frequentTestList"
+          style="height: 40vh; overflow-y: scroll; overflow-x: hidden"
+        >
+          <div
+            class="row"
+            style="
+              position: sticky;
+              background-color: #e4e7ea;
+              border: solid #e4e7ea;
+            "
+          >
             <div class="col-md-2"></div>
             <div class="col-md-2">Test ID</div>
             <div class="col-md-4">Test Name</div>
@@ -30,21 +55,34 @@
           </div>
 
           <div *ngFor="let tml of TestMasterList">
-            <div class="row section-list"
-              style="height: 3rem; padding: 5px 0px;border-bottom:1px solid rgb(192, 191, 191);">
-              <div class="col-md-2"><input type="checkbox" class="ml-5" (change)="testselection($event,tml.testid)"
-                  name="" id="{{tml.testid}}"></div>
-              <label class="col-md-2" for="{{tml.testid}}">
-                <div>{{tml.testid}}</div>
+            <div
+              class="row section-list"
+              style="
+                height: 3rem;
+                padding: 5px 0px;
+                border-bottom: 1px solid rgb(192, 191, 191);
+              "
+            >
+              <div class="col-md-2">
+                <input
+                  type="checkbox"
+                  class="ml-5"
+                  (change)="testselection($event, tml.testid)"
+                  name=""
+                  id="{{ tml.testid }}"
+                />
+              </div>
+              <label class="col-md-2" for="{{ tml.testid }}">
+                <div>{{ tml.testid }}</div>
               </label>
-              <label class="col-md-4" for="{{tml.testid}}">
-                <div>{{tml.testname}}</div>
+              <label class="col-md-4" for="{{ tml.testid }}">
+                <div>{{ tml.testname }}</div>
               </label>
-              <label class="col-md-2" for="{{tml.testid}}">
-                <div>{{tml.mrate}}</div>
+              <label class="col-md-2" for="{{ tml.testid }}">
+                <div>{{ tml.mrate }}</div>
               </label>
-              <label class="col-md-2" for="{{tml.testid}}">
-                <div>{{tml.nmrate}}</div>
+              <label class="col-md-2" for="{{ tml.testid }}">
+                <div>{{ tml.nmrate }}</div>
               </label>
             </div>
           </div>
@@ -54,12 +92,21 @@
     <div class="modal-footer">
       <div class="mr-auto">
         <p>
-          No. of Selected Tests: {{testList.length}}
+          No. of Selected Tests:
+          {{ testList.length === 0 ? 0 : testList.length }}
         </p>
       </div>
       <!-- <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button> -->
-      <button type="button" class="btn btn-secondary" (click)="Modelclose()">Close</button>
-      <button type="button" class="btn btn-success" (click)="StoreNewFreqTestList()">Confirm</button>
+      <button type="button" class="btn btn-secondary" (click)="Modelclose()">
+        Close
+      </button>
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="StoreNewFreqTestList()"
+      >
+        Confirm
+      </button>
     </div>
   </ng-template>
   <div class="row">
@@ -67,53 +114,82 @@
       <div class="card">
         <div class="card-header">
           Frequent Used Tests
-          <button class="btn btn-success float-right" value="" (click)="openModal(template)"><i class="fa fa-plus"></i>
-            Add New Frequent Test</button>
+          <button
+            class="btn btn-success float-right"
+            value=""
+            (click)="openModal(template)"
+          >
+            <i class="fa fa-plus"></i> Add New Frequent Test
+          </button>
         </div>
         <div class="card-body">
           <div class="row d-flex justify-content-end">
-            <div class="col-md-4 ">
+            <div class="col-md-4">
               <div class="input-group">
-                <input type="text" class="form-control" [(ngModel)]="searchText" id="frequent-test-search"
-                  placeholder="Search...">
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="searchText"
+                  id="frequent-test-search"
+                  placeholder="Search..."
+                />
                 <div class="input-group-prepend">
-                  <button (click)="getFrequentTest()" class="btn btn-primary rounded-right"><i class="fa fa-search"
-                      aria-hidden="true"></i></button>
+                  <button
+                    (click)="getFrequentTest()"
+                    class="btn btn-primary rounded-right"
+                  >
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-          <br>
-          <table style="width:100%;" class="table table-responsive-sm table-hover table-outline mb-0">
+          <br />
+          <table
+            style="width: 100%"
+            class="table table-responsive-sm table-hover table-outline mb-0"
+          >
             <thead class="thead-light">
               <tr>
-                <th style="width:25%;">Test Name</th>
-                <th style="width:15%;">Alias</th>
-                <th style="width:20%;">NABL Standard</th>
-                <th style="width:10%;">Sample size</th>
-                <th style="width:10%;">Member rate</th>
-                <th style="width:10%;">Non-Member rate</th>
-                <th style="width:10%;">Action</th>
+                <th style="width: 25%">Test Name</th>
+                <th style="width: 15%">Alias</th>
+                <th style="width: 20%">NABL Standard</th>
+                <th style="width: 10%">Sample size</th>
+                <th style="width: 10%">Member rate</th>
+                <th style="width: 10%">Non-Member rate</th>
+                <th style="width: 10%">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of PaginatedFreqTestList">
-                <td>{{item.testname}}</td>
-                <td>{{item.alias}}</td>
-                <td>{{item.standard}}</td>
-                <td>{{item.samplesize}}</td>
-                <td>{{item.mrate}}</td>
-                <td>{{item.nmrate}}</td>
-                <td><button class="btn btn-danger" tooltip="Delete Test" (click)="DeleteFreqTest(item.testid)"><i class="fa fa-trash"
-                      aria-hidden="true"></i></button></td>
+                <td>{{ item.testname }}</td>
+                <td>{{ item.alias }}</td>
+                <td>{{ item.standard }}</td>
+                <td>{{ item.samplesize }}</td>
+                <td>{{ item.mrate }}</td>
+                <td>{{ item.nmrate }}</td>
+                <td>
+                  <button
+                    class="btn btn-danger"
+                    tooltip="Delete Test"
+                    (click)="DeleteFreqTest(item.testid)"
+                  >
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
           <hr />
           <div class="row d-flex justify-content-between">
             <div class="col-md-1">
-              <select class="form-control" name="" id="" [(ngModel)]="FreqTestItemperpage"
-                (ngModelChange)="itemPerPage()">
+              <select
+                class="form-control"
+                name=""
+                id=""
+                [(ngModel)]="FreqTestItemperpage"
+                (ngModelChange)="itemPerPage()"
+              >
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="20">20</option>
@@ -121,10 +197,14 @@
               </select>
             </div>
             <div class="col-md-5">
-              <pagination id="freqTestPagination" style="float: right;" [itemsPerPage]="FreqTestItemperpage"
-                [totalItems]="frequentTestList.length" (pageChanged)="freqTestPageChanged($event)"></pagination>
+              <pagination
+                id="freqTestPagination"
+                style="float: right"
+                [itemsPerPage]="FreqTestItemperpage"
+                [totalItems]="frequentTestList"
+                (pageChanged)="freqTestPageChanged($event)"
+              ></pagination>
             </div>
-
           </div>
         </div>
       </div>

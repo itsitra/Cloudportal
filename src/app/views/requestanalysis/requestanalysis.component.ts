@@ -88,6 +88,7 @@ export class RequestanalysisComponent implements OnInit {
       next: data => {
         // console.log('--------------------DATA START-----------------');
         this.requestAnalysis = data.data;
+        
         this.pageCount = Number(data.pagecount);
         if (this.pageCount <= 5) {
           // console.log('page no validatoin ' + this.pageCount);
@@ -357,16 +358,16 @@ export class RequestanalysisComponent implements OnInit {
 
   Updatesampledescription() {
     console.log(this.UpdateSampleDesc)
-    //   let postvalue = {}
-    // this.proformaService.updateSampleDesc(this.UpdateSampleDesc).subscribe((res) => {
-    //   let result = res;
-    //   if (result.status != null || result.status == true) {
-    //     Swal.fire("Success", "Sample description updated sucessfully", "success");
-    //     this.modalRef.hide();
-    //     return;
-    //   }
-    //   Swal.fire("ERROR", "something went wrong", "error");
-    // })
+      let postvalue = {}
+    this.proformaService.updateSampleDesc(this.UpdateSampleDesc).subscribe((res) => {
+      let result = res;
+      if (result.status != null || result.status == true) {
+        Swal.fire("Success", "Sample description updated sucessfully", "success");
+        this.modalRef.hide();
+        return;
+      }
+      Swal.fire("ERROR", "something went wrong", "error");
+    })
   }
 }
 export interface TestRates {
@@ -387,4 +388,5 @@ export interface RequestAnalysis {
   inwarddate: any;
   status_string: any;
   status: any;
+  quotationno:any;
 }

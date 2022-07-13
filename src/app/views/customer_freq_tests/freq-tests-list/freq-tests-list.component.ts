@@ -12,7 +12,7 @@ import { FreqentTestService } from '../../../_services/freqent-test.service';
 })
 export class FreqTestsListComponent implements OnInit {
   private customerId: number;
-  frequentTestList: any =[];
+  frequentTestList=[];
   postData: {custid: number; search: string; tablerowstart:number; tablerowlimit:number};
 
 
@@ -20,7 +20,7 @@ export class FreqTestsListComponent implements OnInit {
   SlectedTest: { custid: number; testid: number; };
   DeleteTest: { custid: number; testid: number; };
   testList = [];
-  TestMasterList: any;
+  TestMasterList: any[];
   PaginatedFreqTestList: any[];
   FreqTestItemperpage: any = 10;
   itemperpage: number= 10;
@@ -72,7 +72,7 @@ export class FreqTestsListComponent implements OnInit {
       let result = res;
       this.TestMasterList = result;
       this.PaginatedTestMasterList=this.TestMasterList.slice(0, 20);
-      // console.log(result);
+      console.log(result);
     }, err => {
       alert("something went wrong");
       console.log(err);
@@ -81,6 +81,10 @@ export class FreqTestsListComponent implements OnInit {
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-lg modal-success' });
+  }
+  Modelclose() {
+    this.modalRef.hide();
+    this.testList = [];
   }
   testselection(event, Testid) {
     let isexsists = this.testList.findIndex(x => x.testid == Testid);
@@ -96,6 +100,7 @@ export class FreqTestsListComponent implements OnInit {
   StoreNewFreqTestList() {
     this.FrequentTestService.insertCustFreqtests(this.testList).subscribe((res) => {
       let result = res;
+  
       // result.status == true ? alert("Added to Freqent Used Tests Successfully") : alert("something went WRONG");
       if (!result.status) {
         Swal.fire('ERROR', 'something went WRONG', 'error');
@@ -108,10 +113,7 @@ export class FreqTestsListComponent implements OnInit {
     })
   }
 
-  Modelclose() {
-    this.modalRef.hide();
-    this.testList = [];
-  }
+ 
 
   DeleteFreqTest(TestId) {
     // let confirmFlag = confirm("Do you want to delete this?")

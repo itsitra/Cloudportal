@@ -29,6 +29,9 @@ export class PackageTestService {
   insertpackage(params: insertpackage): Observable<any> {
     return this.httpClient.post(this.url + 'insert_package_request', params);
   }
+  deletepackage(params: deletepackage): Observable<any> {
+    return this.httpClient.post(this.url + 'deletepackage', params);
+  }
 }
 
 export interface packageListParams {
@@ -44,11 +47,17 @@ export interface packageDetailsParams {
 }
 
 export interface genratePackagetest {
-  RNo: string
+  RNo: string,
+  custid: number,
 }
 
 export interface insertpackage {
   custid: number,
   PackId: number,
   noofsamples: number
+}
+
+export interface deletepackage {
+  reqid: number,
+
 }

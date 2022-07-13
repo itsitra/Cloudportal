@@ -26,11 +26,17 @@ export class RequestanalysisaddupdateComponent implements OnInit {
     public requestNumber: any = '';
     public departmentList: InterfaceDepartmentList[];
     public labList: InterfaceLabList[];
-    public testList: InterfaceTestList[];
+    public testList: InterfaceTestList[] = [];
+    public testListTemp:any= [];
+
     public sampleLists : SampleLists[] = [];
-    public sampleGridData : any[] = [];
+    public sampleGridData : any={
+        data:[],
+    } ;
     public sampleTypeLists : SampleTypeList[] = [];
     public sampleTypeListForDisplay : any[] = [];
+    public selectAllTest:boolean = false;
+    public custtype:string =localStorage.getItem('customer_type');
     public formData = {
         reqno : ''
         , deptid : '8'
@@ -112,6 +118,26 @@ export class RequestanalysisaddupdateComponent implements OnInit {
         const uuid = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
         let datetime = new Date();
 
+      
+        var dd:any = datetime.getDate();
+        var mm:any = datetime.getMonth() + 1; //January is 0!
+        var yyyy = datetime.getFullYear();
+        var date:String=dd;
+        var month:String=mm;
+
+        
+        if (dd < 10) {
+            
+           date = '0' + dd;
+        }
+        
+        if (mm < 10) {
+            month = '0' + mm;
+        } 
+            
+        let today = yyyy + '-' + month + '-' + date;
+       
+        
         this.randomUniqNo = uuid+datetime.getDate()+datetime.getMonth()+datetime.getFullYear()+datetime.getHours()+datetime.getMinutes()+datetime.getMilliseconds();
         // const routeParams = this.activeRoute.snapshot.params;
         if (this.SessionCustomerId <= 0) {
@@ -164,7 +190,9 @@ export class RequestanalysisaddupdateComponent implements OnInit {
             this.labList = [];
         }
     }
-    async loadTestList(){
+    async loadTestList(sampleno:any){
+        
+        
         if(this.formData.deptid !='' && this.formData.labid !=''){
 
             this.postData = {
@@ -173,8 +201,27 @@ export class RequestanalysisaddupdateComponent implements OnInit {
               }
               this.FrequentTestService.getFrequentTests(JSON.stringify(this.postData)).subscribe(res => {
                 let result = res.data;
-                this.testList = result;        
-                console.log(result);
+                
+                
+             
+                this.testList = result;   
+                this.testList.forEach((e,i) => {
+                    this.testList[i]['selected']='false';
+                        if (this.sampleGridData.data[sampleno].test.length>0) {
+                            this.sampleGridData.data[sampleno].test.forEach((t,j) => {
+                                if (e.testid == t.testid) {
+                                    this.testList[i]['selected']='true';
+                                } 
+                            });
+                            
+                        }
+                       
+                    
+                }); 
+                
+               
+                   
+               
               }, err => {
                 alert("something went wrong");
                 console.log(err);
@@ -203,10 +250,15 @@ export class RequestanalysisaddupdateComponent implements OnInit {
         
         this.SamplePopupProperty.sampleno = paramSampleNo + 1;
         //alert(this.SamplePopupProperty.sampleno);
+        if (this.sampleGridData.data.length>0 && this.sampleGridData.data[paramSampleNo].test.length>0 ) {
+            this.SamplePopupProperty.nooftests = this.sampleGridData.data[paramSampleNo].test.length;            
+        }else{
             this.SamplePopupProperty.nooftests = 0;
+
+        }
             this.SamplePopupProperty.hascopytoall = '';
             this.SamplePopupProperty.rowIndex = paramSampleNo;
-            this.loadTestList();
+            this.loadTestList(paramSampleNo);
             //console.log(this.testList);
             
 
@@ -260,6 +312,8 @@ export class RequestanalysisaddupdateComponent implements OnInit {
     }
     
     addUpdateSampleGrid(){
+       
+        // alert(JSON.stringify(this.samplesWithTestArray.tests))
         let error = false;
         if(this.sampleEntryFormData.sampletype === ''){
             error = true;
@@ -271,7 +325,7 @@ export class RequestanalysisaddupdateComponent implements OnInit {
             console.log('--- No Error --')
             if(this.sampleEntryFormData.index === ''){
                 console.log('--- No Existing Records --')
-                this.sampleGridData.push(
+                this.sampleGridData.data.push(
                     {
                         sampletype : this.sampleEntryFormData.sampletype
                         , count : this.sampleEntryFormData.count
@@ -280,17 +334,40 @@ export class RequestanalysisaddupdateComponent implements OnInit {
                         , ply : this.sampleEntryFormData.ply
                         , blend : this.sampleEntryFormData.blend
                         , remarks : this.sampleEntryFormData.remarks
+                        ,test:[]
                     }
                 )
+               
+                // if (this.selectAllTest) {
+                //     let temp =[];
+                //     this.testListTemp.forEach((e: any,i: string | number) => {
+                //        this.testListTemp[i]['sampleno']=this.sampleGridData.length;     
+                //    });
+                //    temp.push(...this.testListTemp)
+                //     let params = {
+                //         samples_with_tests : temp
+                //         , uniqno : this.randomUniqNo
+                //         , sampleno : this.sampleGridData.length
+                //     }    
+                //     if (this.updateSampleArrayTest(params)) {
+                //         // this.samplesWithTestArray.tests.push(...temp)
+                //        let d = this.samplesWithTestArray.tests.slice(0,temp.length)
+                //         d.forEach((b,i) => {
+                //             // d[i]['sampleno']=d[i]['sampleno']-1;
+                //         });
+                //         this.samplesWithTestArray.tests.push(...d)      
+                //     console.log(this.samplesWithTestArray.tests)
+                //     }                                                             
+                // }
                 
             }else{
-                this.sampleGridData[this.sampleEntryFormData.index].sampletype = this.sampleEntryFormData.sampletype;
-                this.sampleGridData[this.sampleEntryFormData.index].count = this.sampleEntryFormData.count;
-                this.sampleGridData[this.sampleEntryFormData.index].desc1 = this.sampleEntryFormData.desc1;
-                this.sampleGridData[this.sampleEntryFormData.index].desc2 = this.sampleEntryFormData.desc2;
-                this.sampleGridData[this.sampleEntryFormData.index].ply = this.sampleEntryFormData.ply;
-                this.sampleGridData[this.sampleEntryFormData.index].blend = this.sampleEntryFormData.blend;
-                this.sampleGridData[this.sampleEntryFormData.index].remarks = this.sampleEntryFormData.remarks;
+                this.sampleGridData.data[this.sampleEntryFormData.index].sampletype = this.sampleEntryFormData.sampletype;
+                this.sampleGridData.data[this.sampleEntryFormData.index].count = this.sampleEntryFormData.count;
+                this.sampleGridData.data[this.sampleEntryFormData.index].desc1 = this.sampleEntryFormData.desc1;
+                this.sampleGridData.data[this.sampleEntryFormData.index].desc2 = this.sampleEntryFormData.desc2;
+                this.sampleGridData.data[this.sampleEntryFormData.index].ply = this.sampleEntryFormData.ply;
+                this.sampleGridData.data[this.sampleEntryFormData.index].blend = this.sampleEntryFormData.blend;
+                this.sampleGridData.data[this.sampleEntryFormData.index].remarks = this.sampleEntryFormData.remarks;
             }
             this.sampleEntryFormData.index = '';
             this.sampleEntryFormData.sampletype = '';
@@ -302,7 +379,7 @@ export class RequestanalysisaddupdateComponent implements OnInit {
 
             this.sampleEntryFormData.remarks = '';
             
-            if(this.sampleGridData.length > 0){
+            if(this.sampleGridData.data.length > 0){
                 this.disableInput.deptid = 1;
                 this.disableInput.labid = 1; 
             }
@@ -314,9 +391,9 @@ export class RequestanalysisaddupdateComponent implements OnInit {
         const confirmFlag = confirm('Do you want to remove this count ?');
         if (confirmFlag === true) {          
           if (index !== -1) {
-              this.sampleGridData.splice(index, 1);
+              this.sampleGridData.data.splice(index, 1);
               this.samplesWithTestArray.tests = this.samplesWithTestArray.tests.filter(item => item.sampleno !== (index+1));        
-              if(this.sampleGridData.length === 0){
+              if(this.sampleGridData.data.length === 0){
                  this.disableInput.deptid = 0;
                  this.disableInput.labid = 0; 
                }
@@ -354,44 +431,128 @@ export class RequestanalysisaddupdateComponent implements OnInit {
 
     }
     setTestId(selectedTestId, event, testRate, sampleNo){
-        //console.log(event.target.checked);
+      
         if(event.target.checked === true){
             var isPresent = this.samplesWithTestArray.tests.some(function(el){ 
                 if(el.sampleno === sampleNo && el.testid === selectedTestId )
+                
                     return true;
                 else   
                     return false;
             });
             if(!isPresent){
                 this.samplesWithTestArray.tests.push(
-                    {sampleno : sampleNo, testid : selectedTestId, rate : testRate}
+                    {sampleno : sampleNo, testid : selectedTestId, rate : testRate,selected:true}
                 );
+               
                 this.SamplePopupProperty.nooftests = Number(this.SamplePopupProperty.nooftests) + 1;
+                if (this.selectAllTest && this.sampleGridData.data.length>0) {
+                    this.sampleGridData.data.forEach((el,i) => {
+                        el.test.push(
+                            {sampleno : i+1, testid : selectedTestId, rate : testRate,selected:true
+                        })
+                    });
+                   
+                } else{
+                    this.sampleGridData.data[sampleNo-1].test.push(
+                        {sampleno : sampleNo, testid : selectedTestId, rate : testRate,selected:true}
+                        );
+                }
                 this.totalTestingCharge = Number(this.totalTestingCharge) + Number(testRate);
             }
         }else{    
             this.samplesWithTestArray.tests = this.samplesWithTestArray.tests.filter(item => item.testid !== selectedTestId);                    
+            if (this.selectAllTest && this.sampleGridData.data.length>0) {
+               
+                this.sampleGridData.data.forEach((el,i) => {
+                    this.sampleGridData.data[i].test = this.sampleGridData.data[i].test.filter(item => item.testid !== selectedTestId);                    
+                });
+            } else{
+                this.sampleGridData.data[sampleNo-1].test = this.sampleGridData.data[sampleNo-1].test.filter(item => item.testid !== selectedTestId);                    
+            }
+           
+
              this.SamplePopupProperty.nooftests = Number(this.SamplePopupProperty.nooftests) - 1;
+             
+
              this.totalTestingCharge = Number(this.totalTestingCharge) - Number(testRate);
         }
-        console.log(this.samplesWithTestArray);
+        
+        
+        
+
     }
-    async updateSampleArray(){
-        this.testPopupLoader = true;        
-        let params = {
+    selectAll(){
+        this.selectAllTest = !this.selectAllTest      
+    }
+    async updateSampleArray(d){
+        this.testPopupLoader = true;   
+        let params;
+        if (this.selectAllTest) {
+            this.sampleGridData.data.forEach((el,i) => {
+                params = {
+                    samples_with_tests : el.test
+                    , uniqno : this.randomUniqNo
+                    , sampleno : i+1
+                }
+                
+                 this.http.post<any>(environment.apiUrl + 'temptb_insert_samples_with_tests/', { data : params }).subscribe({
+                    next: data => {
+                        this.testPopupLoader = false;
+                   
+                        // document.getElementById('#btnPopupClose').click();
+                    },
+                    error: error => {
+                    }
+                });
+            });
+          
+            this.totalTestingCharge =  this.totalTestingCharge * this.sampleGridData.data.length
+            
+           
+           
+
+        }   else{
+            params = {
+                samples_with_tests : this.samplesWithTestArray
+                , uniqno : this.randomUniqNo
+                , sampleno : this.SamplePopupProperty.sampleno
+            }
+            await this.http.post<any>(environment.apiUrl + 'temptb_insert_samples_with_tests/', { data : params }).subscribe({
+                next: data => {
+                    this.testPopupLoader = false;
+               
+                    // document.getElementById('#btnPopupClose').click();
+                },
+                error: error => {
+                }
+            });
+        }
+         
+  
+        
+        
+    }
+
+    async updateSampleArrayTest(d){
+        let params ;
+       
+         params = {
             samples_with_tests : this.samplesWithTestArray
             , uniqno : this.randomUniqNo
             , sampleno : this.SamplePopupProperty.sampleno
         }
-        //randomUniqNo
         await this.http.post<any>(environment.apiUrl + 'temptb_insert_samples_with_tests/', { data : params }).subscribe({
             next: data => {
-                this.testPopupLoader = false;
-                //document.getElementById('#btnPopupClose').click();
+                return true;
             },
             error: error => {
             }
         });
+       
+       
+        //randomUniqNo
+        
         
     }
     checkTestArray(indexId, sampleNo){
@@ -413,14 +574,29 @@ export class RequestanalysisaddupdateComponent implements OnInit {
         this.pageValidationLoaderState.database = 1;
         this.pageValidationLoaderState.overall = 0;
         let errorFlag = 0;
-        let params = {
-            lims_custid : this.SessionLimsCustomerId
-            , cloud_customer_id : this.SessionCustomerId
-            , header_data : this.formData
-            , sample_grid_data : this.sampleGridData
-            , uniqno : this.randomUniqNo
-            , samples_with_tests : this.samplesWithTestArray
+        let params;
+        if (this.selectAllTest) {
+            params = {
+                lims_custid : this.SessionLimsCustomerId
+                , cloud_customer_id : this.SessionCustomerId
+                , header_data : this.formData
+                , sample_grid_data : this.sampleGridData.data
+                , uniqno : this.randomUniqNo
+                , samples_with_tests : this.samplesWithTestArray
+                ,totalcharges:this.totalTestingCharge
+                ,selectAll:true
+            }
+        }else{
+            params = {
+                lims_custid : this.SessionLimsCustomerId
+                , cloud_customer_id : this.SessionCustomerId
+                , header_data : this.formData
+                , sample_grid_data : this.sampleGridData.data
+                , uniqno : this.randomUniqNo
+                , samples_with_tests : this.samplesWithTestArray
+            }
         }
+        
         // Validation start over here
         if(this.formData.deptid === ''){
             this.validationErrors.push(
@@ -467,7 +643,7 @@ export class RequestanalysisaddupdateComponent implements OnInit {
             }
         },1000);
         setTimeout(()=>{
-            if(this.sampleGridData.length > 0){
+            if(this.sampleGridData.data.length > 0){
                 this.pageValidationLoaderState.samplegrid = 2;
                 this.validationPopupHeaderMessage = 'Database Transaction Processing...';
             }else{

@@ -17,6 +17,9 @@ import { bankCharges } from '../../package-test/package-test.component';
 export class ProformaListComponent implements OnInit {
 
   ProformaList = [];
+  ProformaTestList=[];
+  ProformaTestName=[];
+
   searchedtext: any;
   listParam = {
     "custid": 0,
@@ -73,9 +76,10 @@ export class ProformaListComponent implements OnInit {
       tablerowstart: ''
     }
     this.proformaService.getProformaList(JSON.stringify(this.listParam)).subscribe((res) => {
-      console.log(res);
+     
       if (res.data.length !== 0) {
-        this.ProformaList = res.data;
+        this.ProformaList = res.data.data;
+        this.ProformaTestList = res.data.testname;
         this.PaginatedList = this.ProformaList.slice(0, 10);
         //this.datapipe.transform(this.ProformaList.date, "dd/mm/yyyy")
       }
@@ -184,6 +188,16 @@ export class ProformaListComponent implements OnInit {
   paymentOptionOpen(template:TemplateRef<any>,netamount,quotation){
     this.Amount = netamount;
     this.quatatioNO = quotation;
+    this.modalRef = this.modalService.show(template,{ class: 'modal-success' });
+  }
+
+  testnameOpen(template:TemplateRef<any>, quotationno ){
+    this.ProformaTestName = [];
+    this.ProformaTestList.filter((e)=>{
+      if (e.quotationno=== quotationno) {
+       this.ProformaTestName.push(e)
+      }
+    })
     this.modalRef = this.modalService.show(template,{ class: 'modal-success' });
   }
 
