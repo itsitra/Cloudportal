@@ -710,6 +710,11 @@
                     <option value="N">No</option>
                   </select>
                 </div>
+                <span
+                  *ngIf="formData.sample_return === 'Y'"
+                  style="color: red; font-size: 10px"
+                  >Sample Will be Delivered within one week after testing.</span
+                >
               </div>
               <div class="col-sm-3">
                 <div class="form-group">

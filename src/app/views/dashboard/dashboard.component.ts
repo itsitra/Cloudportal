@@ -16,6 +16,7 @@ import { DashboardService } from '../../_services/dashboard.service';
 })
 export class DashboardComponent implements OnInit {
   public SessionCustomerId: number = 0;
+  public usertype:string=localStorage.getItem('customer_type');
 
   // lineChart2
   // public lineChart2Data: Array<any> = [
