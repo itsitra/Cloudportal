@@ -1,0 +1,359 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div
+          bsModal
+          #primaryModal="bs-modal"
+          class="modal fade"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="myModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-primary" role="document">
+            <div class="modal-content">
+              <div class="modal-header" style="width: 100%">
+                <h4 style="width: 100%; float: left" class="modal-title">
+                  Reset Password
+                </h4>
+                <button
+                  type="button"
+                  class="close"
+                  (click)="primaryModal.hide()"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div *ngIf="resetPasswordLoader === true" class="loader"></div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="form-group col-sm-6">
+                    <label for="ccmonth">Enter Registred mobile no</label>
+                    <input
+                      type="text"
+                      maxlength="10"
+                      (keyup)="enableSendOtpButtonFunction()"
+                      class="form-control"
+                      [(ngModel)]="passwordReset.registeredMoileNo"
+                    />
+                  </div>
+                  <div
+                    *ngIf="passwordReset.status === true"
+                    class="form-group col-sm-6"
+                  >
+                    <label for="ccmonth">Enter OTP</label>
+                    <input
+                      type="text"
+                      maxlength="6"
+                      (keyup)="enableVerifyOtpButtonFunction()"
+                      [(ngModel)]="passwordReset.enteredOtp"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div *ngIf="enableNewPassword === true" class="row">
+                  <div class="form-group col-sm-6">
+                    <label for="ccmonth">Enter New password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      [(ngModel)]="resetPasswordFormData.newpassword"
+                    />
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label for="ccmonth">Re-Enter New password</label>
+                    <input
+                      type="password"
+                      [(ngModel)]="resetPasswordFormData.confirmpassword"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <span
+                  *ngIf="passwordReset.status === true"
+                  style="color: #3ea662"
+                  >{{ passwordReset.msg }}</span
+                >
+                <span
+                  *ngIf="passwordReset.status === false"
+                  style="color: #e45532"
+                  >{{ passwordReset.msg }}</span
+                >
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="primaryModal.hide()"
+                >
+                  Close
+                </button>
+                <button
+                  *ngIf="
+                    enableSendOtpButton === false &&
+                    passwordReset.status === false
+                  "
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="validateRegistreredMobileNoForResetPassword()"
+                  disabled
+                >
+                  Send OTP
+                </button>
+                <button
+                  *ngIf="
+                    enableSendOtpButton === true &&
+                    passwordReset.status === false
+                  "
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="validateRegistreredMobileNoForResetPassword()"
+                >
+                  Send OTP
+                </button>
+
+                <button
+                  *ngIf="
+                    enableVerifyOtpButton === false &&
+                    passwordReset.status === true &&
+                    enableSubmitButton !== true
+                  "
+                  type="button"
+                  class="btn btn-success"
+                  (click)="validateOtpForResetPassword()"
+                  disabled
+                >
+                  Verify OTP
+                </button>
+                <button
+                  *ngIf="
+                    enableVerifyOtpButton === true &&
+                    passwordReset.status === true &&
+                    enableSubmitButton !== true
+                  "
+                  type="button"
+                  class="btn btn-success"
+                  (click)="validateOtpForResetPassword()"
+                >
+                  Verify OTP
+                </button>
+
+                <button
+                  *ngIf="enableSubmitButton === true"
+                  type="button"
+                  class="btn btn-warning"
+                  (click)="validateNewPassword()"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+        <div
+          style="
+            width: 100%;
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-items: center;
+          "
+        >
+          <div>
+            <img
+              style="width: 80px; height: 80px"
+              src="assets/img/others/sitralogo.png"
+            />
+          </div>
+          <h1
+            style="
+              color: #127b6e;
+              font-weight: bold;
+              font-size: 40px;
+              font-family: 'Times New Roman', Times, serif;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              text-align: center; /* Optional: to center text horizontally */
+            "
+          >
+            <!-- 60th Joint Technological Conference-->
+            Webinar on Uster Tester 6 - How can Mills Utilise the best out of
+            this New Generation Evenness Tester
+          </h1>
+        </div>
+        <div class="col-md-8 mx-auto">
+          <!-- <div class="card-group"> -->
+          <div class="card p-4">
+            <div class="card-body">
+              <form>
+                <h1>Login</h1>
+                <p class="text-muted">Sign In to your account</p>
+                <p style="margin: 5px; margin-bottom: 10px">
+                  <!-- <i style="color: red">
+                    If you are a member,you don't have member credential please
+                    contact
+                  </i>
+                </p>
+
+                <p style="margin: 5px; margin-bottom: 10px"> 
+                   <i>
+                    (<strong>0422-4215330 </strong>or
+                    <strong> 9487521330 </strong>or
+                    <strong>it@sitra.org.in</strong>
+                    )
+                  </i> -->
+                </p>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="icon-user"></i
+                    ></span>
+                  </div>
+                  <input
+                    [(ngModel)]="loginFormData.email"
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    placeholder="Username/Email Id/Custid"
+                    autocomplete="username"
+                    required
+                  />
+                </div>
+                <div class="input-group mb-4">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="icon-lock"></i
+                    ></span>
+                  </div>
+                  <input
+                    [(ngModel)]="loginFormData.password"
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Password"
+                    autocomplete="current-password"
+                    required
+                  />
+                </div>
+                <p style="margin: 5px; margin-bottom: 10px">
+                  <i>
+                    (Members can use their registered username and password. For
+                    new users, kindly register for one time through the below
+                    link and continue for payment.)
+                  </i>
+                </p>
+
+                <div class="row">
+                  <div class="col-12">
+                    <button
+                      (click)="doLogin()"
+                      type="button"
+                      class="btn px-12"
+                      style="
+                        background-color: #127b6e;
+                        color: white;
+                        font-weight: bold;
+                      "
+                    >
+                      Login
+                      <div
+                        *ngIf="spinnerFlag == true"
+                        class="spinner-border text-info"
+                        style="width: 2rem; height: 2rem"
+                        role="status"
+                      >
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </button>
+                    <!--<span style="float:right;text-decoration: underline;cursor: pointer;">Forgot password?</span>-->
+
+                    <br />
+                  </div>
+                  <div *ngIf="returnFlag == true">
+                    <span
+                      style="
+                        font-size: 14px;
+                        color: green;
+                        padding: 10px;
+                        font-weight: bold;
+                      "
+                      >{{ returnMessage }}</span
+                    >
+                  </div>
+                  <div *ngIf="returnFlag == false">
+                    <span
+                      style="
+                        font-size: 14px;
+                        color: red;
+                        padding: 10px;
+                        font-weight: bold;
+                      "
+                      >{{ returnMessage }}</span
+                    >
+                  </div>
+
+                  <!-- <div class="col-6 text-right">
+                        <button type="button" class="btn btn-link px-0">Forgot password?</button>
+                      </div> -->
+                </div>
+
+                <!-- <div class="row" style="float:left;width:100%;" (click)="goToRegisteration()">
+                      <span  style="text-decoration:underline;width:40%;float:right;cursor:pointer;font-weight: bold;font-size: 0.9em;color:#127b6e;">Forgot password ?</span>
+                    </div>
+                    <div  style="float:right;width:100%;" (click)="goToRegisteration()">
+                      <span  style="text-decoration:underline;width:100%;float:right;cursor:pointer;font-weight: bold;font-size: 0.9em;color:#127b6e;">New Registration</span>
+                    </div> -->
+              </form>
+            </div>
+            <div class="row" style="float: left; border: 0px solid red">
+              <div
+                style="width: 50%; float: left"
+                (click)="clearResetPasswordParams(); primaryModal.show()"
+              >
+                <span
+                  style="
+                    text-decoration: underline;
+                    width: 100%;
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-size: 0.9em;
+                    color: #127b6e;
+                  "
+                  >Forgot password ?</span
+                >
+              </div>
+              <div
+                style="width: 50%; text-align: right"
+                (click)="goToRegisteration()"
+              >
+                <span
+                  style="
+                    text-decoration: underline;
+                    width: 100%;
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-size: 0.9em;
+                    color: #127b6e;
+                  "
+                  >New Registration</span
+                >
+              </div>
+            </div>
+          </div>
+          <!-- </div> -->
+        </div>
+      </div>
+
+      <!-- <svg id="clouds" alt="Gray Clouds Background" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="285.677" viewBox="0 0 2611.084 485.677">
+            <path id="Path_39" data-name="Path 39" d="M2379.709,863.793c10-93-77-171-168-149-52-114-225-105-264,15-75,3-140,59-152,133-30,2.83-66.725,9.829-93.5,26.25-26.771-16.421-63.5-23.42-93.5-26.25-12-74-77-130-152-133-39-120-212-129-264-15-54.084-13.075-106.753,9.173-138.488,48.9-31.734-39.726-84.4-61.974-138.487-48.9-52-114-225-105-264,15a162.027,162.027,0,0,0-103.147,43.044c-30.633-45.365-87.1-72.091-145.206-58.044-52-114-225-105-264,15-75,3-140,59-152,133-53,5-127,23-130,83-2,42,35,72,70,86,49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33,61.112,8.015,113.854-5.72,150.492-29.764a165.62,165.62,0,0,0,110.861-3.236c47,94,178,113,251,33,31.385,4.116,60.563,2.495,86.487-3.311,25.924,5.806,55.1,7.427,86.488,3.311,73,80,204,61,251-33a165.625,165.625,0,0,0,120,0c51,13,108,15,157-5a147.188,147.188,0,0,0,33.5-18.694,147.217,147.217,0,0,0,33.5,18.694c49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33C2446.709,1093.793,2554.709,922.793,2379.709,863.793Z" transform="translate(142.69 -634.312)" fill="#eee"/>
+          </svg> -->
+    </div>
+  </main>
+</div>

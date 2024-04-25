@@ -112,10 +112,22 @@
                     </tr>
                     <tr *ngFor="let result of test.results">
                       <td><span [innerHTML]="result.paraname"></span></td>
-                      <td *ngIf="result.res1 !== ''">{{ result.res1 }}</td>
-                      <td *ngIf="result.res2 !== ''">{{ result.res2 }}</td>
-                      <td *ngIf="result.res3 !== ''">{{ result.res3 }}</td>
-                      <td *ngIf="result.res4 !== ''">{{ result.res4 }}</td>
+                      <td *ngIf="result.res1 !== ''">
+                        <span [innerHTML]="result.res1"></span>
+                        <!-- {{ result.res1 }} -->
+                      </td>
+                      <td *ngIf="result.res2 !== ''">
+                        <span [innerHTML]="result.res2"></span>
+                        <!-- {{ result.res2 }} -->
+                      </td>
+                      <td *ngIf="result.res3 !== ''">
+                        <span [innerHTML]="result.res3"></span>
+                        <!-- {{ result. }} -->
+                      </td>
+                      <td *ngIf="result.res4 !== ''">
+                        <span [innerHTML]="result.res4"></span>
+                        <!-- {{ result.res4 }} -->
+                      </td>
                     </tr>
                   </table>
                 </div>

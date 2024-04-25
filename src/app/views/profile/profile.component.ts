@@ -26,6 +26,7 @@ export class ProfileComponent implements OnInit {
     , gstregtype: ''
     , gstno: ''
     , password: ''
+    , gstmcus : ''
   };
   public stateNameLists: any = [];
   public passwordchange = {
@@ -50,7 +51,7 @@ export class ProfileComponent implements OnInit {
   }
   loadCustomerProfileData() {
     // tslint:disable-next-line:max-line-length
-    this.http.post<any>(environment.apiUrl + 'get_logged_userdetails/' + this.SessionCustomerId + '/1', { data: '' }).subscribe({
+    this.http.post<any>(environment.apiUrl + 'get_logged_userdetails/' + this.SessionCustomerId, { data: '' }).subscribe({
       next: data => {
         this.loggedUserData = data;
         console.log(this.loggedUserData);
@@ -65,7 +66,7 @@ export class ProfileComponent implements OnInit {
     this.http.post<any>(environment.apiUrl + 'get_statename_list/', { data: '' }).subscribe({
         next: data => {
           this.stateNameLists = data;
-          console.log(this.stateNameLists);
+          
         },
         error: error => {
           console.error('There was an error!', error);

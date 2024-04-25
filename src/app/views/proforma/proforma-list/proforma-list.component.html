@@ -331,6 +331,7 @@
               <th>Test Name</th>
               <th>Test Qty</th>
               <th>Test Rate</th>
+              <th>Test Standard</th>
             </thead>
             <tbody>
               <tr *ngFor="let t of ProformaTestName">
@@ -342,6 +343,15 @@
                 </td>
                 <td>
                   {{ t.rate }}
+                </td>
+                <td>
+                  {{
+                    t.standard1 != "" && t.standard1 != null
+                      ? t.standard1
+                      : t.standard != "" && t.standard != null
+                      ? t.standard
+                      : "No standard"
+                  }}
                 </td>
               </tr>
             </tbody>
@@ -438,7 +448,17 @@
                     <i class="fa fa-eye" aria-hidden="true"></i>
                   </button>
                 </td>
-                <td>{{ pl.netamt }}</td>
+                <td
+                  tooltip="{{
+                    'Other Charges: ' +
+                      pl.taxamt4 +
+                      ',' +
+                      'Additional Charges: ' +
+                      pl.add_charges
+                  }}"
+                >
+                  {{ pl.netamt }}
+                </td>
                 <td>
                   {{
                     pl.paymentstatus == "captured"

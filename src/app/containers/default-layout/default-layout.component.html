@@ -26,7 +26,16 @@
   [asideMenuToggler]="'lg'"
 >
   <div style="width: 50%; border: 0px solid red; text-align: center">
-    <img style="width: 100%" src="assets/img/others/title.jpg" />
+    <img
+      style="width: 100%"
+      src="assets/img/others/title.jpg"
+      *ngIf="!sessiontype"
+    />
+    <img
+      height="25px"
+      src="assets/img/others/sitratraining.jpg"
+      *ngIf="sessiontype"
+    />
     <!--<span style="font-size:2em;font-weight: bold;color:#5D2F19">SITRA Online Services</span>-->
   </div>
   <ul class="nav navbar-nav ml-auto">

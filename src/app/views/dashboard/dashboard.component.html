@@ -52,11 +52,7 @@
                 font-weight: bold;
               "
             >
-              {{
-                this.PaymentDetails.length > 0
-                  ? roundValue(AdvanceAmount[0].amount)
-                  : 0
-              }}
+              {{ this.inprogress != "" ? roundValue(inprogress) : 0 }}
             </span>
           </div>
           <div style="width: 50%">
@@ -79,9 +75,7 @@
               "
             >
               {{
-                this.PaymentDetails.length > 0
-                  ? roundValue(PendingAmount[0].amount)
-                  : 0
+                this.PaymentDetails.length > 0 ? roundValue(PendingAmount) : 0
               }}
             </span>
           </div>
@@ -105,9 +99,7 @@
               "
             >
               {{
-                this.PaymentDetails.length > 0
-                  ? roundValue(AdvanceAmount[0].amount)
-                  : 0
+                this.PaymentDetails.length > 0 ? roundValue(AdvanceAmount) : 0
               }}
             </span>
           </div>
@@ -130,7 +122,7 @@
                 font-weight: bold;
               "
             >
-              {{ roundValue(credLimit) }}
+              {{ credLimit }}
             </span>
           </div>
         </div>

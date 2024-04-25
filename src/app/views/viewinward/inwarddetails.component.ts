@@ -60,6 +60,15 @@ export class InwarddetailsComponent implements OnInit {
       , subtotal_b : ''
       , rounded_off : ''
       , netamt : ''
+      , exp_testing : ''
+      , custtype: ''
+      , sample_received_date: ''
+      , is_combo :''
+      , test_condition_based : ''
+      , refno :''
+      , invoicecomment : ''
+
+
   }
   constructor(
     private http : HttpClient

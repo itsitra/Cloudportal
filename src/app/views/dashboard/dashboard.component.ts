@@ -16,6 +16,8 @@ import { DashboardService } from '../../_services/dashboard.service';
 })
 export class DashboardComponent implements OnInit {
   public SessionCustomerId: number = 0;
+  public limsCusId: number = 0;
+
   public usertype:string=localStorage.getItem('customer_type');
 
   // lineChart2
@@ -152,6 +154,8 @@ export class DashboardComponent implements OnInit {
   AdvanceAmount: any;
   PendingAmount: any;
   credLimit :any = 0;
+  inprogress :any = 0;
+
   constructor(
     private userIdle: UserIdleService
     , private router: Router
@@ -159,8 +163,10 @@ export class DashboardComponent implements OnInit {
     , private dashService: DashboardService
   ) {
     //console.log('-----------------------');
-    console.log(this.barChart1Data);
+    //console.log(this.barChart1Data);
     this.SessionCustomerId = Number(localStorage.getItem('customerid'));
+    this.limsCusId = Number(localStorage.getItem('lims_custid'));
+
 
 
     //this.getDashboarData();
@@ -275,17 +281,27 @@ export class DashboardComponent implements OnInit {
   }
 
   getpayment() {
-    this.dashService.getpaymentdetails(this.SessionCustomerId).subscribe((result) => {
-      this.PaymentDetails = result.items;
-      if (this.PaymentDetails.length > 0) {
-        this.AdvanceAmount = this.PaymentDetails.filter(item => { return item.type == "ADVANCE" });
-        this.PendingAmount = this.PaymentDetails.filter(item => { return item.type == "PENDING" })
-      }
-    })
-    this.dashService.getCreditLimit(JSON.stringify({ custid: this.SessionCustomerId })).subscribe((res) => {
-      if (res.length > 0) {
-        this.credLimit = res[0].credit_limit;
-      }
+    // this.dashService.getpaymentdetails(this.limsCusId).subscribe((result) => {
+    //   this.PaymentDetails = result.items;
+    // //   console.log(this.PaymentDetails.length)
+    // //  console.log(this.PaymentDetails[0].amount)
+    //   if (this.PaymentDetails.length > 0) {
+    //     this.PendingAmount = this.PaymentDetails[0].amount;
+       
+    //   //   this.PendingAmount = this.PaymentDetails.filter(item => { return item.type == "PENDING" })
+    //    }
+    // })
+    this.dashService.getCreditLimit(JSON.stringify({ custid: this.SessionCustomerId,limsid:this.limsCusId })).subscribe((res) => {
+      let temparr = [res]
+      // console.log(temparr,res)
+      this.PaymentDetails = [...temparr]
+      //console.log(this.PaymentDetails.length)
+        this.credLimit = Number(res.credtlimit);
+       
+        this.inprogress = Number(res.inprogress);
+        this.AdvanceAmount=Number(res.advance ===null ? 0:res.advance);
+        this.PendingAmount = Number(res.pending=== null ? 0:res.pending);
+     
     })
   }
 

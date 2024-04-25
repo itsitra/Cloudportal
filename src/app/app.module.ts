@@ -21,6 +21,8 @@ import { ComingsoonComponent } from './views/error/comingsoon.component';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
+import { LoginComponentJTC } from './views/login/loginjtc.component';
+
 import { RegisterComponent } from './views/register/register.component';
 // import { NgxExtendedPdfViewerComponent } from 'ngx-extended-pdf-viewer';
 
@@ -59,6 +61,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { UkgModule } from './views/ukg/ukg.module';
 import { PaymentresponseComponent } from './views/paymentresponse/paymentresponse.component';
 import { UkgpaymentComponent } from './views/ukgpayment/ukgpayment.component';
+import { SpinningComponent } from './views/spinning/spinning.component';
+import { OeComponent } from './views/oe/oe.component';
 import { MypaymentsComponent } from './views/mypayments/mypayments.component';
 import { PublicationsComponent } from './views/publications/publications.component';
 import { PublicationslistComponent } from './views/publications/publicationslist.component';
@@ -90,6 +94,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PackageTestComponent } from './views/package-test/package-test.component';
+
 // import Stepper from 'bs-stepper';
 
 // import {NgxMqttClientModule} from 'ngx-mqtt-client';
@@ -142,6 +147,7 @@ import { PackageTestComponent } from './views/package-test/package-test.componen
     P404Component,
     P500Component,
     LoginComponent,
+    LoginComponentJTC,
     RegisterComponent,
     AnalysisRequestsComponent,
     AnalysisrequestsComponent,
@@ -155,6 +161,8 @@ import { PackageTestComponent } from './views/package-test/package-test.componen
     TestingchargeComponent,
     PaymentresponseComponent,
     UkgpaymentComponent,
+    SpinningComponent,
+    OeComponent,
     MypaymentsComponent,
     PublicationsComponent,
     PublicationslistComponent,
@@ -179,6 +187,7 @@ import { PackageTestComponent } from './views/package-test/package-test.componen
     AddFreqTestsComponent,
     ProformaListComponent,
     PackageTestComponent,
+    
   ],
   providers: [{
     provide: LocationStrategy,

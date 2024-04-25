@@ -134,7 +134,8 @@ export class RegisterComponent implements OnInit  {
     }
   }
   backToLoginPage(): void {
-    this.router.navigateByUrl('login');
+    // this.router.navigateByUrl('login');
+    history.back();
   }
   validateOtp() {
     this.returnMessage = '';

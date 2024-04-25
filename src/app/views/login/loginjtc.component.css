@@ -1,0 +1,46 @@
+.loader {
+  height: 4px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #ddd;
+  margin-top: -6px;
+}
+.loader:before {
+  display: block;
+  position: absolute;
+  content: "";
+  left: -200px;
+  width: 200px;
+  height: 4px;
+  /*background-color: #4C9858;*/
+  animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+  from {
+    left: -200px;
+    width: 50%;
+    background-color: red;
+  }
+  50% {
+    width: 50%;
+    background-color: blue;
+  }
+  70% {
+    width: 70%;
+    background-color: yellow;
+  }
+  80% {
+    left: 50%;
+    background-color: #ea1ea6;
+  }
+  95% {
+    left: 120%;
+    background-color: green;
+  }
+  to {
+    left: 100%;
+    background-color: black;
+  }
+}

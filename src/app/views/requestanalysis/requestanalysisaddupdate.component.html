@@ -71,8 +71,8 @@
           </button>
         </div>
         <div class="modal-body">
-          <div style="float: left; width: 100%">
-            <div class="input-group mb-3" style="width: 80%">
+          <div>
+            <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text"
                   ><i class="fa fa-search" style="color: green"></i
@@ -80,7 +80,7 @@
               </div>
               <input
                 [(ngModel)]="txtTestSearch"
-                (keyup)="loadTestList()"
+                (keyup)="loadTestList('test')"
                 type="text"
                 class="form-control"
                 placeholder="Search Test"
@@ -667,7 +667,7 @@
                     [disabled]="disableInput.deptid === 1"
                     class="form-control"
                     [(ngModel)]="formData.deptid"
-                    (change)="loadLabList(); loadTestList()"
+                    (change)="loadLabList(); loadTestList('1234')"
                   >
                     <option value="">-SELECT-</option>
                     <option
@@ -686,7 +686,7 @@
                     [disabled]="disableInput.labid === 1"
                     class="form-control"
                     [(ngModel)]="formData.labid"
-                    (change)="loadTestList(); loadSampleType()"
+                    (change)="loadTestList('12312'); loadSampleType()"
                   >
                     <option value="">-SELECT-</option>
                     <option
@@ -713,7 +713,10 @@
                 <span
                   *ngIf="formData.sample_return === 'Y'"
                   style="color: red; font-size: 10px"
-                  >Sample Will be Delivered within one week after testing.</span
+                  >Sample should be taken back within 7 days from the date of
+                  test completed otherwise it would be disposed off" should be
+                  appeared. If sample to be returned by courier, extra charges
+                  will be applicable.</span
                 >
               </div>
               <div class="col-sm-3">
@@ -727,6 +730,8 @@
                     <option value="1">Cheque</option>
                     <option value="2">DD</option>
                     <option value="3">Cash</option>
+                    <option value="4">Advance</option>
+                    <option value="5" *ngIf="custtype === 'M'">Credit</option>
                   </select>
                 </div>
               </div>
@@ -827,7 +832,7 @@
                     <div class="form-group">
                       <label for="ccmonth">Count (Ne)</label>
                       <input
-                        type="text"
+                        type="number"
                         class="form-control"
                         [(ngModel)]="sampleEntryFormData.count"
                       />
@@ -987,7 +992,7 @@
                               <i
                                 class="icon-trash"
                                 style="
-                                  color: red;z
+                                  color: red;
                                   font-size: 1.3em;
                                   cursor: pointer;
                                 "

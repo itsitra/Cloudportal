@@ -1,4 +1,5 @@
 <div class="animated fadeIn">
+  AddParticipants
   <ng-template #addParticipants class="modal modal-xl">
     <div class="model-content">
       <div class="modal-header">
@@ -143,9 +144,7 @@
               id="rdoDRcard"
               [(ngModel)]="paymentMode"
             />
-            <label class="form-check-label" for="rdoDRcard">
-              Debit Rupay
-            </label>
+            <label class="form-check-label" for="rdoDRcard"> Debit card </label>
             <div *ngIf="bankCharges.debit_rupay !== '0'">
               <small class="text-danger"
                 >({{ bankCharges.debit_rupay }}% of tax will be charaged on
@@ -154,7 +153,7 @@
             </div>
           </div>
         </div>
-        <div class="row px-5 py-3">
+        <!-- <div class="row px-5 py-3">
           <div class="form-check">
             <input
               class="form-check-input"
@@ -174,7 +173,7 @@
               >
             </div>
           </div>
-        </div>
+        </div> 
         <div class="row px-5 py-3">
           <div class="form-check">
             <input
@@ -195,7 +194,7 @@
               >
             </div>
           </div>
-        </div>
+        </div>-->
         <div class="row px-5 py-3">
           <div class="form-check">
             <input
@@ -215,7 +214,7 @@
             </div>
           </div>
         </div>
-        <div class="row px-5 py-3">
+        <!-- <div class="row px-5 py-3">
           <div class="form-check">
             <input
               class="form-check-input"
@@ -235,9 +234,100 @@
               >
             </div>
           </div>
+        </div> -->
+        <div class="row px-5 py-3">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="paymentMode"
+              [value]="7"
+              id="rdoPaidDetails"
+              [(ngModel)]="paymentMode"
+            />
+            <label class="form-check-label" for="rdoPaidDetails">
+              Payment Details(DD/NEFT)
+            </label>
+            <div *ngIf="bankCharges.nb !== '0'"></div>
+          </div>
+        </div>
+        <div *ngIf="paymentMode == 7">
+          <div class="row px-5 py-3">
+            <div class="form-check">
+              <label class="label">
+                <span class="label-text">Bank Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Bank Name"
+                class="input input-bordered w-full"
+                style="margin-left: 25px"
+                [(ngModel)]="bankName"
+              />
+            </div>
+          </div>
+          <div class="row px-5 py-3">
+            <div class="form-check">
+              <label class="label">
+                <span class="label-text">D.D/UTR NO</span>
+              </label>
+              <input
+                type="text"
+                placeholder="D.D or UTR Number"
+                class="input input-bordered w-full"
+                style="margin-left: 20px"
+                [(ngModel)]="ddUtrNo"
+              />
+            </div>
+          </div>
+          <div class="row px-5 py-3">
+            <div class="form-check">
+              <label class="label">
+                <span class="label-text">Date</span>
+              </label>
+              <input
+                type="date"
+                placeholder="Type here"
+                class="input input-bordered w-full"
+                style="margin-left: 70px"
+                [(ngModel)]="ddDate"
+              />
+            </div>
+          </div>
+          <div class="row px-5 py-3">
+            <div class="form-check">
+              <label class="label">
+                <span class="label-text">Amount</span>
+              </label>
+              <input
+                type="number"
+                placeholder="Amount"
+                class="input input-bordered w-full"
+                style="margin-left: 50px"
+                [(ngModel)]="ddAmount"
+              />
+            </div>
+          </div>
+          <div class="" style="margin-left: 300px; margin-bottom: 20px">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              (click)="modalRef.hide()"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              (click)="AddpaymentDetails()"
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </div>
-      <div class="modal-footer">
+
+      <div class="modal-footer" *ngIf="paymentMode != 7">
         <button
           type="button"
           class="btn btn-secondary"
@@ -278,7 +368,8 @@
       <div class="card">
         <div class="card-header">
           <label for="ccmonth"
-            ><span style="color: red">*</span>Select Webinar</label
+            ><span style="color: red">*</span>Select Training /
+            Conference</label
           >
           <select
             class="form-control"
@@ -306,7 +397,7 @@
                   text-decoration: underline;
                 "
               >
-                Webinar Title
+                Title
               </label>
               <label for="ccmonth" style="width: 100%">
                 <img
@@ -325,14 +416,33 @@
                   text-decoration: underline;
                 "
               >
-                Date
+                From Date
               </label>
               <label for="ccmonth" style="width: 100%">
                 <img
                   *ngIf="fieldLoader === true"
                   src="assets/img/others/loader-1.gif"
                 />
-                {{ formData.webinar_date }}
+                {{ formData.webinar_fromdate }}
+              </label>
+            </div>
+            <div class="form-group col-sm-2">
+              <label
+                for="ccmonth"
+                style="
+                  width: 100%;
+                  font-weight: bold;
+                  text-decoration: underline;
+                "
+              >
+                To Date
+              </label>
+              <label for="ccmonth" style="width: 100%">
+                <img
+                  *ngIf="fieldLoader === true"
+                  src="assets/img/others/loader-1.gif"
+                />
+                {{ formData.webinar_todate }}
               </label>
             </div>
             <div class="form-group col-sm-2">
@@ -351,7 +461,7 @@
                   *ngIf="fieldLoader === true"
                   src="assets/img/others/loader-1.gif"
                 />
-                Rs. {{ formData.amount }}
+                Rs. {{ usertype == "M" ? formData.mrate : formData.amount }}
               </label>
             </div>
             <div class="form-group col-sm-2">
@@ -434,22 +544,32 @@
               class="form-group col-sm-2"
               *ngIf="formData.document_url !== ''"
             >
-              <button
+              <a
                 type="button"
                 style="font-size: 1em"
                 class="btn btn-sm btn-primary"
+                href="http://sitraonline.org.in/onlineserviceapi/download/{{
+                  formData.document_url
+                }}"
+                target="_blank"
+                download
               >
                 <i class="icon-cloud-download"></i> Download Brochure
-              </button>
+              </a>
             </div>
             <div class="form-group col-sm-12" style="float: right">
               <button
-                (click)="paymentOptionOpen(paymentType, formData.amount)"
+                (click)="
+                  paymentOptionOpen(
+                    paymentType,
+                    usertype == 'M' ? formData.mrate : formData.amount
+                  )
+                "
                 type="button"
                 style="float: right; margin-right: 10px"
                 class="btn btn-success"
               >
-                <i class="fa fa-credit-card"></i> Pay Now
+                <i class="fa fa-credit-card"></i> Pay Now/Update Utr
               </button>
               <button
                 *ngIf="formData.id != ''"
@@ -596,10 +716,10 @@
             <thead class="thead-light">
               <tr>
                 <th style="width: 5%">S.No</th>
-                <th style="width: 15%">Webinar Date</th>
+                <th style="width: 15%">Registered Date</th>
                 <th style="width: 25%">Title</th>
                 <th style="width: 10%">Amount</th>
-                <th style="width: 15%">Reg. Cl. Date</th>
+                <th style="width: 15%">Program Date</th>
                 <th style="width: 10%">Reg.Status</th>
                 <th style="width: 15%">Payment. Status</th>
                 <th style="width: 5%" colspan="3">Action</th>
@@ -611,7 +731,7 @@
                   <div>{{ j + 1 }}</div>
                 </td>
                 <td>
-                  <div>{{ webinar.webinar_date }}</div>
+                  <div>{{ webinar.registeredDate }}</div>
                 </td>
                 <td>
                   <div>{{ webinar.title }}</div>
@@ -619,8 +739,9 @@
                 <td>
                   <div>{{ webinar.amount }}</div>
                 </td>
+
                 <td>
-                  <div>{{ webinar.registration_end }}</div>
+                  <div>{{ webinar.webinar_date }}</div>
                 </td>
                 <td>
                   <div
@@ -641,18 +762,32 @@
                     Success
                   </div>
                   <div
-                    *ngIf="webinar.payment_status !== 'Success'"
+                    *ngIf="
+                      webinar.payment_status !== 'Success' &&
+                      webinar.payment_status !== 'Pending'
+                    "
                     style="color: red"
                   >
                     Failed
                   </div>
+                  <div
+                    *ngIf="webinar.payment_status == 'Pending'"
+                    style="color: blue"
+                  >
+                    Pending
+                  </div>
                 </td>
                 <td>
-                  <div style="float: left">
+                  <div
+                    style="float: left"
+                    (click)="
+                      downloadPaymentTranscation(webinar.id, webinar.tid)
+                    "
+                  >
                     <i
                       class="icon-cloud-download"
                       style="font-size: 1.3em; cursor: pointer"
-                      title="Download Brochure"
+                      title="Download Receipt"
                     ></i>
                   </div>
                 </td>

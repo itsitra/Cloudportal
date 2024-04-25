@@ -92,6 +92,7 @@ export class RequestanalysisaddupdateComponent implements OnInit {
     public testingGrandTotal : Number = 0.00;
     public dynamicIndexForTesting : Number = 0;
     public randomUniqNo : any = '';
+    public labs:any []=[];
     public validationErrors : ValidationErrors[] = [];
     public pageValidationLoaderState = {
         header : 0
@@ -195,14 +196,15 @@ export class RequestanalysisaddupdateComponent implements OnInit {
         
         if(this.formData.deptid !='' && this.formData.labid !=''){
 
-            this.postData = {
+            let jdata = {
                 custid: this.SessionCustomerId,
-                search: this.txtTestSearch
+                search: this.txtTestSearch,
+                labid:Number(this.formData.labid)
               }
-              this.FrequentTestService.getFrequentTests(JSON.stringify(this.postData)).subscribe(res => {
+              this.FrequentTestService.getFrequentTests(JSON.stringify(jdata)).subscribe(res => {
                 let result = res.data;
                 
-                
+                this.labs.push(...res.labs)
              
                 this.testList = result;   
                 this.testList.forEach((e,i) => {
@@ -387,6 +389,7 @@ export class RequestanalysisaddupdateComponent implements OnInit {
             alert("Fill the Mandatory field(s)");
         }
     }
+   
     async removeSampleGridDataRow(index) {
         const confirmFlag = confirm('Do you want to remove this count ?');
         if (confirmFlag === true) {          

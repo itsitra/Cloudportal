@@ -8,6 +8,8 @@ import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { ComingsoonComponent } from './views/error/comingsoon.component';
 import { LoginComponent } from './views/login/login.component';
+import { LoginComponentJTC } from './views/login/loginjtc.component';
+
 import { RegisterComponent } from './views/register/register.component';
 import { AnalysisRequestsComponent } from './views/analysis-requests/analysis-requests.component';
 import { AnalysisrequestsComponent } from './views/analysisrequests/analysisrequests.component';
@@ -19,6 +21,8 @@ import { PhytestrateComponent } from './views/testrate/phytestrate.component';
 import { TestingchargeComponent } from './views/testrate/testingcharge.component';
 import { PaymentresponseComponent } from './views/paymentresponse/paymentresponse.component';
 import { UkgpaymentComponent } from './views/ukgpayment/ukgpayment.component';
+import { SpinningComponent } from './views/spinning/spinning.component';
+import { OeComponent } from './views/oe/oe.component';
 import { MypaymentsComponent } from './views/mypayments/mypayments.component';
 import { PublicationslistComponent } from './views/publications/publicationslist.component';
 import { PublicationsfocuslistComponent } from './views/publications/publicationsfocuslist.component';
@@ -44,6 +48,7 @@ export const routes: Routes = [
     redirectTo: 'login',
     pathMatch: 'full',
   },
+  
   {
     path: '404',
     component: P404Component,
@@ -63,6 +68,13 @@ export const routes: Routes = [
     component: LoginComponent,
     data: {
       title: 'Login Page'
+    }
+  },
+  {
+    path: 'jtc',
+    component: LoginComponentJTC,
+    data: {
+      title: 'Login Page JTC'
     }
   },
   {
@@ -137,6 +149,24 @@ export const routes: Routes = [
         component : UkgpaymentComponent,
         data: {
           title: ' Conversion Factors / UKG CF Payments',
+        },
+        /*loadChildren: () => import('./views/analysisrequests/analysisrequests.module').then(m => m.AnalysisrequestsModule)*/
+      },
+      {
+        path: 'spinning',
+        /*loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)*/
+        component : SpinningComponent,
+        data: {
+          title: ' Spinning',
+        },
+        /*loadChildren: () => import('./views/analysisrequests/analysisrequests.module').then(m => m.AnalysisrequestsModule)*/
+      },
+      {
+        path: 'oe',
+        /*loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)*/
+        component : OeComponent,
+        data: {
+          title: ' OE',
         },
         /*loadChildren: () => import('./views/analysisrequests/analysisrequests.module').then(m => m.AnalysisrequestsModule)*/
       },
@@ -234,7 +264,7 @@ export const routes: Routes = [
         path: 'webinar',
         component: WebinarComponent,
         data: {
-          title: 'Webinar'
+          title: 'Conference - Training'
         }
       },
       {
@@ -271,7 +301,7 @@ export const routes: Routes = [
         path: 'comingsoon',
         component: ComingsoonComponent,
         data: {
-          title: 'Coming Soon'
+          title: 'comming soon'
         }
       },
       {path:'frequenttests/list', component:FreqTestsListComponent, data:{ title:'Frequent Test List'}},

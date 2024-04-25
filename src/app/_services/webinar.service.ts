@@ -13,10 +13,20 @@ export class WebinarService {
   Insertparticpants(participants): Observable<any> {
     return this.httpClient.post(this.url + "webinar_participants_insert", participants);
   }
-
+  InsertneftPayment(data): Observable<any> {
+    return this.httpClient.post(this.url + "neftPayment", data);
+  }
   getParticipants(params:fetchesWebinar): Observable<any> {
     return this.httpClient.post(this.url + 'fetches_webinar_participants', params)
   }
+  removeUser(params:{
+    custid:string,
+    cloud_webinar_id: string,
+    email:string
+  }): Observable<any> {
+    return this.httpClient.put(this.url + 'webinar_participants_delete', params)
+  }
+
 }
 
 export interface fetchesWebinar {

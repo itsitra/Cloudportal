@@ -20,6 +20,7 @@ export class WebinarComponent implements OnInit {
   public loaderFlag: boolean = false;
   public tableHeading = 'Tests Rates';
   public searchText: string = '';
+  public usertype:any =  localStorage.getItem('customer_type');
   public apiParams = {
     searchedText: ''
     , tablerowstart: 0
@@ -45,12 +46,19 @@ export class WebinarComponent implements OnInit {
     , registration_start: ''
     , registration_end: ''
     , document_url: ''
+    ,mrate:''
+    , webinar_fromdate:''
+    ,webinar_todate :''
   }
   public fieldLoader: Boolean = false;
   public paymentLoader: Boolean = false;
   public errorMessage: any = '';
   modalRef: BsModalRef;
   ParticipantsList =[];
+  bankName:string;
+  ddUtrNo:string;
+  ddDate:string;
+  ddAmount:string;
   Amount: any;
   paymentMode: number;
   bankCharges: any;
@@ -106,8 +114,14 @@ export class WebinarComponent implements OnInit {
       // tslint:disable-next-line:max-line-length
       this.http.post<any>(environment.apiUrl + 'get_webinar_details/' + this.formData.id, { data: '' }).subscribe({
         next: data => {
+          
+          data.registration_start=data.registration_start.slice(0, 11)
+          data.registration_end=data.registration_end.slice(0, 11)
+          data.webinar_fromdate=data.webinar_fromdate.slice(0, 11)
+          data.webinar_todate=data.webinar_todate.slice(0, 11)
           console.log(data);
           this.formData = data;
+          console.log(this.formData);
           this.fieldLoader = false;
         },
         error: error => {
@@ -130,6 +144,7 @@ export class WebinarComponent implements OnInit {
     this.formData.registration_start = '';
     this.formData.registration_end = '';
     this.formData.document_url = '';
+    this.formData.mrate = '';
   }
   // ------------------------ Start Grid data and Pagination ---------------------------
   async getData() {
@@ -142,6 +157,7 @@ export class WebinarComponent implements OnInit {
       next: data => {
         // console.log('--------------------DATA START-----------------');
         this.webinars = data.data;
+        
         this.pageCount = Number(data.pagecount);
         if (this.pageCount <= 5) {
           // console.log('page no validatoin ' + this.pageCount);
@@ -291,11 +307,33 @@ export class WebinarComponent implements OnInit {
       Participant_Name: "",
       Participant_Desig: "",
       Participant_Email: "",
-      Participant_Mobile: ""
+      Participant_Mobile: "",
+      saved:'N'
     });
+    console.log(this.ParticipantsList)
   }
   removeRow() {
-    this.ParticipantsList.pop();
+    
+    
+    if(this.ParticipantsList[this.ParticipantsList.length-1].saved==='N'){
+      this.ParticipantsList.pop();
+    }else{
+      let element:any =this.ParticipantsList[this.ParticipantsList.length-1];
+      console.log(element)
+      this.http.post<any>(environment.apiUrl + 'webinar_participants_delete/' + `${element.cloud_webinar_id}/${element.custid}/${element.Participant_Email}`, { data: '' }).subscribe({
+        next: data => {
+          if(data.status){
+            this.ParticipantsList.pop();
+          }
+        },
+        error: error => {
+          console.error('There was an error!', error);
+          this.fieldLoader = false;
+        }
+      });
+    }
+    
+    
   }
 
   AddParticipants() {
@@ -304,9 +342,20 @@ export class WebinarComponent implements OnInit {
       console.log(res)
       if (result.status == true) {
         Swal.fire("Added", "Participants Added Sucessfully", 'success')
-      } else (
+        this.ParticipantsList.forEach(element => {
+          element.saved='Y'
+        });
+      }
+       else (
+       
         Swal.fire('Error', 'Something went wrong', 'error')
+        
       )
+      // if (result.status==0) {
+      //   alert("Remove the Empty Field before confirm")
+      //   empty.focus()
+      //   return false
+      // }
     })
     console.log(this.ParticipantsList);
   }
@@ -315,12 +364,13 @@ export class WebinarComponent implements OnInit {
 
     this.ParticipantsList = [
       {
-        cloud_webinar_id: "1",
+        cloud_webinar_id: this.formData.id,
         custid: this.SessionCustomerId,
         Participant_Name: "",
         Participant_Desig: "",
         Participant_Email: "",
-        Participant_Mobile: ""
+        Participant_Mobile: "",
+        saved:'N'
       }
     ];
 
@@ -339,19 +389,24 @@ export class WebinarComponent implements OnInit {
             Participant_Name: ele.Participant_Name,
             Participant_Desig: ele.Participant_Desig,
             Participant_Email: ele.Participant_Email,
-            Participant_Mobile: ele.Participant_Mobile
+            Participant_Mobile: ele.Participant_Mobile,
+            saved:'Y'
           }
         });
       }
+      // if (result.length==0) {
+      //   return false
+      // }
+      
       this.modalRef = this.modalServices.show(addParticipants, { class: 'modal-xl modal-success' })
-      console.log(result);
+      console.log(this.ParticipantsList)
     })
   }
 
   paymentOptionOpen(template: TemplateRef<any>, netamount) {
     if (Number(this.formData.id) > 0) {
       if(this.ParticipantsList.length > 0){
-      this.Amount = Number(netamount)*this.ParticipantsList.length ;
+      this.Amount =  Number(netamount)*this.ParticipantsList.length ;
       // this.quatatioNO = quotation;
       this.modalRef = this.modalServices.show(template, { class: 'modal-success' });
       }
@@ -380,18 +435,78 @@ export class WebinarComponent implements OnInit {
     }
     this.doPayNow(String(amountToPay));
   }
+  AddpaymentDetails(){
+    if (this.bankName!="" && this.ddAmount!=""&& this.ddDate!="" && this.ddUtrNo!="") {
+      
+    
+    this.webinarServices.InsertneftPayment(JSON.stringify(
+      {
+        
+        custid: this.SessionCustomerId,
+        bankName: this.bankName,
+        ddUtrNo: this.ddUtrNo,
+        ddAmount: this.ddAmount,
+        ddDate:this.ddDate,
+        orderType:2
+       
+  }
+    )).subscribe(res=>{
+      if (res) {
+        Swal.fire("Added", "Payment Added Sucessfully", 'success')
+      }else{
+        Swal.fire('Error', 'Error Saving data', 'error')
+      }
+    })}else{
+      Swal.fire('Error', 'Enter all fields', 'error')
+
+    }
+    }
+
+
+  
 
   getbankcharges() {
     this.genralPaymentService.getBankCharges().subscribe((res) => {
       this.bankCharges = res[0];
     })
   }
+  async downloadPaymentTranscation(paymentid, tid) {
+    this.spinnerFlag = true;
+    // console.log(tid);
+    // tslint:disable-next-line:max-line-length
+    // tslint:disable-next-line:max-line-length
+    await this.http.post<any>(environment.apiUrl + 'download_payment_transcation/' + paymentid, { data: '' }).subscribe({
+      next: data => {
+        // console.log('--------------------DATA START-----------------');
+        const res = data;
+        if (data.status === true) {
+          this.spinnerFlag = false;
+          window.open(environment.documentsUrl + 'payment_transcations/' + tid + '.pdf');
+        }
+        this.spinnerFlag = false;
+      },
+      error: error => {
+        console.log(error);
+      }
+    });
+  }
 }
 
 export interface WebinarList {
   id: string;
   title: string;
+  description: string;
+  amount: string;
+  webinar_date: string;
+  venue: string;
+  registration_start: string;
+  registration_end: string;
+  document_url: string;
+  mrate: string;
+  webinar_fromdate: string;
+  webinar_todate: string;
 }
+
 export interface Webinars {
   cloud_webinar_registration_id: any;
   cloud_webinar_id: any;
@@ -405,6 +520,7 @@ export interface Webinars {
   document_url: any;
   reg_status: any;
   payment_status: any;
+  mrate:any;
 
 }
 

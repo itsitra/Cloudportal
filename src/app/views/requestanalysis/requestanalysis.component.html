@@ -18,17 +18,17 @@
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th scope="col" style="width: 15%">Sample No.</th>
-                <th scope="col" style="width: 20%">Sample Type</th>
+                <th scope="col" style="width: 10%">Sample No.</th>
+                <th scope="col" style="width: 15%">Sample Type</th>
                 <th scope="col" style="width: 15%" *ngIf="type === 'Yarn'">
                   Count
                 </th>
-                <th scope="col" style="width: 25%">Description</th>
-                <th scope="col" style="width: 25%">Remarks</th>
-                <th scope="col" style="width: 25%" *ngIf="type === 'Yarn'">
+                <th scope="col" style="width: 20%">Description</th>
+                <th scope="col" style="width: 15%">Remarks</th>
+                <th scope="col" style="width: 15%" *ngIf="type === 'Yarn'">
                   Ply
                 </th>
-                <th scope="col" style="width: 25%" *ngIf="type === 'Yarn'">
+                <th scope="col" style="width: 15%" *ngIf="type === 'Yarn'">
                   Blend
                 </th>
               </tr>
@@ -61,6 +61,13 @@
                     </option>
                   </select>
                 </td>
+                <td *ngIf="type === 'Yarn'">
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="usd.countcode"
+                  />
+                </td>
                 <td>
                   <input
                     type="text"
@@ -75,13 +82,7 @@
                     [(ngModel)]="usd.remarks"
                   />
                 </td>
-                <td *ngIf="type === 'Yarn'">
-                  <input
-                    type="text"
-                    class="form-control"
-                    [(ngModel)]="usd.countcode"
-                  />
-                </td>
+
                 <td *ngIf="type === 'Yarn'">
                   <input
                     type="text"
@@ -259,6 +260,7 @@
                 <th style="width: 10%">No of Sample(s)</th>
                 <th style="width: 10%">Inward No</th>
                 <th style="width: 10%">Inward Date</th>
+                <th style="width: 10%">Amount</th>
                 <th style="width: 10%">Status</th>
                 <th style="width: 10%">Action</th>
               </tr>
@@ -291,14 +293,31 @@
                 <td>
                   <div>{{ request.inwardno }}</div>
                 </td>
+
                 <td>
                   <div>{{ request.inwarddate }}</div>
+                </td>
+                <td>
+                  <div
+                    tooltip="{{
+                      'Other Charges: ' +
+                        request.taxamt4 +
+                        ',' +
+                        'Additional Charges: ' +
+                        request.add_charges
+                    }}"
+                  >
+                    {{ request.netamt }}
+                  </div>
                 </td>
                 <td>
                   <div>{{ request.status_string }}</div>
                 </td>
                 <td>
-                  <div style="float: left; padding-right: 10px">
+                  <div
+                    style="float: left; padding-right: 10px"
+                    *ngIf="request.status_string !== 'Inwarded'"
+                  >
                     <i
                       class="fa fa-pencil"
                       style="font-size: 1.3em; cursor: pointer"
@@ -321,12 +340,20 @@
                       (click)="downloadAnalysisRequest(request.reqno)"
                     ></i>
                   </div>
-                  <div style="float: left; padding-left: 10px">
+                  <div
+                    style="float: left; padding-left: 10px"
+                    *ngIf="request.status_string !== 'Inwarded'"
+                  >
                     <i
                       class="icon-trash"
                       style="font-size: 1.3em; cursor: pointer; color: red"
                       title="Delete"
-                      (click)="deleteAnalysisRequest(request.reqno)"
+                      (click)="
+                        deleteAnalysisRequest(
+                          request.reqno,
+                          request.quotationno
+                        )
+                      "
                     ></i>
                   </div>
                 </td>

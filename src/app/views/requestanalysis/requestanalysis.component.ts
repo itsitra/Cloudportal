@@ -70,11 +70,13 @@ export class RequestanalysisComponent implements OnInit {
         this.resetDataValues();
     });
 
-    this.dashBoardServices.getCreditLimit(JSON.stringify({custid : this.SessionCustomerId})).subscribe((res)=>{
-      let result = res[0];
-      if(result.credit_limit != null && result.credit_limit > 0 ){
+    this.dashBoardServices.getCreditLimit(JSON.stringify({ custid: this.SessionCustomerId,limsid:this.SessionLimsCustomerId })).subscribe((res)=>{
+      let result = res;
+      if((result.credtlimit != null && result.credtlimit > 0 )||(result.advance != null &&result.advance>0) ){
         this.IsEligible = true;
+
       }
+     
     })
   }
   async getData() {
@@ -299,14 +301,14 @@ export class RequestanalysisComponent implements OnInit {
       }
     });
   }
-  async deleteAnalysisRequest(reqno){
+  async deleteAnalysisRequest(reqno,quotationno){
     let confirmFlag = confirm("Do you want Delte this Analysis Request " + reqno + " ?");
     
     //alert(md5(reqno));
     if(confirmFlag === true && reqno !=''){
       this.spinnerFlag = true;
       // tslint:disable-next-line:max-line-length
-      await this.http.post<any>(environment.apiUrl + 'delete_analysis_request/'+reqno, { data : '' }).subscribe({
+      await this.http.post<any>(environment.apiUrl + 'delete_analysis_request/?reqno='+reqno+'&quotationno='+quotationno, { data : '' }).subscribe({
         next: data => {
           // console.log('--------------------DATA START-----------------');
           const res = data;

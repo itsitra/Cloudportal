@@ -27,6 +27,8 @@ export class FreqTestsListComponent implements OnInit {
   searchText: any= "";
   PaginatedTestMasterList: any;
   searchTestMaster:any;
+  labs:any []=[];
+  labid:any ;
   testMasterpostData: { custid: number; searchedtext: any; };
 
   constructor(@Inject(FreqentTestService) private FrequentTestService: FreqentTestService, private modalService: BsModalService) {
@@ -63,21 +65,43 @@ export class FreqTestsListComponent implements OnInit {
   }
 
   fetchTestMaster() {
-    this.testMasterpostData = {
+   
+    let jdata = {
       custid: this.customerId,
-      searchedtext: this.searchTestMaster
+      searchedtext: this.searchTestMaster,
+     labid:this.labid
     }
-    var postData = JSON.stringify(this.testMasterpostData);
+    var postData = JSON.stringify(jdata);
     this.FrequentTestService.fetchTestMasterData(postData).subscribe((res) => {
       let result = res;
-      this.TestMasterList = result;
+      this.TestMasterList = result.tests;
+      this.labs.push(...res.labs)
       this.PaginatedTestMasterList=this.TestMasterList.slice(0, 20);
-      console.log(result);
+     
     }, err => {
       alert("something went wrong");
       console.log(err);
     });
   }
+  fetchLab(e){
+    let jdata ={
+      custid: this.customerId,
+      searchedtext: this.searchTestMaster,
+      labid:e
+    }
+    this.labid=e;
+    var postData = JSON.stringify(jdata);
+    this.FrequentTestService.fetchTestMasterData(postData).subscribe((res) => {
+      let result = res;
+      this.TestMasterList = result.tests;
+      this.PaginatedTestMasterList=this.TestMasterList.slice(0, 20);
+     
+    }, err => {
+      alert("something went wrong");
+      console.log(err);
+    });
+  }
+
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-lg modal-success' });

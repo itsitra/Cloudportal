@@ -1,122 +1,224 @@
 <div class="animated fadeIn">
-    <div class="row">
-      <div class="col-sm-8">
-        <div class="card">
-          <div class="card-header">
-            <label for="name">Profile</label>            
-          </div>
-          <div class="card-body" >
-            <div class="col-sm-12">
-                <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="name">Registration Type</label>
-                        <select class="form-control" [(ngModel)]="loggedUserData.regtype"  disabled>
-                            <option value="">-SELECT-</option>
-                            <option value="1">Registered Mill</option>
-                            <option value="2">Organization</option>
-                            <option value="3">Individual</option>
-                            <option value="4">Other</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group col-sm-4">
-                    <label for="ccmonth">Mill / Organization name</label>
-                    <input type="text" class="form-control" [(ngModel)]="loggedUserData.mill_organization_name"   disabled  >
-                </div>
-                <div class="form-group col-sm-4">
-                    <label for="ccmonth">Contact Person Name</label>
-                    <input type="text" class="form-control"  [(ngModel)]="loggedUserData.contact_person_name"   disabled  >
-                </div>
-                <div class="form-group col-sm-4">
-                    <label for="ccmonth">Contact No</label>
-                    <input type="text" class="form-control"  [(ngModel)]="loggedUserData.contact_person_mobileno"   disabled  >
-                </div>
-                <div class="form-group col-sm-4">
-                    <label for="ccmonth">Alternative No</label>
-                    <input type="text" class="form-control"  [(ngModel)]="loggedUserData.alternative_contactnos"   disabled  >
-                </div>
-                <div class="form-group col-sm-4">
-                    <label for="ccmonth">Email</label>
-                    <input type="text" class="form-control"  [(ngModel)]="loggedUserData.email"   disabled  >
-                </div>
-                <div class="form-group col-sm-4">
-                    <label for="ccmonth">Address1</label>
-                    <input type="text" class="form-control"  [(ngModel)]="loggedUserData.address1"   disabled  >
-                </div>
-                <div class="form-group col-sm-4">
-                    <label for="ccmonth">Address2</label>
-                    <input type="text" class="form-control"  [(ngModel)]="loggedUserData.address2"  disabled  >
-                </div>
-                <div class="form-group col-sm-4">
-                    <label for="ccmonth">City</label>
-                    <input type="text" class="form-control"  [(ngModel)]="loggedUserData.city"   disabled  >
-                </div>
-                <div class="form-group col-sm-4">
-                    <label for="ccmonth">State</label>
-                    <select class="form-control"  [(ngModel)]="loggedUserData.state"  disabled>
-                        <option value="">-SELECT-</option>
-                        <option *ngFor="let state of stateNameLists; index as k;" value={{stateNameLists[k].statename}}>
-                            {{state.statename}}
-                          </option>
-                    </select>
-                </div>
-                <div class="form-group col-sm-4">
-                    <label for="ccmonth">Pincode</label>
-                    <input type="text" class="form-control"  [(ngModel)]="loggedUserData.pincode"   disabled  >
-                </div>
-                <div class="form-group col-sm-4">
-                    <label for="ccmonth">GST Registration ?</label>
-                    <select class="form-control"  [(ngModel)]="loggedUserData.gstregtype"  disabled>
-                        <option value="">-SELECT-</option>
-                        <option  value="Y">Registered</option>
-                        <option   value="N">Un-Registered</option>
-                    </select>
-                </div>
-                <div class="form-group col-sm-4">
-                    <label for="ccmonth">GST No</label>
-                    <input type="text" class="form-control"  [(ngModel)]="loggedUserData.gstno"   disabled  >
-                </div>
-                </div><!--/.row-->
-            </div><!--End Left panel-->
-          </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-header">
+          <label for="name">Profile</label>
         </div>
-      </div><!--/.col-->
-      <div class="col-sm-4">
-        <div class="card">
-          <div class="card-header">
-            <label for="name">Password Change</label>            
-          </div>
-          <div class="card-body" >
-            <div class="col-sm-12"  style="float:left;">
-                <div class="row">
-                    <div class="form-group col-sm-12">
-                        <label for="ccmonth"><span style="color:red;">*</span>Current Password</label>
-                        <input type="password" [(ngModel)] = "passwordchange.currentpassword" class="form-control" >
-                    </div>
-                    <div class="form-group col-sm-12">
-                        <label for="ccmonth"><span style="color:red;">*</span>New Password</label>
-                        <input type="password" [(ngModel)] = "passwordchange.newpassword" class="form-control"    >
-                    </div>
-                    <div class="form-group col-sm-12">
-                        <label for="ccmonth"><span style="color:red;">*</span>Confirm New Password</label>
-                        <input type="password" [(ngModel)] = "passwordchange.confirmpassword" class="form-control"   >
-                    </div>
-                    <div class="form-group col-sm-12">
-                        <span style="font-size:12px;color:#a5a5a5;">{{ passwordchangeMsg }}</span>
-                    </div>
-                    <div class="form-group col-sm-12">
-                        <div *ngIf="spinnerFlag === true" class="spinner"></div>
-                        <div style="margin-top:30px;">
-                            <button type="button" style="font-size:1em;" (click)="doPasswordUpdate()"  class="btn btn-sm btn-primary">               
-                                <i class="fa fa-dot-circle-o"></i> Update
-                            </button>
-                        </div>
-                    </div>
+        <div class="card-body">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="name">Registration Type</label>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="loggedUserData.regtype"
+                    disabled
+                  >
+                    <option value="">-SELECT-</option>
+                    <option value="1">Registered Mill</option>
+                    <option value="2">Organization</option>
+                    <option value="3">Individual</option>
+                    <option value="4">Other</option>
+                  </select>
                 </div>
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="ccmonth">Mill / Organization name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="loggedUserData.mill_organization_name"
+                  disabled
+                />
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="ccmonth">Contact Person Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="loggedUserData.contact_person_name"
+                  disabled
+                />
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="ccmonth">Contact No</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="loggedUserData.contact_person_mobileno"
+                  disabled
+                />
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="ccmonth">Alternative No</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="loggedUserData.alternative_contactnos"
+                  disabled
+                />
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="ccmonth">Email</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="loggedUserData.email"
+                  disabled
+                />
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="ccmonth">Address1</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="loggedUserData.address1"
+                  disabled
+                />
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="ccmonth">Address2</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="loggedUserData.address2"
+                  disabled
+                />
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="ccmonth">City</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="loggedUserData.city"
+                  disabled
+                />
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="ccmonth">State</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="loggedUserData.state"
+                  disabled
+                />
+                <!-- <select
+                  class="form-control"
+                  [(ngModel)]="loggedUserData.state"
+                  disabled
+                  title="state"
+                >
+                  <option value="">-SELECT-</option>
+                  <option
+                    *ngFor="let state of stateNameLists; index as k"
+                    value="{{ state.statename }}"
+                  >
+                    {{ state.statename }}
+                  </option>
+                </select> -->
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="ccmonth">Pincode</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="loggedUserData.pincode"
+                  disabled
+                />
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="ccmonth">GST Registration ?</label>
+                <select
+                  class="form-control"
+                  [(ngModel)]="loggedUserData.gstregtype"
+                  disabled
+                >
+                  <option value="">-SELECT-</option>
+                  <option value="Y">Registered</option>
+                  <option value="N">Un-Registered</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="ccmonth">GST No</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="loggedUserData.gstmcus"
+                  disabled
+                />
+              </div>
+            </div>
+            <!--/.row-->
+          </div>
+          <!--End Left panel-->
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-header">
+          <label for="name">Password Change</label>
+        </div>
+        <div class="card-body">
+          <div class="col-sm-12" style="float: left">
+            <div class="row">
+              <div class="form-group col-sm-12">
+                <label for="ccmonth"
+                  ><span style="color: red">*</span>Current Password</label
+                >
+                <input
+                  type="password"
+                  [(ngModel)]="passwordchange.currentpassword"
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group col-sm-12">
+                <label for="ccmonth"
+                  ><span style="color: red">*</span>New Password</label
+                >
+                <input
+                  type="password"
+                  [(ngModel)]="passwordchange.newpassword"
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group col-sm-12">
+                <label for="ccmonth"
+                  ><span style="color: red">*</span>Confirm New Password</label
+                >
+                <input
+                  type="password"
+                  [(ngModel)]="passwordchange.confirmpassword"
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group col-sm-12">
+                <span style="font-size: 12px; color: #a5a5a5">{{
+                  passwordchangeMsg
+                }}</span>
+              </div>
+              <div class="form-group col-sm-12">
+                <div *ngIf="spinnerFlag === true" class="spinner"></div>
+                <div style="margin-top: 30px">
+                  <button
+                    type="button"
+                    style="font-size: 1em"
+                    (click)="doPasswordUpdate()"
+                    class="btn btn-sm btn-primary"
+                  >
+                    <i class="fa fa-dot-circle-o"></i> Update
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div><!--/.col-->
-    </div><!--/.row-->
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
 </div>

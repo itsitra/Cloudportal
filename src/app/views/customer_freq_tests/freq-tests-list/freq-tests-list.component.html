@@ -14,6 +14,14 @@
     </div>
     <div class="modal-body">
       <div class="row d-flex justify-content-end mb-2">
+        <div class="row mr-4">
+          <select title="lab" value="" (change)="fetchLab($event.target.value)">
+            <option value="">--Select--</option>
+            <option *ngFor="let lab of labs" value="{{ lab.labid }}">
+              {{ lab.labname }}
+            </option>
+          </select>
+        </div>
         <div class="col-md-4">
           <div class="input-group">
             <input
@@ -50,8 +58,8 @@
             <div class="col-md-2"></div>
             <div class="col-md-2">Test ID</div>
             <div class="col-md-4">Test Name</div>
-            <div class="col-md-2">Member rate</div>
-            <div class="col-md-2">Non-Member rate</div>
+            <!-- <div class="col-md-2">Member rate</div>
+            <div class="col-md-2">Non-Member rate</div> -->
           </div>
 
           <div *ngFor="let tml of TestMasterList">
@@ -78,12 +86,12 @@
               <label class="col-md-4" for="{{ tml.testid }}">
                 <div>{{ tml.testname }}</div>
               </label>
-              <label class="col-md-2" for="{{ tml.testid }}">
+              <!-- <label class="col-md-2" for="{{ tml.testid }}">
                 <div>{{ tml.mrate }}</div>
               </label>
               <label class="col-md-2" for="{{ tml.testid }}">
                 <div>{{ tml.nmrate }}</div>
-              </label>
+              </label> -->
             </div>
           </div>
         </div>
@@ -155,19 +163,20 @@
                 <th style="width: 15%">Alias</th>
                 <th style="width: 20%">NABL Standard</th>
                 <th style="width: 10%">Sample size</th>
-                <th style="width: 10%">Member rate</th>
-                <th style="width: 10%">Non-Member rate</th>
+                <!-- <th style="width: 10%">Member rate</th>
+                <th style="width: 10%">Non-Member rate</th> -->
                 <th style="width: 10%">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of PaginatedFreqTestList">
-                <td>{{ item.testname }}</td>
+                <!-- <td>{{ item.testname }}</td> -->
+                <td><span [innerHTML]="item.testname"></span></td>
                 <td>{{ item.alias }}</td>
                 <td>{{ item.standard }}</td>
                 <td>{{ item.samplesize }}</td>
-                <td>{{ item.mrate }}</td>
-                <td>{{ item.nmrate }}</td>
+                <!-- <td>{{ item.mrate }}</td>
+                <td>{{ item.nmrate }}</td> -->
                 <td>
                   <button
                     class="btn btn-danger"

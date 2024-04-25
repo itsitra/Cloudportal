@@ -38,7 +38,7 @@ export class SampletestsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+   
     if(this.SessionInwardno !== '' && this.SessionAccessno !==''){
       this.getSamplesTestsAndResults();
     }else{
