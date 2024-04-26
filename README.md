@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [![@coreui angular](https://img.shields.io/badge/@coreui%20-angular-lightgrey.svg?style=flat-square)](https://github.com/coreui/angular)
 [![npm package][npm-coreui-angular-badge]][npm-coreui-angular]
 [![NPM downloads][npm-coreui-angular-download]][npm-coreui-angular]  
@@ -196,3 +197,6 @@ CoreUI is an MIT licensed open source project and completely free to use. Howeve
 
 As of now I am exploring the possibility of working on CoreUI fulltime - if you are a business that is building core products using CoreUI, I am also open to conversations regarding custom sponsorship / consulting arrangements. Get in touch on [Twitter](https://twitter.com/lukaszholeczek).
 # Cloudportal
+=======
+# Cloudportal
+>>>>>>> 3523f1b0a0baa67d4528378f3e78a9b93ad39237
