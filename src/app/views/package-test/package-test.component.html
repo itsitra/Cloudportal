@@ -312,9 +312,7 @@
               id="rdoDRcard"
               [(ngModel)]="paymentMode"
             />
-            <label class="form-check-label" for="rdoDRcard">
-              Debit Rupay
-            </label>
+            <label class="form-check-label" for="rdoDRcard"> Debit Card </label>
             <div *ngIf="bankCharges.debit_rupay !== '0'">
               <small class="text-danger"
                 >({{ bankCharges.debit_rupay }}% of tax will be charaged on
@@ -323,7 +321,7 @@
             </div>
           </div>
         </div>
-        <div class="row px-5 py-3">
+        <!-- <div class="row px-5 py-3">
           <div class="form-check">
             <input
               class="form-check-input"
@@ -364,7 +362,7 @@
               >
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="row px-5 py-3">
           <div class="form-check">
             <input

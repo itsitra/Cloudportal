@@ -518,3 +518,4 @@ export interface PaymentTypeList {
   id: Number;
   type: String;
 }
+

@@ -5,32 +5,51 @@
         <div class="modal-title">
           <h3>Check Out</h3>
         </div>
-        <button style="outline: none; border: none;" type="button" class="close pull-right"
-          aria-label="Close" (click)="modalref.hide()">
+        <button
+          style="outline: none; border: none"
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="modalref.hide()"
+        >
           <i class="fa fa-times" aria-hidden="true"></i>
         </button>
       </div>
       <div class="modal-body">
         <div class="card">
-
-
           <div class="card-body">
             <h3>Deliver To</h3>
-            <hr>
+            <hr />
             <div class="row">
-
               <div class="col-md">
                 <label for="CustName">Full Name</label>
-                <input type="text" class="form-control" [(ngModel)]="Name" id="CustName">
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="Name"
+                  id="CustName"
+                />
               </div>
               <div class="col-md">
                 <label for="phoneNo">Phone No.</label>
-                <input type="text" class="form-control" maxlength="10" [(ngModel)]="phoneNumber" id="phoneNo">
+                <input
+                  type="text"
+                  class="form-control"
+                  maxlength="10"
+                  [(ngModel)]="phoneNumber"
+                  id="phoneNo"
+                />
               </div>
               <div class="col-md">
                 <div class="form-group">
                   <label for="pincode">PIN code</label>
-                  <input type="text" class="form-control" maxlength="6" [(ngModel)]="PINcode" id="pincode">
+                  <input
+                    type="text"
+                    class="form-control"
+                    maxlength="6"
+                    [(ngModel)]="PINcode"
+                    id="pincode"
+                  />
                 </div>
               </div>
             </div>
@@ -38,7 +57,14 @@
               <div class="col-md">
                 <div class="form-group">
                   <label for="custAddress">Address</label>
-                  <textarea class="form-control" name="address" [(ngModel)]="Address" id="custAddress" cols="30" rows="5"></textarea>
+                  <textarea
+                    class="form-control"
+                    name="address"
+                    [(ngModel)]="Address"
+                    id="custAddress"
+                    cols="30"
+                    rows="5"
+                  ></textarea>
                 </div>
               </div>
             </div>
@@ -47,30 +73,38 @@
         <div class="card">
           <div class="card-body">
             <h3>Select Quantity</h3>
-            <hr>
+            <hr />
             <div class="row">
               <div class="col-md">
                 <table class="table table-striped">
-                  <thead style="text-align: center;">
+                  <thead style="text-align: center">
                     <tr>
-                      <td style="width: 10%;">Item Code</td>
-                      <td style="width: 25%;">Publication Name</td>
-                      <td style="width: 20%;" *ngIf="!IsMember">Rate</td>
-                      <td style="width: 20%;" *ngIf="IsMember">Rate</td>
-                      <td style="width: 10%;">quantity</td>
-                      <td style="width: 20%;" *ngIf="!IsMember">total</td>
-                      <td style="width: 20%;" *ngIf="IsMember">total</td>
+                      <td style="width: 10%">Item Code</td>
+                      <td style="width: 25%">Publication Name</td>
+                      <td style="width: 20%" *ngIf="!IsMember">Rate</td>
+                      <td style="width: 20%" *ngIf="IsMember">Rate</td>
+                      <td style="width: 10%">quantity</td>
+                      <td style="width: 20%" *ngIf="!IsMember">total</td>
+                      <td style="width: 20%" *ngIf="IsMember">total</td>
                     </tr>
                   </thead>
-                  <tbody style="text-align: center;">
+                  <tbody style="text-align: center">
                     <tr *ngFor="let ps of publicationFocusSelected">
-                      <td>{{ps.itemcode}}</td>
-                      <td>{{ps.title}}</td>
-                      <td *ngIf="!IsMember">{{ps.nmamount}}</td>
-                      <td *ngIf="IsMember">{{ps.mamount}}</td>
-                      <td><input type="number" class="form-control" min="0" width="50%" [(ngModel)]="ps.quantity"></td>
-                      <td *ngIf="!IsMember">{{ps.nmamount * ps.quantity}}</td>
-                      <td *ngIf="IsMember">{{ps.mamount * ps.quantity}}</td>
+                      <td>{{ ps.itemcode }}</td>
+                      <td>{{ ps.title }}</td>
+                      <td *ngIf="!IsMember">{{ ps.nmamount }}</td>
+                      <td *ngIf="IsMember">{{ ps.mamount }}</td>
+                      <td>
+                        <input
+                          type="number"
+                          class="form-control"
+                          min="0"
+                          width="50%"
+                          [(ngModel)]="ps.quantity"
+                        />
+                      </td>
+                      <td *ngIf="!IsMember">{{ ps.nmamount * ps.quantity }}</td>
+                      <td *ngIf="IsMember">{{ ps.mamount * ps.quantity }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -78,13 +112,25 @@
             </div>
           </div>
         </div>
-
-
       </div>
       <div class="modal-footer">
-        <span class="text-danger mr-auto">* Courier charges will be added to the above value</span>
-        <button type="button" class="btn btn-secondary" (click)="modalref.hide()">Close</button>
-        <button type="button" class="btn btn-success" (click)="paymentOptionOpen(paymentType)">Proceed To Pay</button>
+        <span class="text-danger mr-auto"
+          >* Courier charges will be added to the above value</span
+        >
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="modalref.hide()"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="paymentOptionOpen(paymentType)"
+        >
+          Proceed To Pay
+        </button>
       </div>
     </div>
   </ng-template>
@@ -92,8 +138,13 @@
     <div class="model-content">
       <div class="modal-header">
         <h4 class="modal-title pull-left">Select payment Type</h4>
-        <button style="outline: none; border: none;" type="button" class="close pull-right text-white"
-          aria-label="Close" (click)="modalref.hide()">
+        <button
+          style="outline: none; border: none"
+          type="button"
+          class="close pull-right text-white"
+          aria-label="Close"
+          (click)="modalref.hide()"
+        >
           <i class="fa fa-times" aria-hidden="true"></i>
         </button>
       </div>
@@ -101,122 +152,211 @@
         <div class="row px-5">
           <div class="form-group">
             <label>Net Amount: </label>
-            <span style="font-weight: bold;">&nbsp;{{totalvalue}}</span>
-          </div>          
+            <span style="font-weight: bold">&nbsp;{{ totalvalue }}</span>
+          </div>
         </div>
         <div class="row px-5">
           <div class="form-group">
             <label for=""> Total Weight: </label>
-            <span style="font-weight: bold;">&nbsp;{{curierWeight}}</span>
+            <span style="font-weight: bold">&nbsp;{{ curierWeight }}</span>
           </div>
         </div>
         <div class="row px-5">
           <div class="form-group">
             <label for=""> PIN code: </label>
-            <span style="font-weight: bold;">&nbsp;{{curierPincode}}</span>
+            <span style="font-weight: bold">&nbsp;{{ curierPincode }}</span>
           </div>
         </div>
         <div class="row px-5">
           <div class="form-group">
             <label for=""> Courier Charges: </label>
-            <span style="font-weight: bold;">&nbsp;{{curierCharges +' Rs.'+'( total weight in kg: '+curierWeight+'; pincode: '+curierPincode}}</span>
+            <span style="font-weight: bold"
+              >&nbsp;{{
+                curierCharges +
+                  " Rs." +
+                  "( total weight in kg: " +
+                  curierWeight +
+                  "; pincode: " +
+                  curierPincode
+              }}</span
+            >
           </div>
         </div>
         <div class="row px-5 py-3">
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="paymentMode" [value]="1" id="rdoCCcard"
-              [(ngModel)]="paymentMode">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="paymentMode"
+              [value]="1"
+              id="rdoCCcard"
+              [(ngModel)]="paymentMode"
+            />
             <label class="form-check-label" for="rdoCCcard">
               Credit Card
             </label>
-            <div *ngIf="bankCharges.credit_card !== '0'"><small class="text-danger">({{bankCharges.credit_card}}% of tax
-                will be charaged on total amount)</small></div>
+            <div *ngIf="bankCharges.credit_card !== '0'">
+              <small class="text-danger"
+                >({{ bankCharges.credit_card }}% of tax will be charaged on
+                total amount)</small
+              >
+            </div>
           </div>
         </div>
         <div class="row px-5 py-3">
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="paymentMode" [value]="2" id="rdoDRcard"
-              [(ngModel)]="paymentMode">
-            <label class="form-check-label" for="rdoDRcard">
-              Debit Rupay
-            </label>
-            <div *ngIf="bankCharges.debit_rupay !== '0'"><small class="text-danger">({{bankCharges.debit_rupay}}% of tax
-                will be charaged on total amount)</small></div>
+            <input
+              class="form-check-input"
+              type="radio"
+              name="paymentMode"
+              [value]="2"
+              id="rdoDRcard"
+              [(ngModel)]="paymentMode"
+            />
+            <label class="form-check-label" for="rdoDRcard"> Debit Card </label>
+            <div *ngIf="bankCharges.debit_rupay !== '0'">
+              <small class="text-danger"
+                >({{ bankCharges.debit_rupay }}% of tax will be charaged on
+                total amount)</small
+              >
+            </div>
           </div>
         </div>
-        <div class="row px-5 py-3">
+        <!-- <div class="row px-5 py-3">
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="paymentMode" [value]="3" id="rdoDLTcard"
-              [(ngModel)]="paymentMode">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="paymentMode"
+              [value]="3"
+              id="rdoDLTcard"
+              [(ngModel)]="paymentMode"
+            />
             <label class="form-check-label" for="rdoDLTcard">
               Debit lt 2000
             </label>
-            <div *ngIf="bankCharges.debit_lt_2000 !== '0'"><small class="text-danger">({{bankCharges.debit_lt_2000}}% of
-                tax will be charaged on total amount)</small></div>
+            <div *ngIf="bankCharges.debit_lt_2000 !== '0'">
+              <small class="text-danger"
+                >({{ bankCharges.debit_lt_2000 }}% of tax will be charaged on
+                total amount)</small
+              >
+            </div>
           </div>
-        </div>
+        </div> 
         <div class="row px-5 py-3">
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="paymentMode" [value]="4" id="rdoDGTcard"
-              [(ngModel)]="paymentMode">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="paymentMode"
+              [value]="4"
+              id="rdoDGTcard"
+              [(ngModel)]="paymentMode"
+            />
             <label class="form-check-label" for="rdoDGTcard">
               Debit gt 2000
             </label>
-            <div *ngIf="bankCharges.debit_gt_2000 !== '0'"><small class="text-danger">({{bankCharges.debit_gt_2000}}% of
-                tax will be charaged on total amount)</small></div>
+            <div *ngIf="bankCharges.debit_gt_2000 !== '0'">
+              <small class="text-danger"
+                >({{ bankCharges.debit_gt_2000 }}% of tax will be charaged on
+                total amount)</small
+              >
+            </div>
+          </div>
+        </div>-->
+        <div class="row px-5 py-3">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="paymentMode"
+              [value]="5"
+              id="rdoUPI"
+              [(ngModel)]="paymentMode"
+            />
+            <label class="form-check-label" for="rdoUPI"> UPI </label>
+            <div *ngIf="bankCharges.upi !== '0'">
+              <small class="text-danger"
+                >({{ bankCharges.upi }}% of tax will be charaged on total
+                amount)</small
+              >
+            </div>
           </div>
         </div>
         <div class="row px-5 py-3">
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="paymentMode" [value]="5" id="rdoUPI"
-              [(ngModel)]="paymentMode">
-            <label class="form-check-label" for="rdoUPI">
-              UPI
-            </label>
-            <div *ngIf="bankCharges.upi !== '0'"><small class="text-danger">({{bankCharges.upi}}% of tax will be
-                charaged on total amount)</small></div>
-
-          </div>
-        </div>
-        <div class="row px-5 py-3">
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="paymentMode" [value]="6" id="rdoNetBanking"
-              [(ngModel)]="paymentMode">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="paymentMode"
+              [value]="6"
+              id="rdoNetBanking"
+              [(ngModel)]="paymentMode"
+            />
             <label class="form-check-label" for="rdoNetBanking">
               NetBanking
             </label>
-            <div *ngIf="bankCharges.nb !== '0'"><small class="text-danger">({{bankCharges.nb}}% of tax will be charaged
-                on total amount)</small></div>
+            <div *ngIf="bankCharges.nb !== '0'">
+              <small class="text-danger"
+                >({{ bankCharges.nb }}% of tax will be charaged on total
+                amount)</small
+              >
+            </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="modalref.hide()">Close</button>
-        <button type="button" class="btn btn-success" (click)="PublicationPayment()">Proceed To Pay</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="modalref.hide()"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="PublicationPayment()"
+        >
+          Proceed To Pay
+        </button>
       </div>
     </div>
   </ng-template>
   <div class="row">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header" style="font-weight:bold;">
+        <div class="card-header" style="font-weight: bold">
           <div class="row">
             <div class="col-md">
               {{ tableHeading }}
-              <div *ngIf="loaderFlag == true" class="spinner-border text-primary" role="status">
+              <div
+                *ngIf="loaderFlag == true"
+                class="spinner-border text-primary"
+                role="status"
+              >
                 <span class="sr-only">Loading...</span>
               </div>
             </div>
             <div class="col-md">
               <div class="float-right">
-                <button class="btn btn-success" (click)="showCheckOut(Checkoutpage)">Buy Now</button>
+                <button
+                  class="btn btn-success"
+                  (click)="showCheckOut(Checkoutpage)"
+                >
+                  Buy Now
+                </button>
               </div>
             </div>
           </div>
         </div>
         <div class="card-body">
-          <div *ngIf="searchText == ''" style="width:10%;float:left;">
-            <select (change)="changeDisplayCount()" class="form-control" [(ngModel)]="apiParams.tablerowlimit">
+          <div *ngIf="searchText == ''" style="width: 10%; float: left">
+            <select
+              (change)="changeDisplayCount()"
+              class="form-control"
+              [(ngModel)]="apiParams.tablerowlimit"
+            >
               <option value="10">10</option>
               <option value="25">25</option>
               <option value="50">50</option>
@@ -226,9 +366,18 @@
           <!-- <div class="form-group" style="float:right;width:auto;">
             <button class="btn btn-success">search</button>
           </div> -->
-          <div class="form-group" style="float:right;width:30%;padding-right: 12px;">
-            <input (keyup)="getData()" [(ngModel)]="searchText" type="text" class="form-control"
-              id="exampleFormControlInput1" placeholder="Search Code / Serialno/ Title">
+          <div
+            class="form-group"
+            style="float: right; width: 30%; padding-right: 12px"
+          >
+            <input
+              (keyup)="getData()"
+              [(ngModel)]="searchText"
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Search Code / Serialno/ Title"
+            />
           </div>
           <!-- <div class="form-group" style="float:right; width: 20%; padding-right:12px;">
             <select class="form-control" name="category" id="category-combo">
@@ -238,107 +387,172 @@
               <option value="3">Focus</option>
             </select>
           </div> -->
-          <br>
-          <nav style="width:100%;float:left;" *ngIf="searchText == ''" aria-label="Page navigation example">
-            <div style="float:left;">
-              <span style="color:#212529;font-weight:bold;">Page {{ pagenationConfiguration.currentPageNo }} of {{
-                pageCount }}</span>
+          <br />
+          <nav
+            style="width: 100%; float: left"
+            *ngIf="searchText == ''"
+            aria-label="Page navigation example"
+          >
+            <div style="float: left">
+              <span style="color: #212529; font-weight: bold"
+                >Page {{ pagenationConfiguration.currentPageNo }} of
+                {{ pageCount }}</span
+              >
             </div>
             <ul class="pagination justify-content-center" *ngIf="false">
-              <li *ngIf="this.pagenationConfiguration.currentPageNo != 1;" style="cursor: pointer;" class="page-item">
-                <span class="page-link" (click)="pagenationEvent(3, 0)">Previous</span>
+              <li
+                *ngIf="this.pagenationConfiguration.currentPageNo != 1"
+                style="cursor: pointer"
+                class="page-item"
+              >
+                <span class="page-link" (click)="pagenationEvent(3, 0)"
+                  >Previous</span
+                >
               </li>
-              <li *ngIf="this.pagenationConfiguration.currentPageNo == 1;" style="cursor: pointer;"
-                class="page-item disabled">
-                <span class="page-link" (click)="pagenationEvent(3, 0)">Previous</span>
+              <li
+                *ngIf="this.pagenationConfiguration.currentPageNo == 1"
+                style="cursor: pointer"
+                class="page-item disabled"
+              >
+                <span class="page-link" (click)="pagenationEvent(3, 0)"
+                  >Previous</span
+                >
               </li>
-              <li style="cursor: pointer;" *ngFor='let pageno of pagenationConfiguration.pageNos;let i = index'
-                class="page-item" (click)="pagenationEvent(1, pageno)">
-                <span *ngIf="pageno == pagenationConfiguration.currentPageNo" style="color:white;"
-                  class="page-link page-link-active" (click)="pagenationEvent('1', pageno)">
+              <li
+                style="cursor: pointer"
+                *ngFor="
+                  let pageno of pagenationConfiguration.pageNos;
+                  let i = index
+                "
+                class="page-item"
+                (click)="pagenationEvent(1, pageno)"
+              >
+                <span
+                  *ngIf="pageno == pagenationConfiguration.currentPageNo"
+                  style="color: white"
+                  class="page-link page-link-active"
+                  (click)="pagenationEvent('1', pageno)"
+                >
                   {{ pageno }}
                 </span>
-                <span *ngIf="pageno != pagenationConfiguration.currentPageNo &&  pageno != undefined" class="page-link"
-                  (click)="pagenationEvent('1', pageno)">
+                <span
+                  *ngIf="
+                    pageno != pagenationConfiguration.currentPageNo &&
+                    pageno != undefined
+                  "
+                  class="page-link"
+                  (click)="pagenationEvent('1', pageno)"
+                >
                   {{ pageno }}
                 </span>
               </li>
-              <li *ngIf="pageCount != pagenationConfiguration.currentPageNo" class="page-item" style="cursor: pointer;">
-                <span class="page-link" (click)="pagenationEvent(2, 0)">Next</span>
+              <li
+                *ngIf="pageCount != pagenationConfiguration.currentPageNo"
+                class="page-item"
+                style="cursor: pointer"
+              >
+                <span class="page-link" (click)="pagenationEvent(2, 0)"
+                  >Next</span
+                >
               </li>
-              <li *ngIf="pageCount == pagenationConfiguration.currentPageNo" class="page-item disabled"
-                style="cursor: pointer;">
-                <span class="page-link" (click)="pagenationEvent(2, 0)">Next</span>
+              <li
+                *ngIf="pageCount == pagenationConfiguration.currentPageNo"
+                class="page-item disabled"
+                style="cursor: pointer"
+              >
+                <span class="page-link" (click)="pagenationEvent(2, 0)"
+                  >Next</span
+                >
               </li>
             </ul>
           </nav>
-          <table style="width:100%;" class="table table-responsive-sm table-hover table-outline mb-0">
+          <table
+            style="width: 100%"
+            class="table table-responsive-sm table-hover table-outline mb-0"
+          >
             <thead class="thead-light">
               <tr>
-                <th style="width:5%;"></th>
-                <th style="width:7%;">Item Code</th>
-                <th style="width:7%;">Serial No</th>
-                <th style="width:41%;">Title</th>
-                <th style="width:5%;">Volume</th>
-                <th style="width:5%;">Month</th>
-                <th style="width:5%;">Year</th>
-                <th style="width:5%;">No</th>
-                <th style="width:10%;">Mem. Rate</th>
-                <th style="width:10%;">Non-Mem. Rate</th>
+                <th style="width: 5%"></th>
+                <th style="width: 7%">Item Code</th>
+                <th style="width: 7%">Serial No</th>
+                <th style="width: 41%">Title</th>
+                <th style="width: 5%">Volume</th>
+                <th style="width: 5%">Month</th>
+                <th style="width: 5%">Year</th>
+                <th style="width: 5%">No</th>
+                <th style="width: 10%">Mem. Rate</th>
+                <th style="width: 10%">Non-Mem. Rate</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let publicationFocus of publicationFocusLists; index as j;">
+              <tr
+                *ngFor="
+                  let publicationFocus of publicationFocusLists;
+                  index as j
+                "
+              >
                 <!--<option *ngFor="let varieties of varietyNameList; index as i;" value={{varietyNameList[i].id}}></option>-->
                 <td>
                   <!-- {{ (j+1) }} -->
-                  <input type="checkbox" name="ChkPublication"
-                    (click)="PublicationSelection(publicationFocus.itemcode, publicationFocus.nonmeber_rate,publicationFocus.member_rate,publicationFocus.title,publicationFocus.weight)"
-                    [checked]="publicationFocus.cheked" [id]="'check'+publicationFocus.itemcode">
+                  <input
+                    type="checkbox"
+                    name="ChkPublication"
+                    (click)="
+                      PublicationSelection(
+                        publicationFocus.itemcode,
+                        publicationFocus.nonmeber_rate,
+                        publicationFocus.member_rate,
+                        publicationFocus.title,
+                        publicationFocus.weight
+                      )
+                    "
+                    [checked]="publicationFocus.cheked"
+                    [id]="'check' + publicationFocus.itemcode"
+                  />
                 </td>
                 <td>
-                  <label for="{{'check'+publicationFocus.itemcode}}">
-                    {{publicationFocus.itemcode}}</label>
-
+                  <label for="{{ 'check' + publicationFocus.itemcode }}">
+                    {{ publicationFocus.itemcode }}</label
+                  >
                 </td>
                 <td>
-                  <label for="{{'check'+publicationFocus.itemcode}}">
-                    {{publicationFocus.serialno}}
+                  <label for="{{ 'check' + publicationFocus.itemcode }}">
+                    {{ publicationFocus.serialno }}
                   </label>
                 </td>
                 <td>
-                  <label for="{{'check'+publicationFocus.itemcode}}">
-                    {{publicationFocus.title}}
+                  <label for="{{ 'check' + publicationFocus.itemcode }}">
+                    {{ publicationFocus.title }}
                   </label>
                 </td>
                 <td>
-                  <label for="{{'check'+publicationFocus.itemcode}}">
-                    {{publicationFocus.volume}}
+                  <label for="{{ 'check' + publicationFocus.itemcode }}">
+                    {{ publicationFocus.volume }}
                   </label>
                 </td>
                 <td>
-                  <label for="{{'check'+publicationFocus.itemcode}}">
-                    {{publicationFocus.month}}
+                  <label for="{{ 'check' + publicationFocus.itemcode }}">
+                    {{ publicationFocus.month }}
                   </label>
                 </td>
                 <td>
-                  <label for="{{'check'+publicationFocus.itemcode}}">
-                    {{publicationFocus.year}}
+                  <label for="{{ 'check' + publicationFocus.itemcode }}">
+                    {{ publicationFocus.year }}
                   </label>
                 </td>
                 <td>
-                  <label for="{{'check'+publicationFocus.itemcode}}">
-                    {{publicationFocus.no}}
+                  <label for="{{ 'check' + publicationFocus.itemcode }}">
+                    {{ publicationFocus.no }}
                   </label>
                 </td>
                 <td>
-                  <label for="{{'check'+publicationFocus.itemcode}}">
-                    {{publicationFocus.member_rate}}
+                  <label for="{{ 'check' + publicationFocus.itemcode }}">
+                    {{ publicationFocus.member_rate }}
                   </label>
                 </td>
                 <td>
-                  <label for="{{'check'+publicationFocus.itemcode}}">
-                    {{publicationFocus.nonmeber_rate}}
+                  <label for="{{ 'check' + publicationFocus.itemcode }}">
+                    {{ publicationFocus.nonmeber_rate }}
                   </label>
                 </td>
                 <!--<td>
@@ -352,35 +566,76 @@
           </table>
           <hr />
           <nav *ngIf="searchText == ''" aria-label="Page navigation example">
-            <div style="float:left;">
-              <span style="color:#212529;font-weight:bold;">Page {{ pagenationConfiguration.currentPageNo }} of {{
-                pageCount }}</span>
+            <div style="float: left">
+              <span style="color: #212529; font-weight: bold"
+                >Page {{ pagenationConfiguration.currentPageNo }} of
+                {{ pageCount }}</span
+              >
             </div>
             <ul class="pagination justify-content-center">
-              <li *ngIf="this.pagenationConfiguration.currentPageNo != 1;" style="cursor: pointer;" class="page-item">
-                <span class="page-link" (click)="pagenationEvent(3, 0)">Previous</span>
+              <li
+                *ngIf="this.pagenationConfiguration.currentPageNo != 1"
+                style="cursor: pointer"
+                class="page-item"
+              >
+                <span class="page-link" (click)="pagenationEvent(3, 0)"
+                  >Previous</span
+                >
               </li>
-              <li *ngIf="this.pagenationConfiguration.currentPageNo == 1;" style="cursor: pointer;"
-                class="page-item disabled">
-                <span class="page-link" (click)="pagenationEvent(3, 0)">Previous</span>
+              <li
+                *ngIf="this.pagenationConfiguration.currentPageNo == 1"
+                style="cursor: pointer"
+                class="page-item disabled"
+              >
+                <span class="page-link" (click)="pagenationEvent(3, 0)"
+                  >Previous</span
+                >
               </li>
-              <li style="cursor: pointer;" *ngFor='let pageno of pagenationConfiguration.pageNos;let i = index'
-                class="page-item" (click)="pagenationEvent(1, pageno)">
-                <span *ngIf="pageno == pagenationConfiguration.currentPageNo" style="color:white;"
-                  class="page-link page-link-active" (click)="pagenationEvent('1', pageno)">
+              <li
+                style="cursor: pointer"
+                *ngFor="
+                  let pageno of pagenationConfiguration.pageNos;
+                  let i = index
+                "
+                class="page-item"
+                (click)="pagenationEvent(1, pageno)"
+              >
+                <span
+                  *ngIf="pageno == pagenationConfiguration.currentPageNo"
+                  style="color: white"
+                  class="page-link page-link-active"
+                  (click)="pagenationEvent('1', pageno)"
+                >
                   {{ pageno }}
                 </span>
-                <span *ngIf="pageno != pagenationConfiguration.currentPageNo &&  pageno != undefined" class="page-link"
-                  (click)="pagenationEvent('1', pageno)">
+                <span
+                  *ngIf="
+                    pageno != pagenationConfiguration.currentPageNo &&
+                    pageno != undefined
+                  "
+                  class="page-link"
+                  (click)="pagenationEvent('1', pageno)"
+                >
                   {{ pageno }}
                 </span>
               </li>
-              <li *ngIf="pageCount != pagenationConfiguration.currentPageNo" class="page-item" style="cursor: pointer;">
-                <span class="page-link" (click)="pagenationEvent(2, 0)">Next</span>
+              <li
+                *ngIf="pageCount != pagenationConfiguration.currentPageNo"
+                class="page-item"
+                style="cursor: pointer"
+              >
+                <span class="page-link" (click)="pagenationEvent(2, 0)"
+                  >Next</span
+                >
               </li>
-              <li *ngIf="pageCount == pagenationConfiguration.currentPageNo" class="page-item disabled"
-                style="cursor: pointer;">
-                <span class="page-link" (click)="pagenationEvent(2, 0)">Next</span>
+              <li
+                *ngIf="pageCount == pagenationConfiguration.currentPageNo"
+                class="page-item disabled"
+                style="cursor: pointer"
+              >
+                <span class="page-link" (click)="pagenationEvent(2, 0)"
+                  >Next</span
+                >
               </li>
             </ul>
           </nav>
